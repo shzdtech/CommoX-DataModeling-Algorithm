@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.DataAccess.Commo", "src\Micro.Future.Business.DataAccess.Commo\Micro.Future.Business.DataAccess.Commo.xproj", "{0B88346A-1B40-44E0-BDD1-A38C08DD3456}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{55C3CF34-19CE-42AB-9754-C4301E808605}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RDB Accessor", "RDB Accessor", "{563E651C-B9D0-4957-AEE1-7DEC71049D04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MatchMaker", "MatchMaker", "{D03865E3-42D1-4432-90BF-C38AD5BDD028}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reputation Model", "Reputation Model", "{08BC4820-DE77-43E9-957A-9C91881ECFAA}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.MatchMaker.Abstraction", "Micro.Future.Business.MatchMaker.Abstraction\Micro.Future.Business.MatchMaker.Abstraction.xproj", "{68176E66-C43A-4D95-83D6-22586B371625}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.MatchMaker.Commo", "src\Micro.Future.Business.MatchMaker.Commo\Micro.Future.Business.MatchMaker.Commo.xproj", "{C5CE3B4B-2915-419F-A679-B685A27A35FC}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.Reputation.Abstraction", "Micro.Future.Business.Reputation.Abstraction\Micro.Future.Business.Reputation.Abstraction.xproj", "{FDB7582B-9151-4E24-AAAA-956CB6E445BD}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.Reputation.Commo", "Micro.Future.Business.Reputation.Commo\Micro.Future.Business.Reputation.Commo.xproj", "{E591D9E3-0D17-43C6-B0DF-25767AF71377}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5CB8952F-4C74-4177-A171-449F1A7D7C77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C8EB785-5B0A-48EA-A9EA-9A0E0061C775}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B88346A-1B40-44E0-BDD1-A38C08DD3456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B88346A-1B40-44E0-BDD1-A38C08DD3456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B88346A-1B40-44E0-BDD1-A38C08DD3456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B88346A-1B40-44E0-BDD1-A38C08DD3456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68176E66-C43A-4D95-83D6-22586B371625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68176E66-C43A-4D95-83D6-22586B371625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68176E66-C43A-4D95-83D6-22586B371625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68176E66-C43A-4D95-83D6-22586B371625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5CE3B4B-2915-419F-A679-B685A27A35FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5CE3B4B-2915-419F-A679-B685A27A35FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5CE3B4B-2915-419F-A679-B685A27A35FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5CE3B4B-2915-419F-A679-B685A27A35FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB7582B-9151-4E24-AAAA-956CB6E445BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB7582B-9151-4E24-AAAA-956CB6E445BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB7582B-9151-4E24-AAAA-956CB6E445BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB7582B-9151-4E24-AAAA-956CB6E445BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E591D9E3-0D17-43C6-B0DF-25767AF71377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E591D9E3-0D17-43C6-B0DF-25767AF71377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E591D9E3-0D17-43C6-B0DF-25767AF71377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E591D9E3-0D17-43C6-B0DF-25767AF71377}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B88346A-1B40-44E0-BDD1-A38C08DD3456} = {563E651C-B9D0-4957-AEE1-7DEC71049D04}
+		{563E651C-B9D0-4957-AEE1-7DEC71049D04} = {55C3CF34-19CE-42AB-9754-C4301E808605}
+		{D03865E3-42D1-4432-90BF-C38AD5BDD028} = {55C3CF34-19CE-42AB-9754-C4301E808605}
+		{08BC4820-DE77-43E9-957A-9C91881ECFAA} = {55C3CF34-19CE-42AB-9754-C4301E808605}
+		{68176E66-C43A-4D95-83D6-22586B371625} = {D03865E3-42D1-4432-90BF-C38AD5BDD028}
+		{C5CE3B4B-2915-419F-A679-B685A27A35FC} = {D03865E3-42D1-4432-90BF-C38AD5BDD028}
+		{FDB7582B-9151-4E24-AAAA-956CB6E445BD} = {08BC4820-DE77-43E9-957A-9C91881ECFAA}
+		{E591D9E3-0D17-43C6-B0DF-25767AF71377} = {08BC4820-DE77-43E9-957A-9C91881ECFAA}
+	EndGlobalSection
+EndGlobal

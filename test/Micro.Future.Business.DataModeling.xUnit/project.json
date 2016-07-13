@@ -1,0 +1,20 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "buildOptions": {
+    "warningsAsErrors": true
+  },
+  "dependencies": {
+    "xunit": "2.1.0",
+    "Micro.Future.Business.MongoDB.Commo": "1.0.0-*",
+    "dotnet-test-xunit": "1.0.0-rc3-000000-00"
+  },
+  "testRunner": "xunit",
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Moq": "4.5.13"
+      }
+    }
+  }
+}

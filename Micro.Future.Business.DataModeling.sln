@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nosql Accessor", "Nosql Acc
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.MongoDB.Commo", "src\Micro.Future.Business.MongoDB.Commo\Micro.Future.Business.MongoDB.Commo.xproj", "{79C5A732-8C25-4EFC-AF44-712560F74C98}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.DataModeling.xUnit", "test\Micro.Future.Business.DataModeling.xUnit\Micro.Future.Business.DataModeling.xUnit.xproj", "{155381BF-E04B-4BE8-913E-41F497B2DB75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{79C5A732-8C25-4EFC-AF44-712560F74C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79C5A732-8C25-4EFC-AF44-712560F74C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79C5A732-8C25-4EFC-AF44-712560F74C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155381BF-E04B-4BE8-913E-41F497B2DB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155381BF-E04B-4BE8-913E-41F497B2DB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155381BF-E04B-4BE8-913E-41F497B2DB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{155381BF-E04B-4BE8-913E-41F497B2DB75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,5 +83,6 @@ Global
 		{E591D9E3-0D17-43C6-B0DF-25767AF71377} = {08BC4820-DE77-43E9-957A-9C91881ECFAA}
 		{EC7C7829-73F5-49FF-8CE9-D8E3F308D25C} = {55C3CF34-19CE-42AB-9754-C4301E808605}
 		{79C5A732-8C25-4EFC-AF44-712560F74C98} = {EC7C7829-73F5-49FF-8CE9-D8E3F308D25C}
+		{155381BF-E04B-4BE8-913E-41F497B2DB75} = {5CB8952F-4C74-4177-A171-449F1A7D7C77}
 	EndGlobalSection
 EndGlobal

@@ -14,10 +14,10 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<EnterpriseState> EnterpriseStates { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Request> Requests { get; set; }
-        public DbSet<RequestType> RequestTypes { get; set; }
-        public DbSet<RequestState> RequestStates { get; set; }
-        public DbSet<RequestDetail> RequestDetails { get; set; }
+        public DbSet<Requirement> Requirements { get; set; }
+        public DbSet<RequirementType> RequirementTypes { get; set; }
+        public DbSet<RequirementState> RequirementStates { get; set; }
+        public DbSet<RequirementDetail> RequirementDetails { get; set; }
         public DbSet<Filter> Filters { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Trade> Trades { get; set; }
@@ -84,37 +84,37 @@ namespace Micro.Future.Business.DataAccess.Commo
         public string RoleName { get; set; }
     }
 
-    public class Request
+    public class Requirement
     {
-        public int RequestId { get; set; }
+        public int RequirementId { get; set; }
         public int UserId { get; set; }
         public int EnterpriseId { get; set; }
         public int ProductId { get; set; }
-        public int RequestTypeId { get; set; }
+        public int RequirementTypeId { get; set; }
         public int ProductPrice { get; set; }
         public decimal ProductQuota { get; set; }
-        public int RequestDetailId { get; set; }
+        public int RequirementDetailId { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-        public int RequestStateId { get; set; }
+        public int RequirementStateId { get; set; }
 
     }
-    public class RequestType
+    public class RequirementType
     {
-        public int RequestTypeId { get; set; }
-        public string RequestTypeValue { get; set; }
+        public int RequirementTypeId { get; set; }
+        public string RequirementTypeValue { get; set; }
 
 
     }
-    public class RequestState
+    public class RequirementState
     {
-        public int RequestStateId { get; set; }
-        public int RequestStateValue { get; set; }
+        public int RequirementStateId { get; set; }
+        public int RequirementStateValue { get; set; }
     }
 
-    public class RequestDetail
+    public class RequirementDetail
     {
-        public int RequestDetailId { get; set; }
+        public int RequirementDetailId { get; set; }
         public int FilterId { get; set; }
         public DateTime CreateTime { get; set; }
 
@@ -142,13 +142,13 @@ namespace Micro.Future.Business.DataAccess.Commo
     public class Trade
     {
         public int TradeId { get; set; }
-        public int RequestId { get; set; }
-        public int RequestType { get; set; }
+        public int RequirementId { get; set; }
+        public int RequirementType { get; set; }
         public int ProductId { get; set; }
         public decimal Price { get; set; }
         public decimal Quota { get; set; }
         public decimal TotalPrice { get; set; }
-        public int FromRequestId { get; set; }
+        public int FromRequirementId { get; set; }
         public DateTime CreateTime { get; set; }
 
     }

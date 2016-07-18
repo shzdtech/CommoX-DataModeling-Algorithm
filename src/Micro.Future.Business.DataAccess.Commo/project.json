@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "1.0.0-*",
 
   "dependencies": {
@@ -7,7 +7,6 @@
       "version": "1.0.0",
       "type": "build"
     },
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "NETStandard.Library": "1.6.0"
   },
 

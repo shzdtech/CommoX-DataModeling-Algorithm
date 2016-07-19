@@ -103,7 +103,7 @@ namespace Micro.Future.Business.DataAccess.Commo
         public int RequirementTypeId { get; set; }
         public int ProductPrice { get; set; }
         public decimal ProductQuota { get; set; }
-        public int RequirementDetailId { get; set; }
+
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
         public int RequirementStateId { get; set; }
@@ -126,12 +126,9 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class RequirementDetail
     {
-        [Key]
-        public int RequirementDetailId { get; set; }
+        public int RequirementId { get; set; }
         public int FilterId { get; set; }
         public DateTime CreateTime { get; set; }
-
-
     }
 
     public class Filter
@@ -139,7 +136,7 @@ namespace Micro.Future.Business.DataAccess.Commo
         [Key]
         public int FilterId { get; set; }
         public string FilterKey { get; set; }
-        public string OperationId { get; set; }
+        public int OperationId { get; set; }
         public string FilterValue { get; set; }
         public int StateId { get; set; }
     }

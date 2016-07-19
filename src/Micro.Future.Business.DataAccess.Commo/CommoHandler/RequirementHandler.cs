@@ -34,5 +34,22 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public IEnumerable<Filter> queryRequirementFilters(int requirementId)
+        {
+            using (var db = new CommoXContext())
+            {
+                var query = from r in db.RequirementDetails
+                            join f in db.Filters on r.FilterId equals f.FilterId
+                            where r.RequirementId == requirementId && f.StateId == 1
+                            select f;
+
+                return query.ToList();
+            }
+        }
+
+        public bool saveRequirementFilters(IEnumerable<Filter> filters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

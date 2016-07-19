@@ -7,11 +7,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     public interface IRequirement
     {
-        Requirement queryRequirement(int userId);
+        IEnumerable<Requirement> queryRequirements(int userId);
 
-        Boolean submitRequirement(Requirement require);
+        Requirement queryRequirementInfo(int requirementId);
 
-
-
+        Boolean saveRequirement(Requirement require);
     }
 }

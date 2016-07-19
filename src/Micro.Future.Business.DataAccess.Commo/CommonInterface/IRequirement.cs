@@ -7,7 +7,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     public interface IRequirement
     {
-        Requirement queryRequirement(String userId);
+        Requirement queryRequirement(int userId);
 
         Boolean submitRequirement(Requirement require);
 

@@ -8,17 +8,22 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class RequirementHandler : IRequirement
     {
-        public Requirement queryRequirement(String userId)
+        public Requirement queryRequirement(int userId)
         {
-            return null;
+            using (var db = new CommoXContext())
+            {
+                return db.Requirements.FirstOrDefault(f => f.UserId == userId);
+            }
         }
-            
 
         public Boolean submitRequirement(Requirement require)
         {
-            return true;
+            using(var db = new CommoXContext())
+            {
+                db.Add(require);
+                int result = db.SaveChanges();
+                return result > 0;
+            }
         }
-
-
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Micro.Future.Business.DataAccess.Commo
 {
@@ -24,13 +24,17 @@ namespace Micro.Future.Business.DataAccess.Commo
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
+           // optionsBuilder.UseSqlServer(@"Server=(114.55.54.144)\mssqllocaldb;Database=master;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=114.55.54.144; UID=sa; password=shzdtech!123; database=master;");
         }
+
+
     }
 
 
     public class Enterprise
     {
+        [Key]
         public int EnterpriseId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
@@ -51,6 +55,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class BusinessType
     {
+        [Key]
         public int BusinessTypeId { get; set; }
         public string BusinessTypeName { get; set; }
         public int ParentId { get; set; }
@@ -60,6 +65,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class EnterpriseState
     {
+        [Key]
         public int StateId { get; set; }
         public string StateName { get; set; }
     }
@@ -68,6 +74,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class User
     {
+        [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
@@ -75,17 +82,20 @@ namespace Micro.Future.Business.DataAccess.Commo
         public string Phone { get; set; }
         public int RoleId { get; set; }
         public int EnterpriseId { get; set; }
-
+        public int StateId { get; set; }
+        public DateTime LastLoginTime { get; set; }
     }
 
     public class Role
     {
+        [Key]
         public int RoleId { get; set; }
         public string RoleName { get; set; }
     }
 
     public class Requirement
     {
+        [Key]
         public int RequirementId { get; set; }
         public int UserId { get; set; }
         public int EnterpriseId { get; set; }
@@ -101,6 +111,7 @@ namespace Micro.Future.Business.DataAccess.Commo
     }
     public class RequirementType
     {
+        [Key]
         public int RequirementTypeId { get; set; }
         public string RequirementTypeValue { get; set; }
 
@@ -108,12 +119,14 @@ namespace Micro.Future.Business.DataAccess.Commo
     }
     public class RequirementState
     {
+        [Key]
         public int RequirementStateId { get; set; }
         public int RequirementStateValue { get; set; }
     }
 
     public class RequirementDetail
     {
+        [Key]
         public int RequirementDetailId { get; set; }
         public int FilterId { get; set; }
         public DateTime CreateTime { get; set; }
@@ -123,6 +136,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class Filter
     {
+        [Key]
         public int FilterId { get; set; }
         public string FilterKey { get; set; }
         public string OperationId { get; set; }
@@ -132,6 +146,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class Product
     {
+        [Key]
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
@@ -141,6 +156,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 
     public class Trade
     {
+        [Key]
         public int TradeId { get; set; }
         public int RequirementId { get; set; }
         public int RequirementType { get; set; }

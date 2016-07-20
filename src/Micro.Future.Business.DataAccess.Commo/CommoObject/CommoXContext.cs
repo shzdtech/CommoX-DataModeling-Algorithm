@@ -44,9 +44,16 @@ namespace Micro.Future.Business.DataAccess.Commo
         public int RegisterCapital { get; set; }
         public string RegisterAddress { get; set; }
         public string LegalRepresentative { get; set; }
+        public int InvoicedQuantity { get; set; }
         public int BusinessTypeId { get; set; }
         public string BusinessRange { get; set; }
-        public int Reputation { get; set; }
+        public int ReputationGrade { get; set; }
+        public string AnnualInspection { get; set; }
+        public double PreviousSales { get; set; }
+        public double PreviousProfit { get; set; }
+        public string PaymentMethodId { get; set; }
+        public string RegisterBank { get; set; }
+        public string RegisterAccount { get; set; }
         public DateTime CreateTime { get; set; }
         public int StateId { get; set; }
 
@@ -70,7 +77,68 @@ namespace Micro.Future.Business.DataAccess.Commo
         public string StateName { get; set; }
     }
 
+    public class PaymentMethod
+    {
+        [Key]
+        public int PaymentMethodId { get; set; }
+        public string PaymentMethodName { get; set; }
+        public int StateId { get; set; }
+    }
 
+    public class Product
+    {
+        [Key]
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductTypeId { get; set; }
+        public decimal Price { get; set; }
+        public decimal LimitedQuota { get; set; }
+        public int StateId { get; set; }
+    }
+
+    public class ProductType
+    {
+        [Key]
+        public int ProductTypeId { get; set; }
+        public string ProductTypeName { get; set; }
+        public int ParentId { get; set; }
+        public int StateId { get; set; }
+    }
+
+
+    public class EnterpriseProduct
+    {
+        public int EnterpriseId { get; set; }
+        public int ProductId { get; set; }
+        public string StorageAddress { get; set; }
+        public string WarehouseReceipt { get; set; }
+        public string CreateTime { get; set; }
+    }
+
+    public class AcceptanceBill
+    {
+        public int AcceptanceBillId { get; set; }
+        public string BankId { get; set; }
+        public int EnterpriseId { get; set; }
+        public string DrawerName { get; set; }
+        public string DrawerAccount { get; set; }
+        public string DrawerBankId { get; set; }
+        public string PayeeName { get; set; }
+        public string PayeeAccount { get; set; }
+        public string PayeeBankId { get; set; }
+        public double Amount { get; set; }
+        public DateTime DueDate { get; set; }
+        public string AgreementNumber { get; set; }
+
+    }
+
+    public class Bank
+    {
+        public int BankId { get; set; }
+        public string BankName { get; set; }
+        public string BankAddress { get; set; }
+    }
+         
 
     public class User
     {
@@ -138,16 +206,6 @@ namespace Micro.Future.Business.DataAccess.Commo
         public string FilterKey { get; set; }
         public int OperationId { get; set; }
         public string FilterValue { get; set; }
-        public int StateId { get; set; }
-    }
-
-    public class Product
-    {
-        [Key]
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
-        public decimal LimitedQuota { get; set; }
         public int StateId { get; set; }
     }
 

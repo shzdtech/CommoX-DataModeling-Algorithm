@@ -1,4 +1,5 @@
 ﻿using Micro.Future.Business.DataAccess.Commo.CommonInterface;
+using Micro.Future.Business.DataAccess.Commo.CommoObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;

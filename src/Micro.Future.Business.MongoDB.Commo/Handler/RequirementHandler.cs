@@ -15,13 +15,24 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         private static IMongoDatabase db = client.GetDatabase(MongoDBConfig.DATABASE);
         private static IMongoCollection<RequirementObject> COL_REQUIREMENT = db.GetCollection<RequirementObject>(MongoDBConfig.COLLECTION_REQUIREMENT);
         private static IMongoCollection<ChainObject> COL_CHAIN = db.GetCollection<ChainObject>(MongoDBConfig.COLLECTION_CHAIN);
+        private static IMongoCollection<MongoCounter> COL_COUNTER = db.GetCollection<MongoCounter>(MongoDBConfig.COLLECTION_COUNTERS);
 
         public delegate void OnRequirementChainChangedHandler(IEnumerable<ChainObject> chains);
+
+        private Int32 getNextSequenceValue(String sequenceName)
+        {
+            var filter = Builders<MongoCounter>.Filter.Eq("_id", sequenceName);
+            var update = Builders<MongoCounter>.Update.Inc(MongoDBConfig.FIELD_COUNTER_VALUE, 1).CurrentDate("ModifyTime"); ;
+            var counter = COL_COUNTER.FindOneAndUpdate<MongoCounter>(filter, update);
+            //var counter = COL_COUNTER.Find<MongoCounter>(filter).First();
+            return counter.sequence_value;
+        }
 
         public event OnRequirementChainChangedHandler OnChainChanged;
 
         public void AddRequirement(RequirementObject requirement)
         {
+            requirement.RequirementId = getNextSequenceValue(MongoDBConfig.ID_REQUIREMENT);
             COL_REQUIREMENT.InsertOne(requirement);
         }
 

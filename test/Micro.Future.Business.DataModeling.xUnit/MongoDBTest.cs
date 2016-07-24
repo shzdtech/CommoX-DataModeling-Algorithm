@@ -27,8 +27,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.RequirementTypeId = 1;
             handler.AddRequirement(req);
             var queryRes = handler.QueryRequirementInfo(req.RequirementId);
-            handler.CancelRequirement(req.RequirementId);
-            
+            var res = handler.CancelRequirement(req.RequirementId);
 
         }
     }

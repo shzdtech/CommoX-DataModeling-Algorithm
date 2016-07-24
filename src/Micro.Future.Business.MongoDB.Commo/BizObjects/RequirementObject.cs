@@ -13,7 +13,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     public class RequirementObject
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.Int32)]
         public int RequirementId { get; set; }
         public int UserId { get; set; }
         public int EnterpriseId { get; set; }

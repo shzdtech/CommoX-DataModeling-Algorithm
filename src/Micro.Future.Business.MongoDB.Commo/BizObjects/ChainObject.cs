@@ -13,9 +13,11 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     public class ChainObject
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.Int32)]
         public int ChainId { get; set; }
         public List<int> RequirementIdChain { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime ModifyTime { get; set; }
         public bool Deleted { get; set; }
     }
 }

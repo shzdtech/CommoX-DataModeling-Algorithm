@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     /// </summary>
     public class RequirementObject
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public int RequirementId { get; set; }
         public int UserId { get; set; }
         public int EnterpriseId { get; set; }
@@ -20,6 +24,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
         public int RequirementStateId { get; set; }
+        public bool Deleted { get; set; }
     }
 
     /// <summary>

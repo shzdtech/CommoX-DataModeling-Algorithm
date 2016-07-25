@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
-    public interface IRequirement
-    {
-        IEnumerable<Requirement> queryRequirements(int userId);
+    //public interface IRequirement
+    //{
+    //    IEnumerable<Requirement> queryRequirements(int userId);
 
-        Requirement queryRequirementInfo(int requirementId);
+    //    Requirement queryRequirementInfo(int requirementId);
 
-        Boolean saveRequirement(Requirement require);
+    //    Boolean saveRequirement(Requirement require);
 
-        IEnumerable<Filter> queryRequirementFilters(int requirementId);
+    //    IEnumerable<Filter> queryRequirementFilters(int requirementId);
 
-        bool saveRequirementFilters(IEnumerable<Filter> filters);
-    }
+    //    bool saveRequirementFilters(IEnumerable<Filter> filters);
+    //}
 }

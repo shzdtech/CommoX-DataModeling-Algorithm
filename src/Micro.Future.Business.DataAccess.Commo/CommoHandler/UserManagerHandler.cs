@@ -19,6 +19,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        /// <summary>
+        /// 判断user.UserName与Password验证登录，PASSWORD要加密
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Boolean userLogin(User user)
         {
             return true;
@@ -32,6 +37,21 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         public Boolean userUpdate(User user)
         {
             return true;
+        }
+
+        public User GetUserById(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 通过User.UserName, User.Phone 获取用户信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public User GetUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

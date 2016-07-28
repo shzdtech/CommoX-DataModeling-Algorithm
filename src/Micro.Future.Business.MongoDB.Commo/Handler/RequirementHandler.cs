@@ -30,10 +30,23 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public event OnRequirementChainChangedHandler OnChainChanged;
 
+        public void CallOnChainChanged(List<ChainObject> chains)
+        {
+            OnChainChanged(chains);
+        }
+
         public void AddRequirement(RequirementObject requirement)
         {
             requirement.RequirementId = getNextSequenceValue(MongoDBConfig.ID_REQUIREMENT);
             COL_REQUIREMENT.InsertOne(requirement);
+        }
+
+        public bool UpdateRequirement(RequirementObject requirement)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", requirement.RequirementId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.ReplaceOne(filter, requirement);
+            return res.IsAcknowledged;
         }
 
         public bool CancelRequirement(int requirementId)
@@ -89,6 +102,28 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                     Builders<RequirementObject>.Filter.Eq("Deleted", false);
             var res = COL_REQUIREMENT.Find<RequirementObject>(filter).First();
             return res;
+        }
+
+        public IEnumerable<RequirementObject> GetNewAddedRequirements()
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", 0) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+        }
+
+        public IEnumerable<RequirementObject> GetProcessedRequirements()
+        {
+            var filter = Builders<RequirementObject>.Filter.Ne("RequirementStateId", 0) & 
+                Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+        }
+
+        public void AddRequirementChain(ChainObject chain)
+        {
+            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
+            COL_CHAIN.InsertOne(chain);
         }
 
         public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)

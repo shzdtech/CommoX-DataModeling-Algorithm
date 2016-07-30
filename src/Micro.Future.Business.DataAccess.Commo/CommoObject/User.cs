@@ -11,6 +11,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     /// </summary>
     public class User
     {
+        public User()
+        {
+
+        }
+
         [Key]
         public int UserId { get; set; }
         /// <summary>

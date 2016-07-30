@@ -8,12 +8,32 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     public interface IUserManager
     {
+        /// <summary>
+        ///用户注册
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Boolean userRegister(User user);
 
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Boolean userLogin(User user);
 
+        /// <summary>
+        /// 用户注销登录
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Boolean userLogout(User user);
 
+        /// <summary>
+        /// 用户更新信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Boolean userUpdate(User user);
 
         /// <summary>

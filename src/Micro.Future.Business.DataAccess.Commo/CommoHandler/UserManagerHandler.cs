@@ -14,8 +14,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             using (var db = new CommoXContext())
             {
                 db.Users.Add(user);
-                db.SaveChanges();
-                return true;
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return true;
+                else
+                    return false;
             }
         }
 
@@ -26,7 +29,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         /// <returns></returns>
         public Boolean userLogin(User user)
         {
-            return true;
+            using (var db = new CommoXContext())
+            {
+                int login = db.Users.Where(u => u.UserName.Equals(user.UserName))
+                                    .Where(u => u.Password.Equals(user.Password))
+                                    .Count();
+                if (login > 0) return true;
+            }
+            return false;
         }
 
         public Boolean userLogout(User user)

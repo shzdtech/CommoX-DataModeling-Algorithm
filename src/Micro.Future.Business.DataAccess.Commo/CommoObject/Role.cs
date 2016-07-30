@@ -11,6 +11,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     /// </summary>
     public class Role
     {
+        public Role()
+        {
+
+        }
+
         [Key]
         public int RoleId { get; set; }
         public string RoleName { get; set; }

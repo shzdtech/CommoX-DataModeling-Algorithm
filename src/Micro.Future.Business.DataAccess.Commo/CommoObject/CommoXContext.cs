@@ -23,8 +23,9 @@ namespace Micro.Future.Business.DataAccess.Commo
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           // optionsBuilder.UseSqlServer(@"Server=(114.55.54.144)\mssqllocaldb;Database=master;Trusted_Connection=True;");
-            optionsBuilder.UseSqlServer(@"Server=114.55.54.144; UID=sa; password=shzdtech!123; database=master;");
+            // optionsBuilder.UseSqlServer(@"Server=(114.55.54.144)\mssqllocaldb;Database=master;Trusted_Connection=True;");
+            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=master;");
         }
 
 

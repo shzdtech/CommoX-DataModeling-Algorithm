@@ -17,9 +17,14 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<Role> Roles { get; set; }
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<RequirementType> RequirementTypes { get; set; }
-        public DbSet<RequirementFilter> Filters { get; set; }
+        public DbSet<RequirementFilter> RequirementFilters { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Trade> Trades { get; set; }
+        public DbSet<Trade> Trades { get; set; } 
+        public DbSet<TradeChain> TradeChains { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderState> OrderStates{ get;set;}
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

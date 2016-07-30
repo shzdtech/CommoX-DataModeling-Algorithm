@@ -9,14 +9,47 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class EnterpriseHandler : IEnterprise
     {
-        public int AddEnterprise(Enterprise enterprise)
+        public bool AddEnterprise(Enterprise enterprise)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.Enterprises.Add(enterprise);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         public Enterprise QueryEnterpriseInfo(int enterpriseId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                var enterprise = db.Enterprises.Single(e => e.EnterpriseId.Equals(enterpriseId));
+                return enterprise;
+            }
+        }
+
+        public Enterprise QueryEnterpriseInfo(String name)
+        {
+            using (var db = new CommoXContext())
+            {
+                var enterprise = db.Enterprises.Where(e => e.Name.Contains(name))
+                                                .First();
+                return enterprise;
+            }
+        }
+
+
+        public IEnumerable<Enterprise> QueryEnterpriseList(String name)
+        {
+            using (var db = new CommoXContext())
+            {
+                var enterprise = db.Enterprises.Where(e => e.Name.Contains(name))
+                                                .ToList();
+                return enterprise;
+            }
         }
 
         public bool UpdateEnterprise(Enterprise enterprise)

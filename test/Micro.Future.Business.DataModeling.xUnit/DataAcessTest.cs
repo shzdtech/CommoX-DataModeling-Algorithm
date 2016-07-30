@@ -11,24 +11,34 @@ namespace Micro.Future.Business.DataModeling.xUnit
 {
     public class DataAcessTest
     {
+        User user = new User();
 
         public DataAcessTest()
         {
-
-        }
-
-        [Fact]
-        public void TestConnection()
-        {
-            var handler = new UserManagerHandler();
-            var user = new User();
             user.UserId = 1000001;
             user.UserName = "1000001";
             user.Password = "abc123";
             user.Phone = "13166887987";
+        }
+
+        [Fact]
+        public void TestRegisterConnection()
+        {
+            var handler = new UserManagerHandler();
             bool result = handler.userRegister(user);
+            Console.WriteLine("userRegister result: " + result);
 
         }
+
+        [Fact]
+        public void TestLoginConnection()
+        {
+            var handler = new UserManagerHandler();
+            bool loginresult = handler.userLogin(user);
+            Console.WriteLine("loginresult result: " + loginresult);
+
+        }
+       
 
 
     }

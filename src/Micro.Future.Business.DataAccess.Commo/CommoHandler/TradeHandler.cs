@@ -9,18 +9,50 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class TradeHandler : ITrade
     {
-        public Trade queryTrade(Trade trade)
-        {
-            throw new NotImplementedException();
-        }
 
+
+        public Boolean submitTradeChain(TradeChain tradechain)
+        {
+            using (var db = new CommoXContext())
+            {
+                db.TradeChains.Add(tradechain);
+                int result = db.SaveChanges();
+                return result > 0;
+            }
+        }
 
         public bool submitTrade(Trade trade)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.Trades.Add(trade);
+                int result = db.SaveChanges();
+                return result > 0;
+            }
         }
 
+        public Trade queryTrade(int tradeId)
+        {
+            using (var db = new CommoXContext())
+            {
+                var result = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
+                return result;
 
+            }
+
+
+        }
+
+        public IEnumerable<TradeChain> queryTradeChain(int tradeId)
+        {
+            using (var db = new CommoXContext())
+            {
+                var result = db.TradeChains.Where(tc => tc.TradeId == tradeId).ToList();
+                return result;
+            }
+
+
+        }
 
     }
 }

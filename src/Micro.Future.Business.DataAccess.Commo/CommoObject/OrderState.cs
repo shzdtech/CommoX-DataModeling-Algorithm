@@ -11,7 +11,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     public class OrderState
     {
         public int OrderStateId { get; set; }
-        public string OrderStateValue { get; set; }
-        public int State { get; set; }
+        public string OrderStateName { get; set; }
+        public int StateId { get; set; }
     }
 }

@@ -13,8 +13,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     {
         [Key]
         public int RequirementTypeId { get; set; }
-        public string RequirementTypeValue { get; set; }
-        public int State { get; set; }
+        public string RequirementTypeName { get; set; }
+        public int StateId { get; set; }
 
     }
 }

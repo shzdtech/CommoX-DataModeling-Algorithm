@@ -12,10 +12,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     public class EnterpriseState
     {
         [Key]
-        public int StateId { get; set; }
+        public int EnterpriseStateId { get; set; }
         /// <summary>
         /// 状态情况
         /// </summary>
-        public string StateName { get; set; }
+        public string EnterpriseStateName { get; set; }
     }
 }

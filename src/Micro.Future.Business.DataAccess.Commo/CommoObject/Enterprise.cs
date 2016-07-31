@@ -34,7 +34,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 注册资金
         /// </summary>
-        public int RegisterCapital { get; set; }
+        public double RegisterCapital { get; set; }
         /// <summary>
         /// 注册地址
         /// </summary>
@@ -47,7 +47,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 开票量
         /// </summary>
-        public int InvoicedQuantity { get; set; }
+        public double InvoicedQuantity { get; set; }
         /// <summary>
         /// 企业类型
         /// </summary>
@@ -75,7 +75,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 支付方式
         /// </summary>
-        public string PaymentMethodId { get; set; }
+        public int PaymentMethodId { get; set; }
         /// <summary>
         /// 注册银行
         /// </summary>

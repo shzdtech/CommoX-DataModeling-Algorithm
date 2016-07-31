@@ -26,7 +26,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 出票银行Id
         /// </summary>
-        public string DrawerBankId { get; set; }
+        public int DrawerBankId { get; set; }
         /// <summary>
         /// 收款企业
         /// </summary>
@@ -38,7 +38,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 收款银行Id
         /// </summary>
-        public string PayeeBankId { get; set; }
+        public int PayeeBankId { get; set; }
         /// <summary>
         /// 出票金额
         /// </summary>

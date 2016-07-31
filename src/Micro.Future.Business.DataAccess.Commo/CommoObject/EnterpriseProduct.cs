@@ -26,6 +26,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 仓单类型
         /// </summary>
         public string WarehouseReceipt { get; set; }
+        /// <summary>
+        /// 库存量
+        /// </summary>
+        public double Quota { get; set; }
+    
 
         public string CreateTime { get; set; }
     }

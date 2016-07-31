@@ -29,6 +29,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <param name="tradeId"></param>
         /// <returns></returns>
         Trade queryTrade(int tradeId);
+
         /// <summary>
         /// 查询交易链
         /// </summary>
@@ -36,6 +37,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         IEnumerable<TradeChain> queryTradeChain(int tradeId);
 
-        }
+    }
     
 }

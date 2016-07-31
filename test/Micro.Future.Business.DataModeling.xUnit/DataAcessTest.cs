@@ -19,6 +19,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             user.UserName = "1000001";
             user.Password = "abc123";
             user.Phone = "13166887987";
+            user.LastLoginTime = DateTime.Now;
         }
 
         [Fact]

@@ -24,11 +24,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 产品价格
         /// </summary>
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         /// <summary>
         /// 产品限额量
         /// </summary>
-        public decimal LimitedQuota { get; set; }
+        public double LimitedQuota { get; set; }
         public int StateId { get; set; }
     }
 }

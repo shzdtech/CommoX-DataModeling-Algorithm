@@ -20,6 +20,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// </summary>
         public int TradeSequence { get; set; }
         /// <summary>
+        /// 关联用户
+        /// </summary>
+        public int UserId { get; set; }
+        /// <summary>
         /// 关联需求
         /// </summary>
         public int RequirementId { get; set; }
@@ -46,7 +50,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 数量
         /// </summary>
-        public int Quota { get; set; }
+        public double Quota { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

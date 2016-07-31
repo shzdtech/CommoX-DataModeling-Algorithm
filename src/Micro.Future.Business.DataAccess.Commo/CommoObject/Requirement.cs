@@ -20,11 +20,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 需求类型：如出货、出钱、补贴、汇票等
         /// </summary>
         public int RequirementTypeId { get; set; }
-        public int ProductPrice { get; set; }
-        public decimal ProductQuota { get; set; }
+        public double ProductPrice { get; set; }
+        public double ProductQuota { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-        public int State { get; set; }
+        public int StateId { get; set; }
     }
 
 

@@ -8,7 +8,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 {
     public interface IRequirement
     {
-        void AddRequirement(RequirementObject requirement);
+        int AddRequirement(RequirementObject requirement);
 
         bool CancelRequirement(int requirementId);
 

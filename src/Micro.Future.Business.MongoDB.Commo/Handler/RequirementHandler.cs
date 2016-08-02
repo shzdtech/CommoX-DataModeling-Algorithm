@@ -35,10 +35,11 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             OnChainChanged(chains);
         }
 
-        public void AddRequirement(RequirementObject requirement)
+        public int AddRequirement(RequirementObject requirement)
         {
             requirement.RequirementId = getNextSequenceValue(MongoDBConfig.ID_REQUIREMENT);
             COL_REQUIREMENT.InsertOne(requirement);
+            return requirement.RequirementId;
         }
 
         public bool UpdateRequirement(RequirementObject requirement)

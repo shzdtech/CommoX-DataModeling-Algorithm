@@ -11,23 +11,29 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
     {
 
 
-        public Boolean submitTradeChain(TradeChain tradechain)
+        public TradeChain submitTradeChain(TradeChain tradechain)
         {
             using (var db = new CommoXContext())
             {
                 db.TradeChains.Add(tradechain);
                 int result = db.SaveChanges();
-                return result > 0;
+                if (result > 0)
+                    return tradechain;
+                else
+                    return null;
             }
         }
 
-        public bool submitTrade(Trade trade)
+        public Trade submitTrade(Trade trade)
         {
             using (var db = new CommoXContext())
             {
                 db.Trades.Add(trade);
                 int result = db.SaveChanges();
-                return result > 0;
+                if (result > 0)
+                    return trade;
+                else
+                    return null;
             }
         }
 

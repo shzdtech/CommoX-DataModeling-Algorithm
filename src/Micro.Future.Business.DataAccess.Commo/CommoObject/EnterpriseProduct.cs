@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommoObject
 {
@@ -10,6 +11,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     /// </summary>
     public class EnterpriseProduct
     {
+        [Key]
         /// <summary>
         /// 企业Id
         /// </summary>

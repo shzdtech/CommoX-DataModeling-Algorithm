@@ -9,13 +9,17 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class OrderHandler : IOrder
     {
-        public bool submitOrder(Order order)
+        public Order submitOrder(Order order)
         {
             using (var db = new CommoXContext())
             {
                 db.Orders.Add(order);
                 int result = db.SaveChanges();
-                return result > 0;
+                if (result > 0)
+                    return order;
+                
+                else
+                    return null;
             }
         }
     

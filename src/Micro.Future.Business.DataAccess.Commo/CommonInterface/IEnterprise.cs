@@ -35,14 +35,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="enterprise"></param>
         /// <returns>返回新的EnterpriseId</returns>
-        bool AddEnterprise(Enterprise enterprise);
+        Enterprise AddEnterprise(Enterprise enterprise);
 
         /// <summary>
         /// 企业信息更新
         /// </summary>
         /// <param name="enterprise"></param>
         /// <returns></returns>
-        bool UpdateEnterprise(Enterprise enterprise);
+        Enterprise UpdateEnterprise(Enterprise enterprise);
 
     }
 }

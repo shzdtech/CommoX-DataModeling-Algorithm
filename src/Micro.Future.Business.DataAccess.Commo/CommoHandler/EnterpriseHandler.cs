@@ -9,16 +9,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class EnterpriseHandler : IEnterprise
     {
-        public bool AddEnterprise(Enterprise enterprise)
+        public Enterprise AddEnterprise(Enterprise enterprise)
         {
             using (var db = new CommoXContext())
             {
                 db.Enterprises.Add(enterprise);
                 int count = db.SaveChanges();
                 if (count > 0)
-                    return true;
+                    return enterprise;
                 else
-                    return false;
+                    return null;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public bool UpdateEnterprise(Enterprise enterprise)
+        public Enterprise UpdateEnterprise(Enterprise enterprise)
         {
             throw new NotImplementedException();
         }

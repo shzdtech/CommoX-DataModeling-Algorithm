@@ -8,7 +8,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     interface IOrder
     {
-        bool submitOrder(Order order);
+        Order submitOrder(Order order);
 
         Order queryOrder(int orderId);
 

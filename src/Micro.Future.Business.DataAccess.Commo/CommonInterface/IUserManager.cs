@@ -13,14 +13,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Boolean userRegister(User user);
+        User userRegister(User user);
 
         /// <summary>
         /// 用户登录
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Boolean userLogin(User user);
+        User userLogin(User user);
 
         /// <summary>
         /// 用户注销登录
@@ -34,7 +34,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Boolean userUpdate(User user);
+        User userUpdate(User user);
 
         /// <summary>
         /// 根据userId获取用户信息

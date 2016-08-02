@@ -14,14 +14,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="trade"></param>
         /// <returns></returns>
-        Boolean submitTrade(Trade trade);
+        Trade submitTrade(Trade trade);
 
         /// <summary>
         /// 提交交易链信息
         /// </summary>
         /// <param name="tradechain"></param>
         /// <returns></returns>
-        Boolean submitTradeChain(TradeChain tradechain);
+        TradeChain submitTradeChain(TradeChain tradechain);
 
         /// <summary>
         /// 查询一次交易情况

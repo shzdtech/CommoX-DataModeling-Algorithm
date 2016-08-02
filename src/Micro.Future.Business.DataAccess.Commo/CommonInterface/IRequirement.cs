@@ -12,7 +12,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         Requirement queryRequirementInfo(int requirementId);
 
-        Boolean saveRequirement(Requirement require);
+        Requirement saveRequirement(Requirement require);
 
         IEnumerable<RequirementFilter> queryRequirementFilters(int requirementId);
 

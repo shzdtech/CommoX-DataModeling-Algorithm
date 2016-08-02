@@ -9,13 +9,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class RequirementHandler : IRequirement
     {
-        public bool saveRequirement(Requirement require)
+        public Requirement saveRequirement(Requirement require)
         {
             using (var db = new CommoXContext())
             {
                 db.Requirements.Add(require);
                 int result = db.SaveChanges();
-                return result > 0;
+                if (result > 0)
+                    return require;
+                else
+                    return null;
             }
         }
 

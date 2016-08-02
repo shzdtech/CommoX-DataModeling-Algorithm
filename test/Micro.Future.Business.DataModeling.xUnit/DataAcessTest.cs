@@ -15,7 +15,6 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
         public DataAcessTest()
         {
-            user.UserId = 1000001;
             user.UserName = "1000001";
             user.Password = "abc123";
             user.Phone = "13166887987";
@@ -26,8 +25,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
         public void TestRegisterConnection()
         {
             var handler = new UserManagerHandler();
-            bool result = handler.userRegister(user);
-            Console.WriteLine("userRegister result: " + result);
+            var usertest = handler.userRegister(user);
+            Console.WriteLine("userRegister result: " + usertest.UserId);
 
         }
 
@@ -35,8 +34,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
         public void TestLoginConnection()
         {
             var handler = new UserManagerHandler();
-            bool loginresult = handler.userLogin(user);
-            Console.WriteLine("loginresult result: " + loginresult);
+            var userLogin = handler.userLogin(user);
+            Console.WriteLine("loginresult result: " + userLogin);
 
         }
        

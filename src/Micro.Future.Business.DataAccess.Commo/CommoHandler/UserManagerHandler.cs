@@ -9,16 +9,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class UserManagerHandler : IUserManager
     {
-        public Boolean userRegister(User user)
+        public User userRegister(User user)
         {
             using (var db = new CommoXContext())
             {
                 db.Users.Add(user);
                 int count = db.SaveChanges();
                 if (count > 0)
-                    return true;
+                    return user;
                 else
-                    return false;
+                    return null;
             }
         }
 
@@ -27,16 +27,22 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Boolean userLogin(User user)
+        public User userLogin(User user)
         {
             using (var db = new CommoXContext())
             {
-                int login = db.Users.Where(u => u.UserName.Equals(user.UserName))
+                var uses = db.Users.Where(u => u.UserName.Equals(user.UserName))
                                     .Where(u => u.Password.Equals(user.Password))
-                                    .Count();
-                if (login > 0) return true;
+                                    .First();
+                if (uses != null)
+                {
+                    user.LastLoginTime = DateTime.Now;
+                    db.SaveChanges();
+                    return user;
+                }
+                    
             }
-            return false;
+            return null;
         }
 
         public Boolean userLogout(User user)
@@ -44,9 +50,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             return true;
         }
 
-        public Boolean userUpdate(User user)
+        public User userUpdate(User user)
         {
-            return true;
+            return user;
         }
 
         public User GetUserById(int userId)

@@ -18,5 +18,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         Order queryOrderByEnterprise(int enterpriseId);
 
+        bool updateOrderState(int orderId, string executUserName, string state);
+
     }
 }

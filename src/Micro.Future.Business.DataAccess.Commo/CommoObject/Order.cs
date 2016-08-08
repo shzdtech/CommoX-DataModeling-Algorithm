@@ -20,53 +20,59 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// </summary>
         public int TradeSequence { get; set; }
         /// <summary>
-        /// 关联用户
+        /// 关联用户ID
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
-        /// 关联需求
+        /// 关联用户名
         /// </summary>
-        public int RequirementId { get; set; }
+        public string UserName { get; set; }
         /// <summary>
-        /// 关联企业
+        /// 关联企业ID
         /// </summary>
         public int EnterpriseId { get; set; }
         /// <summary>
-        /// 关联货物
+        /// 关联企业名
         /// </summary>
-        public int ProductId { get; set; }
+        public string EnterpriseName { get; set; }
         /// <summary>
-        /// 支付方式
+        /// 关联需求ID
         /// </summary>
-        public int PaymentMethodId { get; set; }
+        public int RequirementId { get; set; }
         /// <summary>
-        /// 补贴
+        /// 需求类型:出资；出货；贸易量
         /// </summary>
-        public double Subsidy { get; set; }
+        public string RequirementType { get; set; }
         /// <summary>
-        /// 金额
+        /// 需求具体的条件：包装成一个字段（此字段仅供查询，不可修改）
+        /// 如产品=铜；价格=190；企业=国企
         /// </summary>
-        public double Amount { get; set; }
+        public string RequirementFilters { get; set; }
         /// <summary>
-        /// 数量
+        /// 需求具体备注
         /// </summary>
-        public double Quota { get; set; }
+        public string RequirementRemarks { get; set; }
         /// <summary>
-        /// 创建时间
+        /// 订单创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }
         /// <summary>
-        /// 修改时间
+        /// 订单修改时间
         /// </summary>
         public DateTime ModifyTime { get; set; }
         /// <summary>
-        /// 完成时间
+        /// 订单完成时间
         /// </summary>
         public DateTime CompleteTime { get; set; }
         /// <summary>
         /// 订单状态
         /// </summary>
-        public int OrderStateId { get; set; }
+        public String OrderState { get; set; }
+
+        /// <summary>
+        /// 执行者用户名
+        /// </summary>
+        public string ExecuteUsername { get; set; }
 
     }
 }

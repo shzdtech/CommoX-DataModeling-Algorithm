@@ -63,6 +63,24 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-
+        public bool updateOrderState(int orderId, string executUserName, string state)
+        {
+            using (var db = new CommoXContext())
+            {
+                var order = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
+                if (order != null)
+                {
+                    order.ExecuteUsername = executUserName;
+                    order.OrderState = state;
+                    order.ModifyTime = DateTime.Now;
+                    int result = db.SaveChanges();
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                return false;
+            }
+        }
     }
 }

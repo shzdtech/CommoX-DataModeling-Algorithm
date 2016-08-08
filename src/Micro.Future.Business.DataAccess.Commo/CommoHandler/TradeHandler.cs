@@ -10,20 +10,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
     public class TradeHandler : ITrade
     {
 
-
-        public TradeChain submitTradeChain(TradeChain tradechain)
-        {
-            using (var db = new CommoXContext())
-            {
-                db.TradeChains.Add(tradechain);
-                int result = db.SaveChanges();
-                if (result > 0)
-                    return tradechain;
-                else
-                    return null;
-            }
-        }
-
         public Trade submitTrade(Trade trade)
         {
             using (var db = new CommoXContext())
@@ -37,6 +23,18 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public TradeChain submitTradeChain(TradeChain tradechain)
+        {
+            using (var db = new CommoXContext())
+            {
+                db.TradeChains.Add(tradechain);
+                int result = db.SaveChanges();
+                if (result > 0)
+                    return tradechain;
+                else
+                    return null;
+            }
+        }
         public Trade queryTrade(int tradeId)
         {
             using (var db = new CommoXContext())
@@ -45,8 +43,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 return result;
 
             }
-
-
         }
 
         public IEnumerable<TradeChain> queryTradeChain(int tradeId)
@@ -56,9 +52,23 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 var result = db.TradeChains.Where(tc => tc.TradeId == tradeId).ToList();
                 return result;
             }
-
-
         }
+
+        public bool updateTradeState(int tradeId, string state)
+        {
+            using (var db = new CommoXContext())
+            {
+                var trade = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
+                trade.CurrentState = state;
+                int result = db.SaveChanges();
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+               
+        }
+
 
     }
 }

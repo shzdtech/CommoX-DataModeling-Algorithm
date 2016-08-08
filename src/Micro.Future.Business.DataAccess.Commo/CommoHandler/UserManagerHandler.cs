@@ -31,12 +31,12 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             using (var db = new CommoXContext())
             {
-                var uses = db.Users.Where(u => u.UserName.Equals(user.UserName))
+                var users = db.Users.Where(u => u.UserName.Equals(user.UserName))
                                     .Where(u => u.Password.Equals(user.Password))
                                     .First();
-                if (uses != null)
+                if (users != null)
                 {
-                    user.LastLoginTime = DateTime.Now;
+                    users.LastLoginTime = DateTime.Now;
                     db.SaveChanges();
                     return user;
                 }

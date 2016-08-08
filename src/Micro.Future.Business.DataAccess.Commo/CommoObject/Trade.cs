@@ -14,7 +14,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         [Key]
         public int TradeId { get; set; }
         /// <summary>
-        /// 交易标题
+        /// 交易标题：方便交易信息显示，如 20160205铜交易
         /// </summary>
         public string TradeTitle { get; set; }
         /// <summary>
@@ -41,6 +41,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 参与企业数
         /// </summary>
         public int ParticipatorCount { get; set; }
+        /// <summary>
+        /// 当前交易的状态：如到 订单一 或 订单二
+        /// 或显示  出资  出货 中间商 
+        /// 数据来自requirementType
+        /// </summary>
+        public string CurrentState { get; set; }
+        /// <summary>
+        /// 相关的订单
+        /// </summary>
+        public List<Order> Orders { get; set; }
 
     }
 

@@ -36,7 +36,18 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <param name="tradeId"></param>
         /// <returns></returns>
         IEnumerable<TradeChain> queryTradeChain(int tradeId);
+        /// <summary>
+        /// 更新交易当前的状态：如到什么阶段：出资、出货等
+        /// 数据来自requirementType
+        /// </summary>
+        /// <param name="tradeId"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        bool updateTradeState(int tradeId, String state);
 
     }
+
+
+
     
 }

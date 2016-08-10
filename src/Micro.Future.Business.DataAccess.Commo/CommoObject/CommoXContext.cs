@@ -36,12 +36,12 @@ namespace Micro.Future.Business.DataAccess.Commo
             optionsBuilder.UseSqlServer(@"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo;");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Trade>()
-                .HasMany(b => b.Orders)
-                .WithOne();
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Trade>()
+        //        .HasMany(b => b.Orders)
+        //        .WithOne();
+        //}
     }
 
     

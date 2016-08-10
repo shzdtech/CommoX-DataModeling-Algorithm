@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     /// </summary>
     public class Order
     {
+        [Key]
         public int OrderId { get; set; }
+
         /// <summary>
         /// 关联交易
         /// </summary>

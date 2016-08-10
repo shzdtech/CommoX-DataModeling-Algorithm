@@ -16,12 +16,12 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         Trade submitTrade(Trade trade);
 
-        /// <summary>
-        /// 提交交易链信息
-        /// </summary>
-        /// <param name="tradechain"></param>
-        /// <returns></returns>
-        TradeChain submitTradeChain(TradeChain tradechain);
+        ///// <summary>
+        ///// 提交交易链信息
+        ///// </summary>
+        ///// <param name="tradechain"></param>
+        ///// <returns></returns>
+        //TradeChain submitTradeChain(TradeChain tradechain);
 
         /// <summary>
         /// 查询一次交易情况

@@ -47,10 +47,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 数据来自requirementType
         /// </summary>
         public string CurrentState { get; set; }
-        /// <summary>
-        /// 相关的订单
-        /// </summary>
-        public List<Order> Orders { get; set; }
+        ///// <summary>
+        ///// 相关的订单
+        ///// </summary>
+        //public List<Order> Orders { get; set; }
 
     }
 

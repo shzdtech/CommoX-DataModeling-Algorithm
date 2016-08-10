@@ -82,11 +82,19 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             }
         }
 
-/*        public bool UpdateRequirement(RequirementObject requirement)
+        /*        public bool UpdateRequirement(RequirementObject requirement)
+                {
+                    throw new NotImplementedException();
+                }
+                */
+
+        public IEnumerable<RequirementObject> QueryAllRequirements()
         {
-            throw new NotImplementedException();
+            var filter = Builders<RequirementObject>.Filter.Gt("RequirementId", 0) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
         }
-        */
 
         public IEnumerable<RequirementObject> QueryRequirements(string userId)
         {
@@ -129,8 +137,10 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)
         {
-            var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
-                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+            //var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
+            //        Builders<ChainObject>.Filter.Eq("Deleted", false);
+
+            var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
             return chains;
         }

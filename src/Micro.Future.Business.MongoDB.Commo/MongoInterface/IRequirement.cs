@@ -14,6 +14,8 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IEnumerable<RequirementObject> QueryRequirements(string userId);
 
+        IEnumerable<RequirementObject> QueryAllRequirements();
+
         RequirementObject QueryRequirementInfo(int requirementId);
 
         IEnumerable<ChainObject> QueryRequirementChains(int requirementId);

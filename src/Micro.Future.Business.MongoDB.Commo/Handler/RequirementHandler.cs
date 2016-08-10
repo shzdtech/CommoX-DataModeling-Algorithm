@@ -74,7 +74,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                         chain.Deleted = true;
                     }
                     COL_CHAIN.UpdateMany(filterChain, updateChain);
-                    OnChainChanged(chains);
+                    //OnChainChanged(chains);
                 }
                 return true;
             } else{
@@ -137,10 +137,10 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)
         {
-            //var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
-            //        Builders<ChainObject>.Filter.Eq("Deleted", false);
+            var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
 
-            var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
+            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
             return chains;
         }

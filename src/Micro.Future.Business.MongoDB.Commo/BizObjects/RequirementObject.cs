@@ -21,6 +21,15 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         
         public int RequirementTypeId { get; set; }
 
+        /// <summary>
+        /// 无用了
+        /// </summary>
+        public int ProductId { get; set; }
+
+        /// <summary>
+        /// 无用了
+        /// </summary>
+        public int ProductQuota { get; set; }
 
         public int ProductPrice { get; set; }
 

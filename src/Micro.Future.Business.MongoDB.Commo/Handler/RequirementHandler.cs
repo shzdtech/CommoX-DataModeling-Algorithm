@@ -90,7 +90,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public IEnumerable<RequirementObject> QueryRequirements(string userId)
         {
-            var filter = Builders<RequirementObject>.Filter.Eq("UserId", userId) &
+            var filter = Builders<RequirementObject>.Filter.Eq("UserId", Int32.Parse(userId)) &
                     Builders<RequirementObject>.Filter.Eq("Deleted", false);
             var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
             return res;

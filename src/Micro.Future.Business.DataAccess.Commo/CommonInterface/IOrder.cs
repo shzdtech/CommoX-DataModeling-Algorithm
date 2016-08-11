@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
-    interface IOrder
+    public interface IOrder
     {
         Order submitOrder(Order order);
 

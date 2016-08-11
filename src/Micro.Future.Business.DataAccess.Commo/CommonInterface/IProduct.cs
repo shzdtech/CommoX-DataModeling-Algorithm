@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
-    interface IProduct
+    public interface IProduct
     {
         /// <summary>
         /// 产品提交

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
-    public class ICommon
+    public interface ICommon
     {
 
     }

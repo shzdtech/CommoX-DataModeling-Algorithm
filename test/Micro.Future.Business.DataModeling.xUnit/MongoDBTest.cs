@@ -25,8 +25,21 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.ProductPrice = 100;
             req.RequirementStateId = 0;
             req.RequirementTypeId = 1;
-            handler.AddRequirement(req);
+            var id = handler.AddRequirement(req);
             var queryRes = handler.QueryRequirementInfo(req.RequirementId);
+
+            var chain = new ChainObject();
+            chain.Deleted = false;
+            var list = new List<int>();
+            list.Add(id);
+            list.Add(10);
+            list.Add(11);
+            chain.RequirementIdChain = list;
+            handler.AddRequirementChain(chain);
+
+            var chains = handler.QueryRequirementChains(180);
+            var size = chains.Count();
+
             var res = handler.CancelRequirement(req.RequirementId);
 
         }

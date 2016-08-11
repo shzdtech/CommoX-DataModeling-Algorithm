@@ -7,5 +7,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class CommonHandler
     {
+
     }
 }

@@ -42,7 +42,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         }
 
 
-        public IEnumerable<Enterprise> QueryEnterpriseList(String name)
+        public IList<Enterprise> QueryEnterpriseList(String name)
         {
             using (var db = new CommoXContext())
             {

@@ -9,7 +9,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class ProductHandler :IProduct
     {
-        public IEnumerable<Product> queryAllProduct()
+        public IList<Product> queryAllProduct()
         {
             using (var db = new CommoXContext())
             {

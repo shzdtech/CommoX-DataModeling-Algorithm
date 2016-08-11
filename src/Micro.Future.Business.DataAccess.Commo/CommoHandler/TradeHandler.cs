@@ -45,7 +45,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public IEnumerable<TradeChain> queryTradeChain(int tradeId)
+        public IList<TradeChain> queryTradeChain(int tradeId)
         {
             using (var db = new CommoXContext())
             {
@@ -69,6 +69,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                
         }
 
-
+        public IList<Trade> queryAllTrade(int userId)
+        {
+            using (var db = new CommoXContext())
+            {
+                return (from o in db.Orders
+                            join t in db.Trades on o.TradeId equals t.TradeId
+                            where o.UserId == userId
+                            select t).ToList();
+            }
+        }
     }
 }

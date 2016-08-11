@@ -12,6 +12,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         Order queryOrder(int orderId);
 
+        IList<Order> queryTradeOrder(int tradeId);
+
         Order queryOrderByUser(int userId);
 
         Order queryOrderByRequirement(int requirementId);

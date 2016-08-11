@@ -82,5 +82,17 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 return false;
             }
         }
+
+        public IList<Order> queryTradeOrder(int tradeId)
+        {
+            using (var db = new CommoXContext())
+            {
+                var result = db.Orders.Where(t => t.TradeId == tradeId).ToList();
+                if (result != null)
+                    return result;
+                else
+                    return null;
+            }
+        }
     }
 }

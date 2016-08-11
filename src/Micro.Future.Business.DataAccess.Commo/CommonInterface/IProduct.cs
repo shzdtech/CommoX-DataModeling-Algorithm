@@ -26,7 +26,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// 查询所有的产品列表
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Product> queryAllProduct();
+        IList<Product> queryAllProduct();
 
         /// <summary>
         /// 更新产品的内容，根据productId查询到当前产品

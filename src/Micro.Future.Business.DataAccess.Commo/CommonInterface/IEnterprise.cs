@@ -27,7 +27,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        IEnumerable<Enterprise> QueryEnterpriseList(String name);
+        IList<Enterprise> QueryEnterpriseList(String name);
 
 
         /// <summary>

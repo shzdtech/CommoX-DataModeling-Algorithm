@@ -8,13 +8,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     public interface IRequirement
     {
-        IEnumerable<Requirement> queryRequirements(int userId);
+        IList<Requirement> queryRequirements(int userId);
 
         Requirement queryRequirementInfo(int requirementId);
 
         Requirement saveRequirement(Requirement require);
 
-        IEnumerable<RequirementFilter> queryRequirementFilters(int requirementId);
+        IList<RequirementFilter> queryRequirementFilters(int requirementId);
 
         bool saveRequirementFilters(IEnumerable<RequirementFilter> filters);
     }

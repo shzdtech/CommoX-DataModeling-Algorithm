@@ -45,15 +45,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public IEnumerable<Requirement> queryRequirements(int userId)
+        public IList<Requirement> queryRequirements(int userId)
         {
             using (var db = new CommoXContext())
             {
-                return db.Requirements.Where(f => f.UserId == userId);
+                return db.Requirements.Where(f => f.UserId == userId).ToList();
             }
         }
 
-        public IEnumerable<RequirementFilter> queryRequirementFilters(int requirementId)
+        public IList<RequirementFilter> queryRequirementFilters(int requirementId)
         {
             using (var db = new CommoXContext())
             {

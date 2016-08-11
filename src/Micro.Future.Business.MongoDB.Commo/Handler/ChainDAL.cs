@@ -9,7 +9,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
     public class ChainDAL : IChainDAL
     {
-        public bool ConfirmChainRequirement(int chainId, int requirementId, out bool isAllConfirmed)
+        public bool ConfirmChainRequirement(int chainId)
         {
             throw new NotImplementedException();
         }

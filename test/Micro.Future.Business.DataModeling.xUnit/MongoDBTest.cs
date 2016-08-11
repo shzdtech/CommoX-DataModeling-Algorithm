@@ -17,7 +17,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestConnection()
         {
-            var handler = new RequirementHandler();
+            var reqHandler = new RequirementHandler();
+            var matcherHandler = new MatcherHandler();
             var req = new RequirementObject();
             req.Deleted = false;
             req.EnterpriseId = 1;
@@ -25,8 +26,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.ProductPrice = 100;
             req.RequirementStateId = 0;
             req.RequirementTypeId = 1;
-            var id = handler.AddRequirement(req);
-            var queryRes = handler.QueryRequirementInfo(req.RequirementId);
+            var id = reqHandler.AddRequirement(req);
+            var queryRes = reqHandler.QueryRequirementInfo(req.RequirementId);
 
             var chain = new ChainObject();
             chain.Deleted = false;
@@ -35,12 +36,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
             list.Add(10);
             list.Add(11);
             chain.RequirementIdChain = list;
-            handler.AddRequirementChain(chain);
+            matcherHandler.AddRequirementChain(chain);
 
-            var chains = handler.QueryRequirementChains(180);
+            var chains = reqHandler.QueryRequirementChains(180);
             var size = chains.Count();
 
-            var res = handler.CancelRequirement(req.RequirementId);
+            var res = reqHandler.CancelRequirement(req.RequirementId);
 
         }
     }

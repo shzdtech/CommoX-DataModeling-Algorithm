@@ -1,23 +1,37 @@
 ﻿using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using Micro.Future.Business.MongoDB.Commo.Config;
 using Micro.Future.Business.MongoDB.Commo.MongoInterface;
-using MongoDB.Driver;
+using Micro.Future.Business.MongoDB.Commo.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
     public class RequirementHandler: IRequirement
     {
-        private static MongoClient client = new MongoClient(MongoDBConfig.mongoAddr);
-        private static IMongoDatabase db = client.GetDatabase(MongoDBConfig.DATABASE);
-        private static IMongoCollection<RequirementObject> COL_REQUIREMENT = db.GetCollection<RequirementObject>(MongoDBConfig.COLLECTION_REQUIREMENT);
-        private static IMongoCollection<ChainObject> COL_CHAIN = db.GetCollection<ChainObject>(MongoDBConfig.COLLECTION_CHAIN);
-        private static IMongoCollection<MongoCounter> COL_COUNTER = db.GetCollection<MongoCounter>(MongoDBConfig.COLLECTION_COUNTERS);
+        private IMongoCollection<RequirementObject> COL_REQUIREMENT;
+        private IMongoCollection<ChainObject> COL_CHAIN;
+        private IMongoCollection<MongoCounter> COL_COUNTER;
 
-        public delegate void OnRequirementChainChangedHandler(IEnumerable<ChainObject> chains);
+        public RequirementHandler()
+        {
+            var db = MongoClientSingleton.Instance.GetMongoClient().GetDatabase(MongoDBConfig.DATABASE);
+            COL_REQUIREMENT = db.GetCollection<RequirementObject>(MongoDBConfig.COLLECTION_REQUIREMENT);
+            COL_CHAIN = db.GetCollection<ChainObject>(MongoDBConfig.COLLECTION_CHAIN);
+            COL_COUNTER = db.GetCollection<MongoCounter>(MongoDBConfig.COLLECTION_COUNTERS);
+        }
+
+        public delegate void OnRequirementChainRemovedHandler(IEnumerable<ChainObject> chains);
+
+        public event OnRequirementChainRemovedHandler OnChainRemoved;
+   
+        public void CallOnChainRemoved(List<ChainObject> chains)
+        {
+            OnChainRemoved(chains);
+        }
 
         private Int32 getNextSequenceValue(String sequenceName)
         {
@@ -26,13 +40,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             var counter = COL_COUNTER.FindOneAndUpdate<MongoCounter>(filter, update);
             //var counter = COL_COUNTER.Find<MongoCounter>(filter).First();
             return counter.sequence_value;
-        }
-
-        public event OnRequirementChainChangedHandler OnChainChanged;
-
-        public void CallOnChainChanged(List<ChainObject> chains)
-        {
-            OnChainChanged(chains);
         }
 
         public int AddRequirement(RequirementObject requirement)
@@ -129,12 +136,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public void AddRequirementChain(ChainObject chain)
-        {
-            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
-            COL_CHAIN.InsertOne(chain);
-        }
-
         public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)
         {
             var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
@@ -145,12 +146,38 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return chains;
         }
 
+        public ChainObject QueryChain(int chainId)
+        {
+            var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+            var res = COL_CHAIN.Find<ChainObject>(filter).First();
+            return res;
+        }
+
+        public bool ConfirmChainRequirement(int chainId)
+        {
+            try
+            {
+                var chain = QueryChain(chainId);
+                var list = chain.RequirementIdChain;
+                foreach(var i in list){
+                    var r = QueryRequirementInfo(i);
+                    if (r.Deleted) return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void TestSampleEvent()
         {
-            if (OnChainChanged != null)
+            if (OnChainRemoved != null)
             {
                 var newChains = new List<ChainObject>();
-                OnChainChanged(newChains);
+                OnChainRemoved(newChains);
             }
         }
     }

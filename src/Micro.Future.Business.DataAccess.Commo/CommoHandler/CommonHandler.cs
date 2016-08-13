@@ -11,77 +11,147 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
     {
         public AcceptanceBill queryAcceptanceBill(int AcceptanceBillId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.AcceptanceBills.SingleOrDefault(p => p.AcceptanceBillId == AcceptanceBillId);
+            }
         }
 
-        public IList<AcceptanceBill> queryAcceptanceBillByUser(int userId)
+        public IList<AcceptanceBill> queryAcceptanceBillByEnterprise(int enterpriseId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.AcceptanceBills.Where(p => p.EnterpriseId == enterpriseId).ToList();
+            }
         }
 
         public IList<Bank> queryAllBank()
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.Banks.ToList();
+            }
         }
 
         public IList<BusinessType> queryAllBusinessType()
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.BusinessTypes.ToList();
+            }
         }
 
         public IList<OrderState> queryAllOrderState()
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.OrderStates.ToList();
+            }
         }
 
         public IList<PaymentMethod> queryAllPaymentMethod()
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.PaymentMethods.ToList();
+            }
         }
 
         public Bank queryBank(int bankId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.Banks.SingleOrDefault(p => p.BankId == bankId);
+            }
         }
 
         public BusinessType queryBusinessType(int BusinessTypeId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.BusinessTypes.SingleOrDefault(p => p.BusinessTypeId == BusinessTypeId);
+            }
         }
 
         public OrderState queryOrderState(int stateId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.OrderStates.SingleOrDefault(p => p.OrderStateId == stateId);
+            }
         }
 
         public PaymentMethod queryPaymentMethod(int PaymentMethodId)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                return db.PaymentMethods.SingleOrDefault(p => p.PaymentMethodId == PaymentMethodId);
+            }
         }
 
         public AcceptanceBill submictAcceptanceBill(AcceptanceBill bill)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.AcceptanceBills.Add(bill);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return bill;
+                else
+                    return null;
+            }
         }
 
         public OrderState submictOrderState(OrderState orderstate)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.OrderStates.Add(orderstate);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return orderstate;
+                else
+                    return null;
+            }
         }
 
         public Bank submitBank(Bank bank)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.Banks.Add(bank);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return bank;
+                else
+                    return null;
+            }
         }
 
         public BusinessType submitBusinessType(BusinessType type)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.BusinessTypes.Add(type);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return type;
+                else
+                    return null;
+            }
         }
 
         public PaymentMethod submitPaymentMethod(PaymentMethod paymethod)
         {
-            throw new NotImplementedException();
+            using (var db = new CommoXContext())
+            {
+                db.PaymentMethods.Add(paymethod);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return paymethod;
+                else
+                    return null;
+            }
         }
     }
 }

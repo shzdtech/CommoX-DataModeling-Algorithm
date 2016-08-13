@@ -21,11 +21,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         AcceptanceBill queryAcceptanceBill(int AcceptanceBillId);
         /// <summary>
-        /// 查询用户下承兑汇票
+        /// 查询企业下承兑汇票
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="enterpriseId"></param>
         /// <returns></returns>
-        IList<AcceptanceBill> queryAcceptanceBillByUser(int userId);
+        IList<AcceptanceBill> queryAcceptanceBillByEnterprise(int enterpriseId);
         /// <summary>
         /// 提交银行信息
         /// </summary>

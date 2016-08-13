@@ -66,5 +66,19 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public RequirementType submitRequirementTypeId(RequirementType requirementType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RequirementType queryRequirementType(int RequirementTypeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<RequirementType> queryAllRequirementType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

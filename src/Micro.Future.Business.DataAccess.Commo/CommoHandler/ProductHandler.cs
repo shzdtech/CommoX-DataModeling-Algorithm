@@ -43,5 +43,18 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             throw new NotImplementedException();
         }
+
+        public ProductType submitProductType(ProductType productType)
+        {
+            throw new NotImplementedException();
+        }
+        public ProductType queryProductType(int productTypeId)
+        {
+            throw new NotImplementedException();
+        }
+        public IList<ProductType> queryAllProductType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

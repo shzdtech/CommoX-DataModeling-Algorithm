@@ -36,7 +36,24 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         Product updateProduct(Product product);
 
+        /// <summary>
+        /// 提交产品类型
+        /// </summary>
+        /// <param name="productType"></param>
+        /// <returns></returns>
+        ProductType submitProductType(ProductType productType);
 
+        /// <summary>
+        /// 查询产品类型
+        /// </summary>
+        /// <param name="productTypeId"></param>
+        /// <returns></returns>
+        ProductType queryProductType(int productTypeId);
+        /// <summary>
+        /// 查询所有产品类型
+        /// </summary>
+        /// <returns></returns>
+        IList<ProductType> queryAllProductType();
 
 
     }

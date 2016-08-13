@@ -43,5 +43,32 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             throw new NotImplementedException();
         }
+
+        public ProductType submitProductType(ProductType productType)
+        {
+            using (var db = new CommoXContext())
+            {
+                db.ProductTypes.Add(productType);
+                int count = db.SaveChanges();
+                if (count > 0)
+                    return productType;
+                else
+                    return null;
+            }
+        }
+        public ProductType queryProductType(int productTypeId)
+        {
+            using (var db = new CommoXContext())
+            {
+                return db.ProductTypes.SingleOrDefault(p => p.ProductTypeId == productTypeId);
+            }
+        }
+        public IList<ProductType> queryAllProductType()
+        {
+            using (var db = new CommoXContext())
+            {
+                return db.ProductTypes.ToList();
+            }
+        }
     }
 }

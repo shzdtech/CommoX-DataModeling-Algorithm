@@ -17,5 +17,23 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         IList<RequirementFilter> queryRequirementFilters(int requirementId);
 
         bool saveRequirementFilters(IEnumerable<RequirementFilter> filters);
+
+        /// <summary>
+        /// 提交需求类型
+        /// </summary>
+        /// <param name="requirementType"></param>
+        /// <returns></returns>
+        RequirementType submitRequirementTypeId(RequirementType requirementType);
+        /// <summary>
+        /// 查询需求类型
+        /// </summary>
+        /// <param name="RequirementTypeId"></param>
+        /// <returns></returns>
+        RequirementType queryRequirementType(int RequirementTypeId);
+        /// <summary>
+        /// 查询所有需求类型
+        /// </summary>
+        /// <returns></returns>
+        IList<RequirementType> queryAllRequirementType();
     }
 }

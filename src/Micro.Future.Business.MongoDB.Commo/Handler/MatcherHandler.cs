@@ -40,10 +40,11 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return counter.sequence_value;
         }
 
-        public void AddRequirementChain(ChainObject chain)
+        public int AddRequirementChain(ChainObject chain)
         {
             chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
             COL_CHAIN.InsertOne(chain);
+            return chain.ChainId;
         }
         
     }

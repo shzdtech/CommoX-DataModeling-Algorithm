@@ -16,6 +16,10 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         [BsonRepresentation(BsonType.Int32)]
         public int ChainId { get; set; }
         public List<int> RequirementIdChain { get; set; }
+        public List<bool> IsConfirmChain { get; set; }
+        public List<int> UserIdChain { get; set; }
+        public bool isAllConfirmed { get; set; }
+
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
         public bool Deleted { get; set; }

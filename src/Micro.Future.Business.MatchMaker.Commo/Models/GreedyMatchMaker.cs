@@ -52,11 +52,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 foreach (RequirementObject req2 in union)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 2 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
                     {
                         foreach (RequirementObject req3 in union)
                         {
-                            if (req3.RequirementTypeId == 3 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
                                 var newChain = constructChain(
                                     new List<RequirementObject> { req1, req2, req3 });
@@ -75,11 +75,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 foreach (RequirementObject req2 in union)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 2 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
                     {
                         foreach (RequirementObject req3 in newRequirements)
                         {
-                            if (req3.RequirementTypeId == 3 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
                                 var newChain = constructChain(
                                     new List<RequirementObject> { req1, req2, req3 });
@@ -98,11 +98,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 foreach (RequirementObject req2 in newRequirements)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 2 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
                     {
                         foreach (RequirementObject req3 in processedRequirements)
                         {
-                            if (req3.RequirementTypeId == 3 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
                                 var newChain = constructChain(
                                     new List<RequirementObject> { req1, req2, req3 });

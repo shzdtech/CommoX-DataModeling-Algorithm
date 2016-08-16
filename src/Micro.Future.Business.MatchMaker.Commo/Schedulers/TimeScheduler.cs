@@ -34,7 +34,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Scheduler
             while (!stopped)
             {
                 matcher.makeChainIncreament();
-                Thread.Sleep(timeIntervalSeconds * 1000);
+                Task.Delay(timeIntervalSeconds * 1000).Wait();
             }
         }
 

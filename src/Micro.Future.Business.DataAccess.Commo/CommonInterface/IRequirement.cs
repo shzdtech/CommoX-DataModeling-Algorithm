@@ -8,7 +8,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 {
     public interface IRequirement
     {
-        IList<Requirement> queryRequirements(int userId);
+        IList<Requirement> queryRequirements(string userId);
 
         Requirement queryRequirementInfo(int requirementId);
 

@@ -55,7 +55,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             return user;
         }
 
-        public User GetUserById(int userId)
+        public User GetUserById(string userId)
         {
             throw new NotImplementedException();
         }

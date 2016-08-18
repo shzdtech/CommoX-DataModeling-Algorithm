@@ -41,7 +41,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        User GetUserById(int userId);
+        User GetUserById(string userId);
 
         /// <summary>
         /// 根据userName，phone，email获取用户信息

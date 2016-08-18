@@ -45,7 +45,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public IList<Requirement> queryRequirements(int userId)
+        public IList<Requirement> queryRequirements(string userId)
         {
             using (var db = new CommoXContext())
             {

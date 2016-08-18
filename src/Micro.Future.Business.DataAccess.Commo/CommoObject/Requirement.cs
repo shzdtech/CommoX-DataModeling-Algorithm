@@ -13,7 +13,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     {
         [Key]
         public int RequirementId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int EnterpriseId { get; set; }
         public int ProductId { get; set; }
         /// <summary>

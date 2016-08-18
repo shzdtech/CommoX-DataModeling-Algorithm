@@ -25,7 +25,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 关联用户ID
         /// </summary>
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 关联用户名
         /// </summary>

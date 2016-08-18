@@ -33,7 +33,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public Order queryOrderByUser(int userId)
+        public Order queryOrderByUser(string userId)
         {
             using (var db = new CommoXContext())
             {

@@ -17,7 +17,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         }
 
         [Key]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 用户名
         /// </summary>

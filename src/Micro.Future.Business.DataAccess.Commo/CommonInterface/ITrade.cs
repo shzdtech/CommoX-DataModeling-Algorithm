@@ -34,7 +34,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IList<Trade> queryAllTrade(int userId);
+        IList<Trade> queryAllTrade(string userId);
 
         /// <summary>
         /// 查询交易链

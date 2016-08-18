@@ -64,7 +64,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 Order order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 1;
-                order.UserId = 100001;
+                order.UserId = "100001";
                 order.RequirementFilters = "product=au;price=1000";
                 order.RequirementId = 100001;
                 order.RequirementRemarks = "备注！！";
@@ -80,7 +80,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 2;
-                order.UserId = 100002;
+                order.UserId = "100002";
                 order.RequirementFilters = "paymethod=cash";
                 order.RequirementId = 100002;
                 order.RequirementRemarks = "备注！！";
@@ -95,7 +95,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 3;
-                order.UserId = 100003;
+                order.UserId = "100003";
                 order.RequirementFilters = "paymethod=cash";
                 order.RequirementId = 100003;
                 order.RequirementRemarks = "备注！！";

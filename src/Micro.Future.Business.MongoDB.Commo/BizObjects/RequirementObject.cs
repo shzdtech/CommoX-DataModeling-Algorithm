@@ -15,7 +15,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         [BsonId]
         [BsonRepresentation(BsonType.Int32)]
         public int RequirementId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int EnterpriseId { get; set; }
 
         

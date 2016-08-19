@@ -66,7 +66,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             throw new NotImplementedException();
         }
 
-        public IList<ChainObject> QueryChains(int userId)
+        public IList<ChainObject> QueryChains(string userId)
         {
             var filterChain = Builders<ChainObject>.Filter.AnyEq("UserIdChain", userId) &
                     Builders<ChainObject>.Filter.Eq("Deleted", false);

@@ -10,7 +10,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
     {
         ChainObject GetChain(int chainId);
 
-        IList<ChainObject> QueryChains(int userId);
+        IList<ChainObject> QueryChains(string userId);
 
         IList<RequirementObject> GetChainRequirements(int chainId);
 

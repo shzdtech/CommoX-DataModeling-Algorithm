@@ -19,7 +19,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var service = new MatchMakerService(config);
             //service.start();
             //Thread.Sleep(1 * 60 * 1000);
-            service.matcher.makeChainIncreament();
+            service.matcher.make();
         }
     }
 }

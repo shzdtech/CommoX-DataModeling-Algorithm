@@ -12,35 +12,15 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
     public class GreedyMatchMaker: BaseMatchMaker
     {
         private MatcherHandler matcherHandler;
-        private RequirementHandler reqHandler;
-        public GreedyMatchMaker(MatcherHandler mHandler, RequirementHandler rHandler)
+        public GreedyMatchMaker(MatcherHandler mHandler)
         {
             matcherHandler = mHandler;
-            reqHandler = rHandler;
         }
 
-        private ChainObject constructChain(IList<RequirementObject> reqs )
+        public void make()
         {
-            var newChain = new ChainObject();
-            var reqIdList = new List<int>();            
-            var userList = new List<string>();
-            var IsConfirmChain = new List<bool>();
-            foreach(RequirementObject r in reqs)
-            {
-                reqIdList.Add(r.RequirementId);
-                userList.Add(r.UserId);
-                IsConfirmChain.Add(false);
-            }
-            newChain.RequirementIdChain = reqIdList;
-            newChain.UserIdChain = userList;
-            newChain.IsConfirmChain = IsConfirmChain;
-            newChain.isAllConfirmed = false;
-            return newChain;
-        }
-        public void makeChainIncreament()
-        {
-            var newRequirements = reqHandler.GetNewAddedRequirements();
-            var processedRequirements = reqHandler.GetProcessedRequirements();
+            var newRequirements = matcherHandler.GetUnprocessedRequirements();
+            var processedRequirements = matcherHandler.GetProcessedRequirements();
             var union = newRequirements.Union(processedRequirements);
 
             var res = new List<ChainObject>();
@@ -58,7 +38,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         {
                             if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
-                                var newChain = constructChain(
+                                var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
                                 res.Add(newChain);
                             }
@@ -81,7 +61,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         {
                             if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
-                                var newChain = constructChain(
+                                var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
                                 res.Add(newChain);
                             }
@@ -104,7 +84,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         {
                             if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
                             {
-                                var newChain = constructChain(
+                                var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
                                 res.Add(newChain);
                             }
@@ -118,7 +98,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             foreach (RequirementObject req1 in newRequirements)
             {
                 req1.RequirementStateId = 1;
-                reqHandler.UpdateRequirement(req1);
+                matcherHandler.UpdateRequirement(req1);
             }
 
             // add new chain in the chain collection

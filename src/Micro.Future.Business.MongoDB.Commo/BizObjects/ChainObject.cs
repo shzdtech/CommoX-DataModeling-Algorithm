@@ -12,6 +12,29 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     /// </summary>
     public class ChainObject
     {
+        public ChainObject (IList<RequirementObject> reqs)
+        {
+            var reqIdList = new List<int>();
+            var userList = new List<string>();
+            var isConfirmChain = new List<bool>();
+            foreach (RequirementObject r in reqs)
+            {
+                reqIdList.Add(r.RequirementId);
+                userList.Add(r.UserId);
+                IsConfirmChain.Add(false);
+            }
+            RequirementIdChain = reqIdList;
+            UserIdChain = userList;
+            IsConfirmChain = isConfirmChain;
+            isAllConfirmed = false;
+            CreateTime = DateTime.Now;
+            ModifyTime = DateTime.Now;
+        }
+
+        public ChainObject()
+        {
+        }
+
         [BsonId]
         [BsonRepresentation(BsonType.Int32)]
         public int ChainId { get; set; }

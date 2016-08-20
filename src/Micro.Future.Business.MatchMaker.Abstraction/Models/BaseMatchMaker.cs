@@ -7,6 +7,6 @@ namespace Micro.Future.Business.MatchMaker.Abstraction.Models
 {
     public interface BaseMatchMaker
     {
-        void makeChainIncreament();
+        void make();
     }
 }

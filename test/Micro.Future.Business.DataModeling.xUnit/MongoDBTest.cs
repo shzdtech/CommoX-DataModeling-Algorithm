@@ -17,7 +17,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestInsert()
         {
-            var reqHandler = new RequirementHandler();
+            var reqHandler = new MatcherHandler();
             var req1 = new RequirementObject();
             var userId1 = "101";
             req1.Deleted = false;
@@ -85,7 +85,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestConnection()
         {
-            var reqHandler = new RequirementHandler();
+            var reqHandler = new MatcherHandler();
             var matcherHandler = new MatcherHandler();
             
             var req = new RequirementObject();

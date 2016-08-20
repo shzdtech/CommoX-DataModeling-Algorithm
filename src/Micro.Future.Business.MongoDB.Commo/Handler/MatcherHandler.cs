@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
-    public class MatcherHandler
+    public class MatcherHandler: IMatcher
     {
         private IMongoCollection<ChainObject> COL_CHAIN;
+        private IMongoCollection<RequirementObject> COL_REQUIREMENT;
         private IMongoCollection<MongoCounter> COL_COUNTER;
 
         public MatcherHandler()
@@ -20,15 +21,23 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             var db = MongoClientSingleton.Instance.GetMongoClient().GetDatabase(MongoDBConfig.DATABASE);
             COL_CHAIN = db.GetCollection<ChainObject>(MongoDBConfig.COLLECTION_CHAIN);
             COL_COUNTER = db.GetCollection<MongoCounter>(MongoDBConfig.COLLECTION_COUNTERS);
+            COL_REQUIREMENT = db.GetCollection<RequirementObject>(MongoDBConfig.COLLECTION_REQUIREMENT);
         }
 
-        public delegate void OnRequirementChainAddedHandler(IEnumerable<ChainObject> chains);
+        public enum ChainUpdateStatus
+        {
+            ADD = 1,
+            DELETE = 2,
+            UPDATE = 3
+        }
 
-        public event OnRequirementChainAddedHandler OnChainAdded;
+        public delegate void OnRequirementChainChangedEvent(IEnumerable<ChainObject> chains, ChainUpdateStatus status);
+
+        public event OnRequirementChainChangedEvent OnChainChanged;
 
         public void CallOnChainAdded(List<ChainObject> chains)
         {
-            OnChainAdded(chains);
+            OnChainChanged?.Invoke(chains, ChainUpdateStatus.ADD);
         }
 
         private Int32 getNextSequenceValue(String sequenceName)
@@ -46,6 +55,147 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             COL_CHAIN.InsertOne(chain);
             return chain.ChainId;
         }
-        
+
+
+
+        public void CallOnChainRemoved(List<ChainObject> chains)
+        {
+            OnChainChanged?.Invoke(chains, ChainUpdateStatus.DELETE);
+        }
+
+        public int AddRequirement(RequirementObject requirement)
+        {
+            requirement.RequirementId = getNextSequenceValue(MongoDBConfig.ID_REQUIREMENT);
+            COL_REQUIREMENT.InsertOne(requirement);
+            return requirement.RequirementId;
+        }
+
+        public bool UpdateRequirement(RequirementObject requirement)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", requirement.RequirementId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.ReplaceOne(filter, requirement);
+            return res.IsAcknowledged;
+        }
+
+        public bool CancelRequirement(int requirementId)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", requirementId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var update = Builders<RequirementObject>.Update
+                .Set("Deleted", true)
+                .CurrentDate("ModifyTime");
+            var res = COL_REQUIREMENT.UpdateOne(filter, update);
+            if (res.IsAcknowledged && res.ModifiedCount.Equals(1))
+            {
+                //TODO should be in a transaction
+                //remove corresponding RequirementObjChain in the chain
+                var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+                var updateChain = Builders<ChainObject>.Update
+                    .Set("Deleted", true)
+                    .CurrentDate("ModifyTime");
+                var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
+                if (chains.Count > 0)
+                {
+                    foreach (var chain in chains)
+                    {
+                        chain.Deleted = true;
+                    }
+                    COL_CHAIN.UpdateMany(filterChain, updateChain);
+                    //OnChainChanged(chains);
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /*        public bool UpdateRequirement(RequirementObject requirement)
+                {
+                    throw new NotImplementedException();
+                }
+                */
+
+        public IEnumerable<RequirementObject> QueryAllRequirements()
+        {
+            var filter = Builders<RequirementObject>.Filter.Gt("RequirementId", 0) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+        }
+
+        public IEnumerable<RequirementObject> QueryRequirements(string userId)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("UserId", userId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+
+        }
+
+        public RequirementObject QueryRequirementInfo(int requirementId)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", requirementId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).First();
+            return res;
+        }
+
+        public IEnumerable<RequirementObject> GetUnprocessedRequirements()
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", 0) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+        }
+
+        public IEnumerable<RequirementObject> GetProcessedRequirements()
+        {
+            var filter = Builders<RequirementObject>.Filter.Ne("RequirementStateId", 0) &
+                Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
+        }
+
+        public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)
+        {
+            var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+
+            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
+            return chains;
+        }
+
+        public ChainObject QueryChain(int chainId)
+        {
+            var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+            var res = COL_CHAIN.Find<ChainObject>(filter).First();
+            return res;
+        }
+
+        public bool ConfirmChainRequirement(int chainId)
+        {
+            try
+            {
+                var chain = QueryChain(chainId);
+                var list = chain.RequirementIdChain;
+                foreach (var i in list)
+                {
+                    var r = QueryRequirementInfo(i);
+                    if (r.Deleted) return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

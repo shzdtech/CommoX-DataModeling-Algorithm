@@ -33,7 +33,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Scheduler
             stopped = false;
             while (!stopped)
             {
-                matcher.makeChainIncreament();
+                matcher.make();
                 Task.Delay(timeIntervalSeconds * 1000).Wait();
             }
         }

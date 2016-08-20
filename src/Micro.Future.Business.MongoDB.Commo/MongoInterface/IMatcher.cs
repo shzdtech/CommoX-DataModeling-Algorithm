@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 {
-    public interface IRequirement
+    public interface IMatcher
     {
         int AddRequirement(RequirementObject requirement);
 

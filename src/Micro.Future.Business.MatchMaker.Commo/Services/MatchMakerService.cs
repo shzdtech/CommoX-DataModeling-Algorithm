@@ -15,13 +15,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Service
     public class MatchMakerService: IMatchMakerService
     {
         public MatcherHandler matcherHandler = new MatcherHandler();
-        public RequirementHandler requrementHandler = new RequirementHandler();
         public IScheduler scheduler;
         public BaseMatchMaker matcher;
 
         public MatchMakerService(MatcherConfig config)
         {
-            matcher = new GreedyMatchMaker(matcherHandler, requrementHandler);
+            matcher = new GreedyMatchMaker(matcherHandler);
             scheduler = new TimeScheduler(matcher, config.TIME_INTERVAL_SECONDS);
         }
 

@@ -19,7 +19,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         {
             var reqHandler = new RequirementHandler();
             var req1 = new RequirementObject();
-            var userId1 = 101;
+            var userId1 = "101";
             req1.Deleted = false;
             req1.EnterpriseId = 1;
             req1.UserId = userId1;
@@ -28,10 +28,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.ProductQuantity = 1000;
             req1.RequirementStateId = 0;
             req1.RequirementTypeId = 1;
+            req1.CreateTime = DateTime.Now;
+            req1.ModifyTime = DateTime.Now;
             var id1 = reqHandler.AddRequirement(req1);
 
             var req2 = new RequirementObject();
-            var userId2 = 102;
+            var userId2 = "102";
             req2.Deleted = false;
             req2.EnterpriseId = 1;
             req2.UserId = userId2;
@@ -40,10 +42,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req2.ProductQuantity = 1000;
             req2.RequirementStateId = 0;
             req2.RequirementTypeId = 2;
+            req2.CreateTime = DateTime.Now;
+            req2.ModifyTime = DateTime.Now;
             var id2 = reqHandler.AddRequirement(req2);
 
             var req = new RequirementObject();
-            var userId = 103;
+            var userId = "103";
             req.Deleted = false;
             req.EnterpriseId = 1;
             req.UserId = userId;
@@ -52,6 +56,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.ProductQuantity = 1000;
             req.RequirementStateId = 0;
             req.RequirementTypeId = 3;
+            req.CreateTime = DateTime.Now;
+            req.ModifyTime = DateTime.Now;
             var id = reqHandler.AddRequirement(req);
         }
 
@@ -59,7 +65,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         public void TestChainDAL()
         {
             var chainDAL = new ChainDAL();
-            var chainsByUid = chainDAL.QueryChains(101);
+            var chainsByUid = chainDAL.QueryChains("101");
 
             var chainId = chainsByUid[0].ChainId;
 
@@ -83,7 +89,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var matcherHandler = new MatcherHandler();
             
             var req = new RequirementObject();
-            var userId = 101;
+            var userId = "101";
             req.Deleted = false;
             req.EnterpriseId = 1;
             req.UserId = userId;

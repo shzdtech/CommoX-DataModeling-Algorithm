@@ -23,7 +23,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
         {
             var newChain = new ChainObject();
             var reqIdList = new List<int>();            
-            var userList = new List<int>();
+            var userList = new List<string>();
             var IsConfirmChain = new List<bool>();
             foreach(RequirementObject r in reqs)
             {

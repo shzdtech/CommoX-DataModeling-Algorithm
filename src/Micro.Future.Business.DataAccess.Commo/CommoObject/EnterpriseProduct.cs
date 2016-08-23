@@ -19,7 +19,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 产品Id
         /// </summary>
-        public int ProductId { get; set; }
+        public int ProductName { get; set; }
         /// <summary>
         /// 仓库地址
         /// </summary>

@@ -28,15 +28,15 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             // 1. new buyer -> all mid -> all seller
             foreach (RequirementObject req1 in newRequirements)
             {
-                if (req1.RequirementTypeId != 1) continue;
+                if (req1.RequirementTypeId != RequirementType.BUYER) continue;
                 foreach (RequirementObject req2 in union)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == RequirementType.MID && req1.ProductName == req2.ProductName)
                     {
                         foreach (RequirementObject req3 in union)
                         {
-                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == RequirementType.SELLER && req3.ProductName == req1.ProductName)
                             {
                                 var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
@@ -51,15 +51,15 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             // 2. old buyer -> all mid -> new seller
             foreach (RequirementObject req1 in processedRequirements)
             {
-                if (req1.RequirementTypeId != 1) continue;
+                if (req1.RequirementTypeId != RequirementType.BUYER) continue;
                 foreach (RequirementObject req2 in union)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == RequirementType.MID && req1.ProductName == req2.ProductName)
                     {
                         foreach (RequirementObject req3 in newRequirements)
                         {
-                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == RequirementType.SELLER && req3.ProductName == req1.ProductName)
                             {
                                 var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
@@ -74,15 +74,15 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             // 3. old buyer -> new mid -> old seller
             foreach (RequirementObject req1 in processedRequirements)
             {
-                if (req1.RequirementTypeId != 1) continue;
+                if (req1.RequirementTypeId != RequirementType.BUYER) continue;
                 foreach (RequirementObject req2 in newRequirements)
                 {
                     //RequirementTypeId: buyer = 1, seller = 2, others = 3
-                    if (req2.RequirementTypeId == 3 && req1.ProductId == req2.ProductId)
+                    if (req2.RequirementTypeId == RequirementType.MID && req1.ProductName == req2.ProductName)
                     {
                         foreach (RequirementObject req3 in processedRequirements)
                         {
-                            if (req3.RequirementTypeId == 2 && req3.ProductId == req1.ProductId)
+                            if (req3.RequirementTypeId == RequirementType.SELLER && req3.ProductName == req1.ProductName)
                             {
                                 var newChain = new ChainObject(
                                     new List<RequirementObject> { req1, req2, req3 });
@@ -97,7 +97,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             // mark the new added requirements as processed
             foreach (RequirementObject req1 in newRequirements)
             {
-                req1.RequirementStateId = 1;
+                req1.RequirementStateId = RequirementStatus.LOCKED;
                 matcherHandler.UpdateRequirement(req1);
             }
 

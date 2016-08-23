@@ -19,7 +19,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public int EnterpriseId { get; set; }
 
         
-        public int RequirementTypeId { get; set; }
+        public RequirementType RequirementTypeId { get; set; }
 
         /// <summary>
         /// 无用了
@@ -95,6 +95,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// </summary>
         public decimal TradeAmount { get; set; }
 
+        public decimal TradeAmountLeft { get; set; }
+
 
         /// <summary>
         /// 补贴额度，比如：我要1个亿的贸易量，我补贴贸易量的5%
@@ -104,7 +106,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
 
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-        public int RequirementStateId { get; set; }
+        public RequirementStatus RequirementStateId { get; set; }
         public bool Deleted { get; set; }
     }
 
@@ -120,4 +122,19 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public string FilterValue { get; set; }
         public int StateId { get; set; }
     }
+    public enum RequirementType
+    {
+        BUYER = 1,
+        SELLER = 2,
+        MID = 3
+    }
+
+    public enum RequirementStatus
+    {
+        OPEN = 0,
+        LOCKED = 1,
+        CONFIRMED = 2
+    }
+
+
 }

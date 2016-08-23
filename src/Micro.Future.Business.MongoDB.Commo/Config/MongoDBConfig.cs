@@ -14,6 +14,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
         public const String COLLECTION_COUNTERS = "counters";
         public const String ID_REQUIREMENT = "RequirementId";
         public const String ID_CHAIN = "ChainId";
+        public const String ID_MATCHER = "MatcherVersion";
         public const String FIELD_COUNTER_VALUE = "sequence_value";
     }
 }

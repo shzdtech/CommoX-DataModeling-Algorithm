@@ -20,7 +20,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Service
 
         public MatchMakerService(MatcherConfig config)
         {
-            matcher = new GreedyMatchMaker(matcherHandler);
+            if(config.MATCHER_TYPE == "greedy")
+                matcher = new GreedyMatchMaker(matcherHandler);
+            else if (config.MATCHER_TYPE == "rank")
+                matcher = new RankingMatchMaker(matcherHandler);
+            else // default
+                matcher = new RankingMatchMaker(matcherHandler);
             scheduler = new TimeScheduler(matcher, config.TIME_INTERVAL_SECONDS);
         }
 

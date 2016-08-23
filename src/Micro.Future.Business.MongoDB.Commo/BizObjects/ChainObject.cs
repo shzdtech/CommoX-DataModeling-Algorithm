@@ -21,7 +21,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
             {
                 reqIdList.Add(r.RequirementId);
                 userList.Add(r.UserId);
-                IsConfirmChain.Add(false);
+                isConfirmChain.Add(false);
             }
             RequirementIdChain = reqIdList;
             UserIdChain = userList;
@@ -41,10 +41,19 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public List<int> RequirementIdChain { get; set; }
         public List<bool> IsConfirmChain { get; set; }
         public List<string> UserIdChain { get; set; }
+        public int Version { get; set; }
         public bool isAllConfirmed { get; set; }
+        public ChainStatus ChainStateId { get; set; }
 
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
         public bool Deleted { get; set; }
+    }
+
+    public enum ChainStatus
+    {
+        OPEN = 0,
+        LOCKED = 1,
+        CONFIRMED = 2
     }
 }

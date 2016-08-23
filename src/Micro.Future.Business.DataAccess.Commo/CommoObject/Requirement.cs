@@ -15,7 +15,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         public int RequirementId { get; set; }
         public string UserId { get; set; }
         public int EnterpriseId { get; set; }
-        public int ProductId { get; set; }
+        public int ProductName { get; set; }
         /// <summary>
         /// 需求类型：如出货、出钱、补贴、汇票等
         /// </summary>

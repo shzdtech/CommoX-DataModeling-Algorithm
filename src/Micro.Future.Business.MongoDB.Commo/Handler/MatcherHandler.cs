@@ -49,6 +49,101 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return counter.sequence_value;
         }
 
+        private Int32 getCurrentMatcherVersion()
+        {
+            var filter = Builders<MongoCounter>.Filter.Eq("_id", MongoDBConfig.ID_MATCHER);
+            var counter = COL_COUNTER.Find<MongoCounter>(filter).First();
+            return counter.sequence_value - 1; 
+        }
+
+        public void AddMatcherChains(IList<ChainObject> chains)
+        {
+            var version = getNextSequenceValue(MongoDBConfig.ID_MATCHER);
+            foreach (var chain in chains)
+            {
+                var chainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
+                chain.ChainId = chainId;
+                chain.Version = version;
+            }
+            COL_CHAIN.InsertMany(chains);
+        }
+
+        public IList<ChainObject> GetMatcherChains(ChainStatus stauts, bool isLatestVersion = true)
+        {
+            var version = 0;
+            if (isLatestVersion) version = getCurrentMatcherVersion();
+            var filterChain = Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)stauts) &
+                    Builders<ChainObject>.Filter.Gte("Version", version);
+
+            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
+            return chains;
+        }
+
+        public IList<ChainObject> GetMatcherChainsByRequirementId(int requirementId, ChainStatus stauts, bool isLatestVersion = true)
+        {
+            var version = 0;
+            if (isLatestVersion) version = getCurrentMatcherVersion();
+            var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)stauts) &
+                    Builders<ChainObject>.Filter.Gte("Version", version);
+
+            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
+            return chains;
+        }
+
+        public IList<ChainObject> GetMatcherChainsByUserId(String userId, ChainStatus status, bool isLatestVersion = true)
+        {
+            var version = 0;
+            if(isLatestVersion) version = getCurrentMatcherVersion();
+            var filterChain = Builders<ChainObject>.Filter.AnyEq("UserIdChain", userId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)status) &
+                    Builders<ChainObject>.Filter.Gte("Version", version);
+
+            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
+            return chains;
+        }
+
+        public bool LockMatcherChain(int chainId)
+        {
+            return updateChainStatus(chainId, ChainStatus.LOCKED, RequirementStatus.LOCKED);
+        }
+
+        public bool UnLockMatcherChain(int chainId)
+        {
+            return updateChainStatus(chainId, ChainStatus.OPEN, RequirementStatus.OPEN);
+        }
+
+        public bool ConfirmMatcherChain(int chainId)
+        {
+            return updateChainStatus(chainId, ChainStatus.CONFIRMED, RequirementStatus.CONFIRMED);
+        }
+
+        private bool updateChainStatus(int chainId, ChainStatus chainStatus, RequirementStatus reqStatus)
+        {
+            var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+            var chain = COL_CHAIN.Find<ChainObject>(filter).First();
+            var update = Builders<ChainObject>.Update
+                .Set("ChainStateId", (int)chainStatus)
+                .CurrentDate("ModifyTime");
+            var res1 = COL_CHAIN.UpdateOne(filter, update);
+            var reqfilter = Builders<RequirementObject>.Filter.In("RequirementId", chain.RequirementIdChain) &
+                Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            var requpdate = Builders<RequirementObject>.Update
+                .Set("RequirementStateId", (int)reqStatus)
+                .CurrentDate("ModifyTime");
+            var res2 = COL_REQUIREMENT.UpdateMany(reqfilter, requpdate);
+            if (res1.IsAcknowledged && res2.IsAcknowledged) return true;
+            else return false;
+        }
+
+
         public int AddRequirementChain(ChainObject chain)
         {
             chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
@@ -112,12 +207,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                 return false;
             }
         }
-
-        /*        public bool UpdateRequirement(RequirementObject requirement)
-                {
-                    throw new NotImplementedException();
-                }
-                */
 
         public IEnumerable<RequirementObject> QueryAllRequirements()
         {
@@ -195,6 +284,19 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             {
                 return false;
             }
+        }
+
+        public IList<RequirementObject> getReqSortedByAmountDesc(RequirementType requirementType)
+        {
+            var requirementTypeId = (int)requirementType;
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)RequirementStatus.OPEN) &
+                Builders<RequirementObject>.Filter.Eq("Deleted", false) & 
+                Builders<RequirementObject>.Filter.Eq("RequirementTypeId", requirementTypeId);
+            var builder = Builders<RequirementObject>.Sort;
+            var sort = builder.Descending("TradeAmount");
+
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).Sort(sort).ToList();
+            return res;
         }
 
     }

@@ -23,11 +23,11 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.Deleted = false;
             req1.EnterpriseId = 1;
             req1.UserId = userId1;
-            req1.ProductId = 10;
+            req1.ProductName = "10";
             req1.ProductPrice = 100;
             req1.ProductQuantity = 1000;
             req1.RequirementStateId = 0;
-            req1.RequirementTypeId = 1;
+            req1.RequirementTypeId = RequirementType.BUYER;
             req1.CreateTime = DateTime.Now;
             req1.ModifyTime = DateTime.Now;
             var id1 = reqHandler.AddRequirement(req1);
@@ -37,11 +37,11 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req2.Deleted = false;
             req2.EnterpriseId = 1;
             req2.UserId = userId2;
-            req2.ProductId = 10;
+            req2.ProductName = "10";
             req2.ProductPrice = 100;
             req2.ProductQuantity = 1000;
             req2.RequirementStateId = 0;
-            req2.RequirementTypeId = 2;
+            req2.RequirementTypeId = RequirementType.SELLER;
             req2.CreateTime = DateTime.Now;
             req2.ModifyTime = DateTime.Now;
             var id2 = reqHandler.AddRequirement(req2);
@@ -51,11 +51,11 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.Deleted = false;
             req.EnterpriseId = 1;
             req.UserId = userId;
-            req.ProductId = 10;
+            req.ProductName = "10";
             req.ProductPrice = 100;
             req.ProductQuantity = 1000;
             req.RequirementStateId = 0;
-            req.RequirementTypeId = 3;
+            req.RequirementTypeId = RequirementType.MID;
             req.CreateTime = DateTime.Now;
             req.ModifyTime = DateTime.Now;
             var id = reqHandler.AddRequirement(req);
@@ -93,11 +93,11 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req.Deleted = false;
             req.EnterpriseId = 1;
             req.UserId = userId;
-            req.ProductId = 10;
+            req.ProductName = "10";
             req.ProductPrice = 100;
             req.ProductQuantity = 1000;
             req.RequirementStateId = 0;
-            req.RequirementTypeId = 1;
+            req.RequirementTypeId = RequirementType.BUYER;
             var id = reqHandler.AddRequirement(req);
             var queryRes = reqHandler.QueryRequirementInfo(req.RequirementId);
 

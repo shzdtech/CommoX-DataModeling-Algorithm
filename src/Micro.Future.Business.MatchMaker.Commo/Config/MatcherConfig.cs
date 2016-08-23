@@ -8,8 +8,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Config
     public class MatcherConfig
     {
         public int TIME_INTERVAL_SECONDS = 120;
-        public string MATCHER_TYPE = "greedy";
+        public string MATCHER_TYPE = "rank";
         public string SCHEDULER_TYPE = "time";
-        public bool START_BYDEFAULT = true;
+        public bool START_BYDEFAULT = false;
     }
 }

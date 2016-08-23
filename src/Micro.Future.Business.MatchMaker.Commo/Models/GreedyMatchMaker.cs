@@ -19,6 +19,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
         public void make()
         {
+            /**
             var newRequirements = matcherHandler.GetUnprocessedRequirements();
             var processedRequirements = matcherHandler.GetProcessedRequirements();
             var union = newRequirements.Union(processedRequirements);
@@ -109,6 +110,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
             // call EventHandler
             matcherHandler.CallOnChainAdded(res);
+    **/
         }   
     }
 }

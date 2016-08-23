@@ -101,8 +101,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var id = reqHandler.AddRequirement(req);
             var queryRes = reqHandler.QueryRequirementInfo(req.RequirementId);
 
-            var chains = reqHandler.QueryRequirementChains(180);
-            var size = chains.Count();
+            //var chains = reqHandler.QueryRequirementChains(180);
+            //var size = chains.Count();
 
             var res = reqHandler.CancelRequirement(req.RequirementId);
 

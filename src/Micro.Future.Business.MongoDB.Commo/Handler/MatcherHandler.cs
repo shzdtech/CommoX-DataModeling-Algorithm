@@ -143,16 +143,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             else return false;
         }
 
-
-        public int AddRequirementChain(ChainObject chain)
-        {
-            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
-            COL_CHAIN.InsertOne(chain);
-            return chain.ChainId;
-        }
-
-
-
         public void CallOnChainRemoved(List<ChainObject> chains)
         {
             OnChainChanged?.Invoke(chains, ChainUpdateStatus.DELETE);
@@ -233,6 +223,14 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
+        /**
+        public int AddRequirementChain(ChainObject chain)
+        {
+            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
+            COL_CHAIN.InsertOne(chain);
+            return chain.ChainId;
+        }
+
         public IEnumerable<RequirementObject> GetUnprocessedRequirements()
         {
             var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", 0) &
@@ -285,6 +283,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                 return false;
             }
         }
+    **/
 
         public IList<RequirementObject> getReqSortedByAmountDesc(RequirementType requirementType)
         {

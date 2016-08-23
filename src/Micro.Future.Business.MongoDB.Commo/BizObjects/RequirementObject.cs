@@ -61,6 +61,17 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public string ProductUnit { get; set; }
 
 
+        public decimal PaymentAmount { get; set; }
+
+        /// <summary>
+        /// 货款支付时间
+        /// </summary>
+        public string PaymentDateTime { get; set; }
+
+        /// <summary>
+        /// 支付方式
+        /// </summary>
+        public string PaymentType { get; set; }
 
         #region 仓储信息
 
@@ -95,13 +106,43 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// </summary>
         public decimal TradeAmount { get; set; }
 
-        public decimal TradeAmountLeft { get; set; }
+        public decimal TradeProfit { get; set; }
+
+        /// <summary>
+        /// 企业类型
+        /// </summary>
+        public string EnterpriseType { get; set; }
+
+        /// <summary>
+        /// 经营范围
+        /// </summary>
+        public string BusinessRange { get; set; }
 
 
         /// <summary>
         /// 补贴额度，比如：我要1个亿的贸易量，我补贴贸易量的5%
         /// </summary>
         public decimal Subsidies { get; set; }
+
+        /// <summary>
+        /// 仓库开户
+        /// </summary>
+        public string WarehouseAccount { get; set; }
+
+        /// <summary>
+        /// 发票面额
+        /// </summary>
+        public string InvoiceValue { get; set; }
+
+        /// <summary>
+        /// 发票开具时间
+        /// </summary>
+        public string InvoiceIssueDateTime { get; set; }
+
+        /// <summary>
+        /// 发票交接方式
+        /// </summary>
+        public string InvoiceTransferMode { get; set; }
 
 
         public DateTime CreateTime { get; set; }

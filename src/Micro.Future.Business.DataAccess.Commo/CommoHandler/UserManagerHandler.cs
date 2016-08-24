@@ -9,9 +9,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class UserManagerHandler : IUserManager
     {
+        private CommoXContext db = null;
+        public UserManagerHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
+
         public User userRegister(User user)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Users.Add(user);
                 int count = db.SaveChanges();
@@ -29,7 +35,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         /// <returns></returns>
         public User userLogin(User user)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var users = db.Users.Where(u => u.UserName.Equals(user.UserName))
                                     .Where(u => u.Password.Equals(user.Password))

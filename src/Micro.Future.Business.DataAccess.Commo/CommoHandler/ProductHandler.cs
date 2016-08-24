@@ -9,9 +9,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class ProductHandler :IProduct
     {
+        private CommoXContext db = null;
+        public ProductHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
         public IList<Product> queryAllProduct()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var products = db.Products.ToList();
                 return products;
@@ -20,7 +25,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Product queryProduct(int productId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.Products.SingleOrDefault(p => p.ProductId == productId);
             }
@@ -28,7 +33,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Product saveProduct(Product product)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Products.Add(product);
                 int count = db.SaveChanges();
@@ -46,7 +51,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public ProductType submitProductType(ProductType productType)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.ProductTypes.Add(productType);
                 int count = db.SaveChanges();
@@ -58,14 +63,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         }
         public ProductType queryProductType(int productTypeId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.ProductTypes.SingleOrDefault(p => p.ProductTypeId == productTypeId);
             }
         }
         public IList<ProductType> queryAllProductType()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.ProductTypes.ToList();
             }

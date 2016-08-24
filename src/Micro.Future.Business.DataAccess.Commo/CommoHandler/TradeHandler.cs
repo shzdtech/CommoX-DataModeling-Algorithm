@@ -9,10 +9,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class TradeHandler : ITrade
     {
+        private CommoXContext db = null;
+        public TradeHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
 
         public Trade submitTrade(Trade trade)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Trades.Add(trade);
                 int result = db.SaveChanges();
@@ -25,7 +30,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public TradeChain submitTradeChain(TradeChain tradechain)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.TradeChains.Add(tradechain);
                 int result = db.SaveChanges();
@@ -37,7 +42,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         }
         public Trade queryTrade(int tradeId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
                 return result;
@@ -47,7 +52,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<TradeChain> queryTradeChain(int tradeId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.TradeChains.Where(tc => tc.TradeId == tradeId).ToList();
                 return result;
@@ -56,7 +61,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool updateTradeState(int tradeId, string state)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var trade = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
                 trade.CurrentState = state;
@@ -71,7 +76,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Trade> queryAllTrade(string userId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return (from o in db.Orders
                             join t in db.Trades on o.TradeId equals t.TradeId

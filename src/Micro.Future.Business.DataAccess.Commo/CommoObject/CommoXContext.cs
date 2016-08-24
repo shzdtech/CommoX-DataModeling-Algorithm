@@ -29,12 +29,19 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<TradeChain> TradeChains { get; set; }
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public CommoXContext(DbContextOptions<CommoXContext> options) : base(options)
         {
-            // optionsBuilder.UseSqlServer(@"Server=(114.55.54.144)\mssqllocaldb;Database=master;Trusted_Connection=True;");
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
-            optionsBuilder.UseSqlServer(@"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo;");
+
         }
+ 
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    // optionsBuilder.UseSqlServer(@"Server=(114.55.54.144)\mssqllocaldb;Database=master;Trusted_Connection=True;");
+        //    //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
+        //    optionsBuilder.UseSqlServer(@"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo;");
+        //}
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

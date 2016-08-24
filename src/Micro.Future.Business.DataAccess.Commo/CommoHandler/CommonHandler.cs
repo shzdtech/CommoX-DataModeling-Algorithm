@@ -9,9 +9,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class CommonHandler : ICommon
     {
+        private CommoXContext db = null;
+
+        public CommonHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
         public AcceptanceBill queryAcceptanceBill(int AcceptanceBillId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.AcceptanceBills.SingleOrDefault(p => p.AcceptanceBillId == AcceptanceBillId);
             }
@@ -19,7 +25,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<AcceptanceBill> queryAcceptanceBillByEnterprise(int enterpriseId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.AcceptanceBills.Where(p => p.EnterpriseId == enterpriseId).ToList();
             }
@@ -27,7 +33,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Bank> queryAllBank()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.Banks.ToList();
             }
@@ -35,7 +41,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<BusinessType> queryAllBusinessType()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.BusinessTypes.ToList();
             }
@@ -43,7 +49,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<OrderState> queryAllOrderState()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.OrderStates.ToList();
             }
@@ -51,7 +57,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<PaymentMethod> queryAllPaymentMethod()
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.PaymentMethods.ToList();
             }
@@ -59,7 +65,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Bank queryBank(int bankId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.Banks.SingleOrDefault(p => p.BankId == bankId);
             }
@@ -67,7 +73,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public BusinessType queryBusinessType(int BusinessTypeId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.BusinessTypes.SingleOrDefault(p => p.BusinessTypeId == BusinessTypeId);
             }
@@ -75,7 +81,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public OrderState queryOrderState(int stateId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.OrderStates.SingleOrDefault(p => p.OrderStateId == stateId);
             }
@@ -83,7 +89,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public PaymentMethod queryPaymentMethod(int PaymentMethodId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.PaymentMethods.SingleOrDefault(p => p.PaymentMethodId == PaymentMethodId);
             }
@@ -91,7 +97,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public AcceptanceBill submictAcceptanceBill(AcceptanceBill bill)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.AcceptanceBills.Add(bill);
                 int count = db.SaveChanges();
@@ -104,7 +110,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public OrderState submictOrderState(OrderState orderstate)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.OrderStates.Add(orderstate);
                 int count = db.SaveChanges();
@@ -117,7 +123,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Bank submitBank(Bank bank)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Banks.Add(bank);
                 int count = db.SaveChanges();
@@ -130,7 +136,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public BusinessType submitBusinessType(BusinessType type)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.BusinessTypes.Add(type);
                 int count = db.SaveChanges();
@@ -143,7 +149,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public PaymentMethod submitPaymentMethod(PaymentMethod paymethod)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.PaymentMethods.Add(paymethod);
                 int count = db.SaveChanges();

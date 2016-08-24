@@ -9,9 +9,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class EnterpriseHandler : IEnterprise
     {
+        private CommoXContext db = null;
+        public EnterpriseHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
         public Enterprise AddEnterprise(Enterprise enterprise)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Enterprises.Add(enterprise);
                 int count = db.SaveChanges();
@@ -24,7 +29,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Enterprise QueryEnterpriseInfo(int enterpriseId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var enterprise = db.Enterprises.Single(e => e.EnterpriseId.Equals(enterpriseId));
                 return enterprise;
@@ -33,7 +38,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Enterprise QueryEnterpriseInfo(String name)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var enterprise = db.Enterprises.Where(e => e.Name.Contains(name))
                                                 .First();
@@ -44,7 +49,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Enterprise> QueryEnterpriseList(String name)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var enterprise = db.Enterprises.Where(e => e.Name.Contains(name))
                                                 .ToList();

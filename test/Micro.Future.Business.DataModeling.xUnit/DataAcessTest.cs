@@ -1,6 +1,7 @@
 ﻿using Micro.Future.Business.DataAccess.Commo;
 using Micro.Future.Business.DataAccess.Commo.CommoHandler;
 using Micro.Future.Business.DataAccess.Commo.CommoObject;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +13,24 @@ namespace Micro.Future.Business.DataModeling.xUnit
     public class DataAcessTest
     {
         User user = new User();
-
-
+        string connect = @"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo;";
+        CommoXContext db;
         public DataAcessTest()
         {
             user.UserName = "1000001";
             user.Password = "abc123";
             user.Phone = "13166887987";
             user.LastLoginTime = DateTime.Now;
-
+            var optionsBuilder = new DbContextOptionsBuilder<CommoXContext>();
+            optionsBuilder.UseSqlServer(connect);
+            db = new CommoXContext(optionsBuilder.Options);
 
         }
 
         [Fact]
         public void TestRegisterConnection()
         {
-            var handler = new UserManagerHandler();
+            var handler = new UserManagerHandler(db);
             var usertest = handler.userRegister(user);
             Console.WriteLine("userRegister result: " + usertest.UserId);
 
@@ -36,7 +39,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestLoginConnection()
         {
-            var handler = new UserManagerHandler();
+            var handler = new UserManagerHandler(db);
             var userLogin = handler.userLogin(user);
             Console.WriteLine("loginresult result: " + userLogin);
 
@@ -45,7 +48,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestTradeHandler()
         {
-            var tradehandler = new TradeHandler();
+            var tradehandler = new TradeHandler(db);
             Trade trade = new Trade();
             trade.TradeAmount = 1000000;
             trade.TradeFee = 100;
@@ -56,7 +59,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             trade = tradehandler.submitTrade(trade);
 
 
-            var orderhandler = new OrderHandler();
+            var orderhandler = new OrderHandler(db);
             if(trade.TradeId > 0)
             {
                 //for each requirement ...
@@ -118,7 +121,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             int orderId = 10005;
             string exeUserName = "test";
             string state = "完成";
-            var orderhandler = new OrderHandler();
+            var orderhandler = new OrderHandler(db);
 
             orderhandler.updateOrderState(orderId, exeUserName, state);
 
@@ -151,7 +154,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.RegisterNumber = "2334234" ;
             enterprise.RegisterTime = DateTime.Parse("2012-02-14");
             enterprise.ReputationGrade = 5;
-            var handler = new EnterpriseHandler();
+            var handler = new EnterpriseHandler(db);
             handler.AddEnterprise(enterprise);
 
         }

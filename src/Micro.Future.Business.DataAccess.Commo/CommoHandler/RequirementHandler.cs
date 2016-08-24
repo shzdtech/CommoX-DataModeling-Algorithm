@@ -9,9 +9,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class RequirementHandler : IRequirement
     {
+        private CommoXContext db = null;
+        public RequirementHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
         public Requirement saveRequirement(Requirement require)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Requirements.Add(require);
                 int result = db.SaveChanges();
@@ -25,7 +30,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool saveRequirementFilters(IEnumerable<RequirementFilter> filters)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 foreach (RequirementFilter filter in filters)
                 {
@@ -39,7 +44,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Requirement queryRequirementInfo(int requirementId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.Requirements.SingleOrDefault(f => f.RequirementId == requirementId);
             }
@@ -47,7 +52,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Requirement> queryRequirements(string userId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 return db.Requirements.Where(f => f.UserId == userId).ToList();
             }
@@ -55,7 +60,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<RequirementFilter> queryRequirementFilters(int requirementId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 //var query = from r in db.Requirements
                 //            join f in db.RequirementFilters on r.RequirementId equals f.RequirementId

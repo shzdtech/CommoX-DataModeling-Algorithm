@@ -9,9 +9,14 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
     public class OrderHandler : IOrder
     {
+        private CommoXContext db = null;
+        public OrderHandler(CommoXContext dbContext)
+        {
+            db = dbContext;
+        }
         public Order submitOrder(Order order)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 db.Orders.Add(order);
                 int result = db.SaveChanges();
@@ -25,7 +30,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
     
         public Order queryOrder(int orderId)
         {
-            using (var db = new CommoXContext())
+            //ing (var db = new CommoXContext())
             {
                 var result = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
                 return result;
@@ -35,7 +40,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Order queryOrderByUser(string userId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.Orders.SingleOrDefault(t => t.UserId == userId);
                 return result;
@@ -45,7 +50,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Order queryOrderByRequirement(int requirementId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.Orders.SingleOrDefault(t => t.RequirementId == requirementId);
                 return result;
@@ -55,7 +60,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Order queryOrderByEnterprise(int enterpriseId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.Orders.SingleOrDefault(t => t.EnterpriseId == enterpriseId);
                 return result;
@@ -65,7 +70,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool updateOrderState(int orderId, string executUserName, string state)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var order = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
                 if (order != null)
@@ -85,7 +90,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Order> queryTradeOrder(int tradeId)
         {
-            using (var db = new CommoXContext())
+            //using (var db = new CommoXContext())
             {
                 var result = db.Orders.Where(t => t.TradeId == tradeId).ToList();
                 if (result != null)

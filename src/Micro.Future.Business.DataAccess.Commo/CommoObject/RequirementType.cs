@@ -17,4 +17,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         public int StateId { get; set; }
 
     }
+
+    public class RequirementState
+    {
+        [Key]
+        public int RequirementStateId { get; set; }
+        public string RequirementStateName { get; set; }
+    }
+
+
 }

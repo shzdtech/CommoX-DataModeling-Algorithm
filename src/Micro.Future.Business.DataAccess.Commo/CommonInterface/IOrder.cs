@@ -14,13 +14,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         IList<Order> queryTradeOrder(int tradeId);
 
-        Order queryOrderByUser(string userId);
+        Order queryOrderByUser(int userId);
 
         Order queryOrderByRequirement(int requirementId);
 
         Order queryOrderByEnterprise(int enterpriseId);
 
-        bool updateOrderState(int orderId, string executUserName, string state);
+        bool updateOrderState(int orderId, int executUserId, int state);
 
     }
 }

@@ -38,7 +38,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public Order queryOrderByUser(string userId)
+        public Order queryOrderByUser(int userId)
         {
             //using (var db = new CommoXContext())
             {
@@ -68,15 +68,15 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public bool updateOrderState(int orderId, string executUserName, string state)
+        public bool updateOrderState(int orderId, int executUserId, int state)
         {
             //using (var db = new CommoXContext())
             {
                 var order = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
                 if (order != null)
                 {
-                    order.ExecuteUsername = executUserName;
-                    order.OrderState = state;
+                    order.ExecuteUserId = executUserId;
+                    order.OrderStateId = state;
                     order.ModifyTime = DateTime.Now;
                     int result = db.SaveChanges();
                     if (result > 0)

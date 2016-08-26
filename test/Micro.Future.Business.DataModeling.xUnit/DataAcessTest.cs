@@ -67,47 +67,91 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 Order order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 1;
-                order.UserId = "100001";
-                order.RequirementFilters = "product=au;price=1000";
+                order.UserId = 100001;
                 order.RequirementId = 100001;
-                order.RequirementRemarks = "备注！！";
-                order.RequirementType = "出货";
                 order.EnterpriseId = 10001;
-                order.EnterpriseName = "A COMPANY";
-                order.OrderState = "完成";
+
+                order.RequirementStateId = 1;
+                order.RequirementTypeId = 2;
+                order.RequirementRemarks = "I am 备注！！";
+
                 order.CreateTime = DateTime.Now;
                 order.ModifyTime = DateTime.Now;
                 order.CompleteTime = DateTime.Now;
+                order.OrderStateId = 101;
+                order.ExecuteUserId = 100011;
+
+                order.ProductName = "铜";
+                order.ProductType = "有色";
+                order.ProductSpecification = "货物规格：Cu_Ag>=99.95%";
+                order.ProductPrice = 100;
+                order.ProductQuantity = 10000;
+                order.ProductUnit = "吨";
+                order.WarehouseState = "上海";
+
+                order.WarehouseAccount = "开户";
+                order.InvoiceValue = "10000";
+                order.InvoiceIssueDateTime = "2017-01-01";
+                order.InvoiceTransferMode = "面给";
+
                 order = orderhandler.submitOrder(order);
 
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 2;
-                order.UserId = "100002";
-                order.RequirementFilters = "paymethod=cash";
+                order.UserId = 100002;
                 order.RequirementId = 100002;
-                order.RequirementRemarks = "备注！！";
-                order.RequirementType = "贸易量";
                 order.EnterpriseId = 10002;
-                order.EnterpriseName = "B COMPANY";
-                order.OrderState = "进行中";
+
+                order.RequirementStateId = 1;
+                order.RequirementTypeId = 3;
+                order.RequirementRemarks = "I am 购销！！";
+
                 order.CreateTime = DateTime.Now;
                 order.ModifyTime = DateTime.Now;
+                order.OrderStateId = 100;
+                order.ExecuteUserId = 100022;
+
+                order.TradeAmount = 88888888;
+                order.TradeProfit = 8;
+                order.EnterpriseType = "国企";
+                order.BusinessRange = "有色金属";
+
+                order.WarehouseAccount = "开户";
+                order.InvoiceValue = "20000";
+                order.InvoiceIssueDateTime = "2017-01-01";
+                order.InvoiceTransferMode = "面给";
+
                 order = orderhandler.submitOrder(order);
+
+
 
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 3;
-                order.UserId = "100003";
-                order.RequirementFilters = "paymethod=cash";
+                order.UserId = 100003;
                 order.RequirementId = 100003;
-                order.RequirementRemarks = "备注！！";
-                order.RequirementType = "出资";
                 order.EnterpriseId = 10003;
-                order.EnterpriseName = "C COMPANY";
-                order.OrderState = "等待";
+
+                order.RequirementStateId = 1;
+                order.RequirementTypeId = 3;
+                order.RequirementRemarks = "I am 备注！！";
+
                 order.CreateTime = DateTime.Now;
                 order.ModifyTime = DateTime.Now;
+
+                order.OrderStateId = 102;
+                order.ExecuteUserId = 100033;
+
+                order.PaymentAmount = 9999999;
+                order.PaymentDateTime = "2016-08-30";
+                order.PaymentType = "现金";
+
+                order.WarehouseAccount = "开户";
+                order.InvoiceValue = "5000";
+                order.InvoiceIssueDateTime = "2017-01-01";
+                order.InvoiceTransferMode = "面给";
+
                 order = orderhandler.submitOrder(order);
 
 
@@ -118,17 +162,17 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestTradeUpdate()
         {
-            int orderId = 10005;
-            string exeUserName = "test";
-            string state = "完成";
+            int orderId = 10010;
+            int exeUseruserId = 100077;
+            int state = 101;
             var orderhandler = new OrderHandler(db);
 
-            orderhandler.updateOrderState(orderId, exeUserName, state);
+            orderhandler.updateOrderState(orderId, exeUseruserId, state);
 
-            orderId = 10006;
-            exeUserName = "test";
-            state = "进行中";
-            orderhandler.updateOrderState(orderId, exeUserName, state);
+            orderId = 10011;
+            exeUseruserId = 100088;
+            state = 102;
+            orderhandler.updateOrderState(orderId, exeUseruserId, state);
 
         }
         [Fact]
@@ -159,6 +203,16 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
         }
 
+
+        [Fact]
+        public void TestEnterpriseQuery()
+        {
+            Enterprise enterprise = new Enterprise();
+           
+            var handler = new EnterpriseHandler(db);
+            enterprise = handler.QueryEnterpriseInfo(123);
+
+        }
 
     }
 

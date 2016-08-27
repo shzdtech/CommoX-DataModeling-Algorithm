@@ -67,7 +67,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 Order order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 1;
-                order.UserId = 100001;
+                order.UserId = "100001";
                 order.RequirementId = 100001;
                 order.EnterpriseId = 10001;
 
@@ -99,7 +99,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 2;
-                order.UserId = 100002;
+                order.UserId = "100002";
                 order.RequirementId = 100002;
                 order.EnterpriseId = 10002;
 
@@ -129,7 +129,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order = new Order();
                 order.TradeId = trade.TradeId;
                 order.TradeSequence = 3;
-                order.UserId = 100003;
+                order.UserId = "100003";
                 order.RequirementId = 100003;
                 order.EnterpriseId = 10003;
 

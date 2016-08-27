@@ -32,7 +32,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 用户Id
         /// </summary>
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// 企业Id

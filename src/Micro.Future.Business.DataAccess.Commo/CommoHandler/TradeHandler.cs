@@ -74,7 +74,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                
         }
 
-        public IList<Trade> queryAllTrade(int userId)
+        public IList<Trade> queryAllTrade(string userId)
         {
             //using (var db = new CommoXContext())
             {

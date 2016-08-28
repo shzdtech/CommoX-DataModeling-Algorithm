@@ -78,11 +78,19 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 for(int i = 0; i < listMids.Count && prevUtility > 0; i++) {
                     var mid = listMids.Values[i];
                     var midKey = listMids.Keys[i];
+
                     // TODO if mid doesn't satisfy the filter condition, continue
+                    bool filterflag = false;
                     if(mid.EnterpriseId == buyer.EnterpriseId || mid.EnterpriseId == seller.EnterpriseId)
                     {
-                        continue;
+                        filterflag = true;
                     }
+                    foreach(var m in mlist)
+                    {
+                        if (m.EnterpriseId == mid.EnterpriseId) filterflag = true;
+                    }
+                    if (filterflag) continue;
+
                     mlist.Add(mid);
                     var utility = calUtility(buyer, seller, mlist);
                     var delta = utility - prevUtility;

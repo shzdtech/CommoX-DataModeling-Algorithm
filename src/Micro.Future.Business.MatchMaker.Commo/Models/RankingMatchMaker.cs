@@ -52,14 +52,37 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     listBuyers.RemoveAt(0);
                     continue;
                 }
-                var seller = dict[buyer.ProductName].Values[0];
+                RequirementObject seller = null;
+                // filter seller 
+                // 1. seller should has an acceptable sell price
+                // 2. seller can be the same company with buyer
+                for (var i = 0; i < dict[buyer.ProductName].Count; i++)
+                {
+                    var s = dict[buyer.ProductName].Values[i];
+                    if (isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, 0.05) && s.EnterpriseId != buyer.EnterpriseId)
+                    {
+                        seller = s;
+                        break;
+                    } 
+                }
+                // no matched seller currently
+                if (seller == null)
+                {
+                    listBuyers.RemoveAt(0);
+                    continue;
+
+                }
                 var mlist = new List<RequirementObject>();
                 var prevUtility = calUtility(buyer, seller, mlist);
 
-                for(int i = 0; i < listMids.Count; i++) {
+                for(int i = 0; i < listMids.Count && prevUtility > 0; i++) {
                     var mid = listMids.Values[i];
                     var midKey = listMids.Keys[i];
                     // TODO if mid doesn't satisfy the filter condition, continue
+                    if(mid.EnterpriseId == buyer.EnterpriseId || mid.EnterpriseId == seller.EnterpriseId)
+                    {
+                        continue;
+                    }
                     mlist.Add(mid);
                     var utility = calUtility(buyer, seller, mlist);
                     var delta = utility - prevUtility;
@@ -72,6 +95,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     {
                         listMids.Remove(midKey);
                     }
+                    prevUtility = utility;
                 }
 
                 if(mlist.Count > 0)
@@ -112,6 +136,16 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 slist.Add(i, list[i]);
             }
             return slist;
+        }
+
+        private bool isPriceAcceptable(double buyerPrice, double sellerPrice, double deviance)
+        {
+            if (buyerPrice >= sellerPrice * (1 - deviance) || buyerPrice <= sellerPrice * (1 + deviance))
+            {
+                return true;
+            }
+            else return false;
+
         }
 
         

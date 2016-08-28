@@ -19,7 +19,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.Deleted = false;
             req1.EnterpriseId = 1;
             req1.UserId = "1101";
-            req1.ProductName = "B";
+            req1.ProductName = "A";
             req1.ProductPrice = 100;
             req1.ProductQuantity = 1000;
             req1.TradeAmount = 110000;
@@ -32,7 +32,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req2.Deleted = false;
             req2.EnterpriseId = 2;
             req2.UserId = "1102";
-            req2.ProductName = "B";
+            req2.ProductName = "A";
             req2.ProductPrice = 100;
             req2.ProductQuantity = 900;
             req2.TradeAmount = 90000;
@@ -68,7 +68,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             matcherHandler.AddRequirement(req4);
             var matcherMaker = new RankingMatchMaker(matcherHandler);
             matcherMaker.make();
-
+            
             // Get the open chains with the latest match version of the given userid 
             var chains = matcherHandler.GetMatcherChainsByUserId("1101", ChainStatus.OPEN);
 
@@ -89,7 +89,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             // Get ALl confirmed Chains
             // Set isLatestVersion to false to get all confirmed chains, because some confirmed chains may be with the old version
             var allConfirmedChains = matcherHandler.GetMatcherChains(ChainStatus.CONFIRMED, false);
-
+    
             return;
         }
 

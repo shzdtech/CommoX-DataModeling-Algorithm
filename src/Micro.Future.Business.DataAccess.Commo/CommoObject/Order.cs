@@ -223,7 +223,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
 
         #endregion
 
-
+        /// <summary>
+        /// 需求的撮合规则
+        /// </summary>
+        public IList<RequirementRule> Rules { get; set; }
 
 
     }

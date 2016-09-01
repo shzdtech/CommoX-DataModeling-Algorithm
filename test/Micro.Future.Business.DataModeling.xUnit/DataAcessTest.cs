@@ -93,6 +93,14 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order.InvoiceValue = "10000";
                 order.InvoiceIssueDateTime = "2017-01-01";
                 order.InvoiceTransferMode = "面给";
+                //RequirementRule rule = new RequirementRule();
+                //rule.RuleId = 1;
+                //rule.RuleType = 1;
+                //rule.Key = "企业类型";
+                //rule.Value = "国企";
+                //rule.OperationId = 1;
+
+                //order.Rules.Add(rule);
 
                 order = orderhandler.submitOrder(order);
 

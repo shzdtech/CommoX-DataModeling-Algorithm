@@ -145,8 +145,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public string InvoiceTransferMode { get; set; }
 
 
-        public DateTime CreateTime { get; set; }
-        public DateTime ModifyTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime ModifyTime { get; set; } = DateTime.Now;
         public RequirementStatus RequirementStateId { get; set; }
         public bool Deleted { get; set; }
     }

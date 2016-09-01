@@ -7,6 +7,7 @@ using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using MongoDB.Driver;
 using Micro.Future.Business.MongoDB.Commo.Client;
 using Micro.Future.Business.MongoDB.Commo.Config;
+using Micro.Future.Business.MongoDB.Commo.QueryObjects;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
@@ -24,6 +25,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             COL_COUNTER = db.GetCollection<MongoCounter>(MongoDBConfig.COLLECTION_COUNTERS);
         }
 
+        /*
         public bool ConfirmChainRequirement(int chainId, int requirementId, out bool isAllConfirmed)
         {
             var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) & 
@@ -33,7 +35,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             var flag = true;
             if (chains.Count() == 0)
                 throw new Exception("The Chain with the given chainId and requirementId doesn't exist");
-            var chain = chains.First();
+            var chain = chains.First(); 
             for (int i = 0; i < chain.IsConfirmChain.Count(); i++)
             {
                 if(chain.RequirementIdChain[i] == requirementId)
@@ -48,6 +50,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
             return res.IsAcknowledged;
         }
+        */
 
         public ChainObject GetChain(int chainId)
         {
@@ -58,6 +61,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return chains.First();
         }
 
+        /*
         public IList<RequirementObject> GetChainRequirements(int chainId)
         {
             // two steps:
@@ -65,6 +69,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             // 2. QUery Requirement by requirementId 
             throw new NotImplementedException();
         }
+        */
 
         public IList<ChainObject> QueryChains(string userId)
         {
@@ -72,6 +77,16 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                     Builders<ChainObject>.Filter.Eq("Deleted", false);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
             return chains;
+        }
+
+        public IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<ChainObject> QUeryChainsByChainQuery(ChainQuery chainQuery, string orderBy, out int pageNo, out int pageSize, out int totalCount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

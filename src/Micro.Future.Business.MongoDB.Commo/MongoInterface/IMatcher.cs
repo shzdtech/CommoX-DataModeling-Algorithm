@@ -1,4 +1,5 @@
 ﻿using Micro.Future.Business.MongoDB.Commo.BizObjects;
+using Micro.Future.Business.MongoDB.Commo.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,13 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         bool ConfirmMatcherChain(int chainId);
 
-        
+        IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus requirementState);
+
+        IList<RequirementObject> QueryRequirementsByRequirementFilter(RequirementQuery reqQuery, string orderBy, out int pageNo, out int pageSize, out int totalSize);
+
+
+
+
 
     }
 

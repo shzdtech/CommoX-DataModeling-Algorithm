@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Micro.Future.Business.MongoDB.Commo.QueryObjects;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
@@ -298,5 +299,14 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
+        public IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus requirementState)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<RequirementObject> QueryRequirementsByRequirementFilter(RequirementQuery reqQuery, string orderBy, out int pageNo, out int pageSize, out int totalSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

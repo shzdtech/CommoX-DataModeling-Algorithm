@@ -36,7 +36,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 var productName = seller.ProductName;
                 if(dict.ContainsKey(productName)) {
                     dict[productName].Add(i, seller);
-                }else
+                }
+                else
                 {
                     var slist = new SortedList<int, RequirementObject>();
                     slist.Add(i, seller);

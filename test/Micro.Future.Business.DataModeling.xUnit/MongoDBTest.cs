@@ -72,10 +72,10 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var getchain = chainDAL.GetChain(chainId);
 
             bool isAllConfirm = false;
-            bool isConfirm = false;
-            isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[0], out isAllConfirm);
-            isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[1], out isAllConfirm);
-            isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[2], out isAllConfirm);
+            //bool isConfirm = false;
+            //isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[0], out isAllConfirm);
+            //isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[1], out isAllConfirm);
+            //isConfirm = chainDAL.ConfirmChainRequirement(chainId, getchain.RequirementIdChain[2], out isAllConfirm);
             var foo = isAllConfirm;
 
         }

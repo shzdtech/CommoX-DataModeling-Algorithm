@@ -42,7 +42,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// </summary>
         /// <param name="enterprise"></param>
         /// <returns></returns>
-        Enterprise UpdateEnterprise(Enterprise enterprise);
+        bool UpdateEnterprise(Enterprise enterprise);
 
+        bool UpdateEnterpriseState(int enterpriseId, int stateId);
     }
 }

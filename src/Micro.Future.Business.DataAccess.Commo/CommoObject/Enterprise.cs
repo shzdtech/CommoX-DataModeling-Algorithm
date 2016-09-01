@@ -93,6 +93,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// </summary>
         public int StateId { get; set; }
 
+        public string EmailAddress { get; set; }
 
+        public string MobilePhone { get; set; }
     }
 }

@@ -59,28 +59,30 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool UpdateEnterprise(Enterprise enterprise)
         {
-            //var findEnterprise = QueryEnterpriseInfo(enterprise.EnterpriseId);
-            //if (findEnterprise != null)
-            //{
-            //    findEnterprise.Address = enterprise.Address;
-            //    findEnterprise.AnnualInspection = enterprise.AnnualInspection;
-            //    findEnterprise.BusinessRange = enterprise.BusinessRange;
-            //    findEnterprise.BusinessTypeId = enterprise.BusinessTypeId;
-            //    findEnterprise.Contacts = enterprise.Contacts;
-            //    findEnterprise.InvoicedQuantity = enterprise.InvoicedQuantity;
-            //    findEnterprise.LegalRepresentative = enterprise.LegalRepresentative;
-            //    findEnterprise.Name = enterprise.Name;
-            //    findEnterprise.PaymentMethodId = enterprise.PaymentMethodId;
-            //    findEnterprise.PreviousProfit = enterprise.PreviousProfit;
-            //    findEnterprise.PreviousSales = enterprise.PreviousSales;
-            //    findEnterprise.RegisterAccount = enterprise.RegisterAccount;
-            //    findEnterprise.RegisterAddress = enterprise.RegisterAddress;
-            //    findEnterprise.RegisterBankId = enterprise.RegisterBankId;
-                 
-                
-            //}
-            db.Entry(enterprise).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            db.Enterprises.Update(enterprise);
+            var findEnterprise = QueryEnterpriseInfo(enterprise.EnterpriseId);
+            if (findEnterprise != null)
+            {
+                findEnterprise.Address = enterprise.Address;
+                findEnterprise.AnnualInspection = enterprise.AnnualInspection;
+                findEnterprise.BusinessRange = enterprise.BusinessRange;
+                findEnterprise.BusinessTypeId = enterprise.BusinessTypeId;
+                findEnterprise.Contacts = enterprise.Contacts;
+                findEnterprise.InvoicedQuantity = enterprise.InvoicedQuantity;
+                findEnterprise.LegalRepresentative = enterprise.LegalRepresentative;
+                findEnterprise.Name = enterprise.Name;
+                findEnterprise.PaymentMethodId = enterprise.PaymentMethodId;
+                findEnterprise.PreviousProfit = enterprise.PreviousProfit;
+                findEnterprise.PreviousSales = enterprise.PreviousSales;
+                findEnterprise.RegisterAccount = enterprise.RegisterAccount;
+                findEnterprise.RegisterAddress = enterprise.RegisterAddress;
+                findEnterprise.RegisterBankId = enterprise.RegisterBankId;
+                findEnterprise.RegisterCapital = enterprise.RegisterCapital;
+                findEnterprise.RegisterNumber = enterprise.RegisterNumber;
+                findEnterprise.RegisterTime = enterprise.RegisterTime;
+                findEnterprise.ReputationGrade = enterprise.ReputationGrade;
+                findEnterprise.StateId = enterprise.StateId;
+            }
+            //db.Enterprises.Update(enterprise);
             int result = db.SaveChanges();
             return result > 0;
         }
@@ -93,8 +95,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 enterprise.StateId = stateId;
             }
 
-            db.Entry(enterprise).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            db.Enterprises.Update(enterprise);
             int result = db.SaveChanges();
             return result > 0;
         }

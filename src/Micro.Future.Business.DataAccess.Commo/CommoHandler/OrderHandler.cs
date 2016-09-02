@@ -68,7 +68,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public bool updateOrderState(int orderId, int executUserId, int state)
+        public bool updateOrderState(int orderId, string executUserId, int state)
         {
             //using (var db = new CommoXContext())
             {

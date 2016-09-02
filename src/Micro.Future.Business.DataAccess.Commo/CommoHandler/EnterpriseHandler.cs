@@ -80,6 +80,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 
             //}
             db.Entry(enterprise).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Enterprises.Update(enterprise);
             int result = db.SaveChanges();
             return result > 0;
         }
@@ -93,6 +94,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
 
             db.Entry(enterprise).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Enterprises.Update(enterprise);
             int result = db.SaveChanges();
             return result > 0;
         }

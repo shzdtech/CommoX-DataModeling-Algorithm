@@ -76,7 +76,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 执行者用户名
         /// </summary>
-        public int ExecuteUserId { get; set; }
+        public string ExecuteUserId { get; set; }
 
         #endregion
 

@@ -89,10 +89,9 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public IQueryable<ChainObject> QueryChainsByLinq(Expression<Func<ChainObject, bool>> selector)
+        public IEnumerable<ChainObject> QueryChainsByLinq(Func<ChainObject, bool> selector)
         {
-            var query = COL_CHAIN.AsQueryable<ChainObject>().Where(c => c.ChainId > 0).Select(e=>e);
-            return query;
+            return COL_CHAIN.AsQueryable().Where(selector);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? state);
 
-        IQueryable<ChainObject> QueryChainsByLinq(System.Linq.Expressions.Expression<Func<ChainObject, bool>> selector);
+        IEnumerable<ChainObject> QueryChainsByLinq(Func<ChainObject, bool> selector);
 
 
         //IList<RequirementObject> GetChainRequirements(int chainId);

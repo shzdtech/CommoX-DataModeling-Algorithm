@@ -7,6 +7,7 @@ using Micro.Future.Business.MongoDB.Commo.Client;
 using Micro.Future.Business.MongoDB.Commo.Config;
 using System.Linq.Expressions;
 using System.Linq;
+using MongoDB.Driver.Linq;
 
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
@@ -89,7 +90,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public IEnumerable<ChainObject> QueryChainsByLinq(Func<ChainObject, bool> selector)
+        public IQueryable<ChainObject> QueryChainsByLinq(Expression<Func<ChainObject, bool>> selector)
         {
             return COL_CHAIN.AsQueryable().Where(selector);
         }

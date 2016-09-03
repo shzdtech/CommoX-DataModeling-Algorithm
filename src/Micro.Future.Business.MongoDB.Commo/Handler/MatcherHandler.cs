@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
+using MongoDB.Driver.Linq;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
@@ -308,7 +309,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector)
+        public IQueryable<RequirementObject> QueryRequirementsByLinq(Expression<Func<RequirementObject, bool>> selector)
         {
             return COL_REQUIREMENT.AsQueryable().Where(selector);
     

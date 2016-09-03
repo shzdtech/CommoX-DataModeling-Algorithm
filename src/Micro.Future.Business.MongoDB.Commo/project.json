@@ -1,8 +1,8 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
-    "mongocsharpdriver": "2.3.0-beta1",
+    "mongocsharpdriver": "2.3.0-rc1",
     "NETStandard.Library": "1.6.0"
   },
 

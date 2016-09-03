@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 {
@@ -13,7 +14,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? state);
 
-        IEnumerable<ChainObject> QueryChainsByLinq(Func<ChainObject, bool> selector);
+        IQueryable<ChainObject> QueryChainsByLinq(Expression<Func<ChainObject, bool>> selector);
 
 
         //IList<RequirementObject> GetChainRequirements(int chainId);

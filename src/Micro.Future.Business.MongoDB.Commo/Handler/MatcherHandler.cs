@@ -5,9 +5,8 @@ using Micro.Future.Business.MongoDB.Commo.MongoInterface;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Linq;
-using System.Threading.Tasks;
-using Micro.Future.Business.MongoDB.Commo.QueryObjects;
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
@@ -299,14 +298,20 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus requirementState)
+        public IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus? requirementState = null)
         {
-            throw new NotImplementedException();
+            var filter = Builders<RequirementObject>.Filter.Eq("EnterpriceId", enterpriseId) &
+                     Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            if(requirementState.HasValue)
+                filter = filter & Builders<RequirementObject>.Filter.Eq("RequirementStateId", requirementState);
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
+            return res;
         }
 
-        public IList<RequirementObject> QueryRequirementsByRequirementFilter(RequirementQuery reqQuery, string orderBy, out int pageNo, out int pageSize, out int totalSize)
+        public IQueryable<RequirementObject> QueryRequirementsByLinq(Expression<Func<RequirementObject, bool>> selector)
         {
-            throw new NotImplementedException();
+            return COL_REQUIREMENT.AsQueryable<RequirementObject>().Where(selector);
+    
         }
     }
 }

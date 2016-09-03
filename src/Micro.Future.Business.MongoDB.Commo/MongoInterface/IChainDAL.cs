@@ -1,9 +1,7 @@
 ﻿using Micro.Future.Business.MongoDB.Commo.BizObjects;
-using Micro.Future.Business.MongoDB.Commo.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 {
@@ -13,9 +11,11 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<ChainObject> QueryChains(string userId);
 
-        IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus state);
+        IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? state);
 
-        IList<ChainObject> QUeryChainsByChainQuery(ChainQuery chainQuery, string orderBy, out int pageNo, out int pageSize, out int totalCount);
+        IQueryable<ChainObject> QueryChainsByLinq(System.Linq.Expressions.Expression<Func<ChainObject, bool>> selector);
+
+
         //IList<RequirementObject> GetChainRequirements(int chainId);
 
         /// <summary>

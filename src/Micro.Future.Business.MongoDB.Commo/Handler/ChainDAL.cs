@@ -1,13 +1,13 @@
 ﻿using Micro.Future.Business.MongoDB.Commo.MongoInterface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using MongoDB.Driver;
 using Micro.Future.Business.MongoDB.Commo.Client;
 using Micro.Future.Business.MongoDB.Commo.Config;
-using Micro.Future.Business.MongoDB.Commo.QueryObjects;
+using System.Linq.Expressions;
+using System.Linq;
+
 
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
@@ -79,14 +79,20 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return chains;
         }
 
-        public IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus state)
+        public IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? chainState)
         {
-            throw new NotImplementedException();
+            var filter = Builders<ChainObject>.Filter.Eq("EnterpriceId", enterpriseId) &
+                     Builders<ChainObject>.Filter.Eq("Deleted", false);
+            if (chainState.HasValue)
+                filter = filter & Builders<ChainObject>.Filter.Eq("ChainStateId", chainState);
+            var res = COL_CHAIN.Find<ChainObject>(filter).ToList();
+            return res;
         }
 
-        public IList<ChainObject> QUeryChainsByChainQuery(ChainQuery chainQuery, string orderBy, out int pageNo, out int pageSize, out int totalCount)
+        public IQueryable<ChainObject> QueryChainsByLinq(Expression<Func<ChainObject, bool>> selector)
         {
-            throw new NotImplementedException();
+            var query = COL_CHAIN.AsQueryable<ChainObject>().Where(c => c.ChainId > 0).Select(e=>e);
+            return query;
         }
     }
 }

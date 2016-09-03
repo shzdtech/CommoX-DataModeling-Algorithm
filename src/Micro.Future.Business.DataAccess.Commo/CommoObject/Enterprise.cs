@@ -89,10 +89,20 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// </summary>
         public DateTime CreateTime { get; set; }
         /// <summary>
-        /// 企业状态
+        /// 企业状态 1：未认证； 2：已认证；3：认证失败
         /// </summary>
         public int StateId { get; set; }
-
-
+        /// <summary>
+        /// 邮箱地址
+        /// </summary>
+        public string EmailAddress { get; set; }
+        /// <summary>
+        /// 移动手机
+        /// </summary>
+        public string MobilePhone { get; set; }
+        /// <summary>
+        /// 营业执照等证件保存路径
+        /// </summary>
+        public string LicenseImagePath { get; set; }
     }
 }

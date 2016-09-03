@@ -24,7 +24,9 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<RequirementState> RequirementStates { get; set; }
         public DbSet<RequirementType> RequirementTypes { get; set; }
-        public DbSet<RequirementFilter> RequirementFilters { get; set; }
+        public DbSet<RequirementRule> RequirementRules { get; set; }
+        public DbSet<RequirementRuleOperation> RequirementRuleOperations { get; set; }
+        
         public DbSet<Role> Roles { get; set; }
         public DbSet<Trade> Trades { get; set; }
         public DbSet<TradeChain> TradeChains { get; set; }

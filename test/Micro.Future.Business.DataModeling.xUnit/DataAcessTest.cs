@@ -27,23 +27,6 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
         }
 
-        [Fact]
-        public void TestRegisterConnection()
-        {
-            var handler = new UserManagerHandler(db);
-            var usertest = handler.userRegister(user);
-            Console.WriteLine("userRegister result: " + usertest.UserId);
-
-        }
-
-        [Fact]
-        public void TestLoginConnection()
-        {
-            var handler = new UserManagerHandler(db);
-            var userLogin = handler.userLogin(user);
-            Console.WriteLine("loginresult result: " + userLogin);
-
-        }
        
         [Fact]
         public void TestTradeHandler()
@@ -79,7 +62,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order.ModifyTime = DateTime.Now;
                 order.CompleteTime = DateTime.Now;
                 order.OrderStateId = 101;
-                order.ExecuteUserId = 100011;
+                order.ExecuteUserId = "100011";
 
                 order.ProductName = "铜";
                 order.ProductType = "有色";
@@ -93,6 +76,14 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order.InvoiceValue = "10000";
                 order.InvoiceIssueDateTime = "2017-01-01";
                 order.InvoiceTransferMode = "面给";
+                //RequirementRule rule = new RequirementRule();
+                //rule.RuleId = 1;
+                //rule.RuleType = 1;
+                //rule.Key = "企业类型";
+                //rule.Value = "国企";
+                //rule.OperationId = 1;
+
+                //order.Rules.Add(rule);
 
                 order = orderhandler.submitOrder(order);
 
@@ -110,7 +101,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order.CreateTime = DateTime.Now;
                 order.ModifyTime = DateTime.Now;
                 order.OrderStateId = 100;
-                order.ExecuteUserId = 100022;
+                order.ExecuteUserId = "100022";
 
                 order.TradeAmount = 88888888;
                 order.TradeProfit = 8;
@@ -141,7 +132,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 order.ModifyTime = DateTime.Now;
 
                 order.OrderStateId = 102;
-                order.ExecuteUserId = 100033;
+                order.ExecuteUserId = "100033";
 
                 order.PaymentAmount = 9999999;
                 order.PaymentDateTime = "2016-08-30";
@@ -163,14 +154,14 @@ namespace Micro.Future.Business.DataModeling.xUnit
         public void TestTradeUpdate()
         {
             int orderId = 10010;
-            int exeUseruserId = 100077;
+            String exeUseruserId = "100077";
             int state = 101;
             var orderhandler = new OrderHandler(db);
 
             orderhandler.updateOrderState(orderId, exeUseruserId, state);
 
             orderId = 10011;
-            exeUseruserId = 100088;
+            exeUseruserId = "100088";
             state = 102;
             orderhandler.updateOrderState(orderId, exeUseruserId, state);
 
@@ -198,11 +189,37 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.RegisterNumber = "2334234" ;
             enterprise.RegisterTime = DateTime.Parse("2012-02-14");
             enterprise.ReputationGrade = 5;
+            enterprise.EmailAddress = "111222@email.com";
+            enterprise.MobilePhone = "13122332222";
+            enterprise.LicenseImagePath = "c:/pic/aa.img";
             var handler = new EnterpriseHandler(db);
             handler.AddEnterprise(enterprise);
 
         }
 
+        [Fact]
+        public void TestEnterpriseUpdate()
+        {
+            Enterprise enterprise = new Enterprise();
+
+            var handler = new EnterpriseHandler(db);
+            enterprise = handler.QueryEnterpriseInfo(123);
+            enterprise.EmailAddress = "test111@test.com";
+            enterprise.Address = "test address";
+            handler.UpdateEnterprise(enterprise);
+
+        }
+        [Fact]
+        public void TestEnterpriseUpdateState()
+        {
+            int enterpriseId = 123;
+            int state = 2;
+            Enterprise enterprise = new Enterprise();
+
+            var handler = new EnterpriseHandler(db);
+            handler.UpdateEnterpriseState(enterpriseId, state);
+
+        }
 
         [Fact]
         public void TestEnterpriseQuery()

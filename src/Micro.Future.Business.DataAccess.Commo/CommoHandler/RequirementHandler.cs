@@ -28,13 +28,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         }
 
 
-        public bool saveRequirementFilters(IEnumerable<RequirementFilter> filters)
+        public bool saveRequirementFilters(IEnumerable<RequirementRule> filters)
         {
             //using (var db = new CommoXContext())
             {
-                foreach (RequirementFilter filter in filters)
+                foreach (RequirementRule filter in filters)
                 {
-                    db.RequirementFilters.Add(filter);
+                    db.RequirementRules.Add(filter);
                 }
                 int result = db.SaveChanges();
                 return result > 0;
@@ -58,7 +58,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public IList<RequirementFilter> queryRequirementFilters(int requirementId)
+        public IList<RequirementRule> queryRequirementFilters(int ruleId)
         {
             //using (var db = new CommoXContext())
             {
@@ -66,7 +66,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 //            join f in db.RequirementFilters on r.RequirementId equals f.RequirementId
                 //            where r.RequirementId == requirementId && f.StateId == 1
                 //            select f;
-                var result = db.RequirementFilters.Where(f => f.RequirementId == requirementId);
+                var result = db.RequirementRules.Where(f => f.RuleId == ruleId);
                 return result.ToList();
             }
         }

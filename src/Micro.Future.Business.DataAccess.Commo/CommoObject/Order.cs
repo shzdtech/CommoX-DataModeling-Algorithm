@@ -76,7 +76,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 执行者用户名
         /// </summary>
-        public int ExecuteUserId { get; set; }
+        public string ExecuteUserId { get; set; }
 
         #endregion
 
@@ -223,7 +223,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
 
         #endregion
 
-
+        /// <summary>
+        /// 需求的撮合规则
+        /// </summary>
+        public IList<RequirementRule> Rules { get; set; }
 
 
     }

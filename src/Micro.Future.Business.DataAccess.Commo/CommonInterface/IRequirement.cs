@@ -14,9 +14,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         Requirement saveRequirement(Requirement require);
 
-        IList<RequirementFilter> queryRequirementFilters(int requirementId);
+        IList<RequirementRule> queryRequirementFilters(int requirementId);
 
-        bool saveRequirementFilters(IEnumerable<RequirementFilter> filters);
+        bool saveRequirementFilters(IEnumerable<RequirementRule> rules);
 
         /// <summary>
         /// 提交需求类型

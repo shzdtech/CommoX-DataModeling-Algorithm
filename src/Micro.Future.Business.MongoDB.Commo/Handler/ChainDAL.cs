@@ -80,9 +80,9 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return chains;
         }
 
-        public IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? chainState)
+        public IList<ChainObject> QueryChainsByEnterpriseId(int enterpriseId, ChainStatus? chainState = null)
         {
-            var filter = Builders<ChainObject>.Filter.Eq("EnterpriceId", enterpriseId) &
+            var filter = Builders<ChainObject>.Filter.AnyEq("EnterpriseIdChain", enterpriseId) &
                      Builders<ChainObject>.Filter.Eq("Deleted", false);
             if (chainState.HasValue)
                 filter = filter & Builders<ChainObject>.Filter.Eq("ChainStateId", chainState);

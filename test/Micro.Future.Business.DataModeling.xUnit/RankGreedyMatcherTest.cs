@@ -27,6 +27,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.RequirementTypeId = RequirementType.BUYER;
             req1.CreateTime = DateTime.Now;
             req1.ModifyTime = DateTime.Now;
+            req1.ProductType = "T1";
 
             var req2 = new RequirementObject();
             req2.Deleted = false;
@@ -40,6 +41,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req2.RequirementTypeId = RequirementType.SELLER;
             req2.CreateTime = DateTime.Now;
             req2.ModifyTime = DateTime.Now;
+            req2.ProductType = "T1";
 
             var req3 = new RequirementObject();
             req3.Deleted = false;
@@ -50,6 +52,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req3.RequirementTypeId = RequirementType.MID;
             req3.CreateTime = DateTime.Now;
             req3.ModifyTime = DateTime.Now;
+            req3.ProductType = "T1";
 
             var req4 = new RequirementObject();
             req4.Deleted = false;
@@ -60,8 +63,10 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req4.RequirementTypeId = RequirementType.MID;
             req4.CreateTime = DateTime.Now;
             req4.ModifyTime = DateTime.Now;
+            req4.ProductType = "T1";
 
             var matcherHandler = new MatcherHandler();
+            var chainDal = new ChainDAL();
             var req1Id = matcherHandler.AddRequirement(req1);
             matcherHandler.AddRequirement(req2);
             matcherHandler.AddRequirement(req3);
@@ -89,7 +94,10 @@ namespace Micro.Future.Business.DataModeling.xUnit
             // Get ALl confirmed Chains
             // Set isLatestVersion to false to get all confirmed chains, because some confirmed chains may be with the old version
             var allConfirmedChains = matcherHandler.GetMatcherChains(ChainStatus.CONFIRMED, false);
-    
+
+            var enterpriseReqs = matcherHandler.QueryRequirementsByEnterpriseId(1, RequirementStatus.CONFIRMED);
+            var enterpriseChains = chainDal.QueryChainsByEnterpriseId(2);
+
             return;
         }
 

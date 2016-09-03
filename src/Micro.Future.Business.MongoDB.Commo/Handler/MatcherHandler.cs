@@ -301,7 +301,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus? requirementState = null)
         {
-            var filter = Builders<RequirementObject>.Filter.Eq("EnterpriceId", enterpriseId) &
+            var filter = Builders<RequirementObject>.Filter.Eq("EnterpriseId", enterpriseId) &
                      Builders<RequirementObject>.Filter.Eq("Deleted", false);
             if(requirementState.HasValue)
                 filter = filter & Builders<RequirementObject>.Filter.Eq("RequirementStateId", requirementState);

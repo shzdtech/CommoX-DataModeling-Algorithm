@@ -16,18 +16,18 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         {
             var reqIdList = new List<int>();
             var userList = new List<string>();
-            var enterpriceIdList = new List<int>();
+            var enterpriseIdList = new List<int>();
             var minTradeAmount = reqs[0].TradeAmount;
             foreach (RequirementObject r in reqs)
             {
                 reqIdList.Add(r.RequirementId);
                 userList.Add(r.UserId);
-                enterpriceIdList.Add(r.EnterpriseId);
+                enterpriseIdList.Add(r.EnterpriseId);
                 if (minTradeAmount > r.TradeAmount) minTradeAmount = r.TradeAmount;
             }
             RequirementIdChain = reqIdList;
             UserIdChain = userList;
-            EnterpriceIdChain = enterpriceIdList;
+            EnterpriseIdChain = enterpriseIdList;
             CreateTime = DateTime.Now;
             ModifyTime = DateTime.Now;
             ProductName = reqs[0].ProductName;
@@ -46,7 +46,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public List<int> RequirementIdChain { get; set; }
         //public List<bool> IsConfirmChain { get; set; }
         public List<string> UserIdChain { get; set; }
-        public List<int> EnterpriceIdChain { get; set; }
+        public List<int> EnterpriseIdChain { get; set; }
         public int Version { get; set; }
         //public bool isAllConfirmed { get; set; }
         public ChainStatus ChainStateId { get; set; }

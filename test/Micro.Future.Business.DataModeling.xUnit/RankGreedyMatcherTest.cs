@@ -13,6 +13,13 @@ namespace Micro.Future.Business.DataModeling.xUnit
     public class RankGreedyMatcherTest
     {
         [Fact]
+        public void TestRunChainMaker()
+        {
+            var matcherHandler = new MatcherHandler();
+            var matcherMaker = new RankingMatchMaker(matcherHandler);
+            matcherMaker.make();
+        }
+        [Fact]
         public void TestChainMatcher()
         {
             var req1 = new RequirementObject();

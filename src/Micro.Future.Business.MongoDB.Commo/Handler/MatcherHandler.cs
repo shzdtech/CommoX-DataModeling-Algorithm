@@ -309,7 +309,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        public IQueryable<RequirementObject> QueryRequirementsByLinq(Expression<Func<RequirementObject, bool>> selector)
+        public IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector)
         {
             return COL_REQUIREMENT.AsQueryable().Where(selector);
     

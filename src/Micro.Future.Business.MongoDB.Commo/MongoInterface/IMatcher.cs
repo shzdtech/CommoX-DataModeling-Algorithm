@@ -34,7 +34,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus? requirementState);
 
-        IQueryable<RequirementObject> QueryRequirementsByLinq(Expression<Func<RequirementObject, bool>> selector);
+        IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector);
 
 
     }

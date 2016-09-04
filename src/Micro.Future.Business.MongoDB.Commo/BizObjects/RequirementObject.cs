@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Micro.Future.Business.MongoDB.Commo.BizObjects
 {
@@ -150,21 +151,39 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime ModifyTime { get; set; } = DateTime.Now;
         public RequirementStatus RequirementStateId { get; set; }
-        public bool Deleted { get; set; }
+        public bool Deleted { get; set; } = false;
+
+        public IList<RequirementSoftFilter> SoftFilterListForSeller { get; set; } = new List<RequirementSoftFilter>();
+        public IList<RequirementHardFilter> HardFilterListForSeller { get; set; } = new List<RequirementHardFilter>();
+        public IList<RequirementSoftFilter> SoftFilterListForBuyer { get; set; } = new List<RequirementSoftFilter>(); 
+        public IList<RequirementHardFilter> HardFilterListForBuyer { get; set; } = new List<RequirementHardFilter>();
+    }
+
+    public class IFilter
+    {
     }
 
     /// <summary>
     /// 需求撮合规则
     /// </summary>
-    public class RequirementFilter
+    public class RequirementSoftFilter: IFilter
     {
-        public int FilterId { get; set; }
-        public int RequirementId { get; set; }
-        public string FilterKey { get; set; }
-        public int OperationId { get; set; }
-        public string FilterValue { get; set; }
-        public int StateId { get; set; }
+        public Func<RequirementObject, RequirementObject, double> softExpress;
+        public double violate(RequirementObject a, RequirementObject b)
+        {
+            return softExpress(a, b);
+        }
     }
+
+    public class RequirementHardFilter: IFilter
+    {
+        public Func<RequirementObject, RequirementObject, bool> hardExpress;
+        public bool check(RequirementObject a, RequirementObject b)
+        {
+            return hardExpress(a, b);
+        }
+    }
+
     public enum RequirementType
     {
         BUYER = 1,

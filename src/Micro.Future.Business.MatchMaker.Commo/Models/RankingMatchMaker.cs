@@ -11,13 +11,13 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
     public class RankingMatchMaker : BaseMatchMaker
     {
         private MatcherHandler matcherHandler;
-        private decimal THRESHOLD = (decimal)-0.01;
+        private double THRESHOLD = -0.01;
         public RankingMatchMaker(MatcherHandler mHandler)
         {
             matcherHandler = mHandler;
         }
 
-        public bool setThreshold(decimal threshold)
+        public bool setThreshold(double threshold)
         {
             if (threshold > 0) return false;
             THRESHOLD = threshold;
@@ -56,11 +56,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 RequirementObject seller = null;
                 // filter seller 
                 // 1. seller should has an acceptable sell price
-                // 2. seller can be the same company with buyer
+                // 2. seller cannot be the same company with buyer
                 for (var i = 0; i < dict[buyer.ProductName].Count; i++)
                 {
                     var s = dict[buyer.ProductName].Values[i];
-                    if (isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, 0.05) && s.EnterpriseId != buyer.EnterpriseId)
+                    if (isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, 0.05)
+                        && s.EnterpriseId != buyer.EnterpriseId)
                     {
                         seller = s;
                         break;
@@ -71,7 +72,6 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 {
                     listBuyers.RemoveAt(0);
                     continue;
-
                 }
                 var mlist = new List<RequirementObject>();
                 var prevUtility = calUtility(buyer, seller, mlist);
@@ -92,9 +92,45 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     }
                     if (filterflag) continue;
 
+                    double filterUtility = 0;
+
+                    var midBuyer = buyer;
+                    if (mlist.Count > 0)
+                    {
+                        midBuyer = mlist[mlist.Count - 1];
+                    }
+
+                    // filter the requirement soft and hard filters
+                    foreach (var filter in midBuyer.HardFilterListForSeller)
+                    {
+                        if (!filter.check(midBuyer, mid))
+                        {
+                            filterflag = true;
+                            break;
+                        }
+                    }
+                    if (filterflag) continue;
+                    foreach (var filter in mid.HardFilterListForBuyer)
+                    {
+                        if (!filter.check(mid, midBuyer))
+                        {
+                            filterflag = true;
+                            break;
+                        }
+                    }
+                    if (filterflag) continue;
+                    foreach (var filter in midBuyer.SoftFilterListForSeller)
+                    {
+                        filterUtility += filter.violate(midBuyer, mid);
+                    }
+                    foreach (var filter in mid.SoftFilterListForBuyer)
+                    {
+                        filterUtility += filter.violate(mid, midBuyer);
+                    }
+
                     mlist.Add(mid);
                     var utility = calUtility(buyer, seller, mlist);
-                    var delta = utility - prevUtility;
+                    var delta = utility - prevUtility - filterUtility;
                     if (delta / prevUtility < THRESHOLD)
                     {
                         mlist.Remove(mid);
@@ -124,10 +160,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             }
             matcherHandler.AddMatcherChains(res);
             matcherHandler.CallOnChainAdded(res);
-
         }
 
-        private decimal calUtility(RequirementObject buyer, RequirementObject seller, IList<RequirementObject> mids)
+        private double calUtility(RequirementObject buyer, RequirementObject seller, IList<RequirementObject> mids)
         {
             var min = buyer.TradeAmount;
             if (min > seller.TradeAmount) min = seller.TradeAmount;
@@ -135,7 +170,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             {
                 if (min > m.TradeAmount) min = m.TradeAmount;
             }
-            return min;
+            return (double)min;
         }
 
         private SortedList<int, RequirementObject> listToSortedList(IList<RequirementObject> list)

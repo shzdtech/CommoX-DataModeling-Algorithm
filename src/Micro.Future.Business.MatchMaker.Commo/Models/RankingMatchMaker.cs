@@ -49,8 +49,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             while(listBuyers.Count > 0)
             {
                 var buyer = listBuyers.Values[0];
-                if (buyer.ProductName == null) continue;
-                if(!dict.ContainsKey(buyer.ProductName) || dict[buyer.ProductName].Count == 0)
+                if(buyer.ProductName == null || !dict.ContainsKey(buyer.ProductName) || dict[buyer.ProductName].Count == 0)
                 {
                     listBuyers.RemoveAt(0);
                     continue;

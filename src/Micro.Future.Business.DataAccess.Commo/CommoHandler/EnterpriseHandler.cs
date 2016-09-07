@@ -14,10 +14,12 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             db = dbContext;
         }
+
         public Enterprise AddEnterprise(Enterprise enterprise)
         {
             //using (var db = new CommoXContext())
             {
+                enterprise.CreateTime = DateTime.Now;
                 db.Enterprises.Add(enterprise);
                 int count = db.SaveChanges();
                 if (count > 0)

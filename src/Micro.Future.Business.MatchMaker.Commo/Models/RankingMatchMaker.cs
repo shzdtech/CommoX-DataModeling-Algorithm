@@ -34,7 +34,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             for(int i = 0; i < listSellers.Count; i++) {
                 var seller = listSellers.Values[i]; 
                 var productName = seller.ProductName;
-                if(dict.ContainsKey(productName)) {
+                if (!checkValidForBuyerAndSeller(seller)) continue;
+                if (dict.ContainsKey(productName)) {
                     dict[productName].Add(i, seller);
                 }
                 else
@@ -48,7 +49,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             while(listBuyers.Count > 0)
             {
                 var buyer = listBuyers.Values[0];
-                if(!dict.ContainsKey(buyer.ProductName) || dict[buyer.ProductName].Count == 0)
+                if(!checkValidForBuyerAndSeller(buyer) || !dict.ContainsKey(buyer.ProductName) || dict[buyer.ProductName].Count == 0)
                 {
                     listBuyers.RemoveAt(0);
                     continue;
@@ -155,6 +156,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             }
             else return false;
 
+        }
+
+        private bool checkValidForBuyerAndSeller(RequirementObject req)
+        {
+            if (req.ProductName == null || req.ProductPrice < 0) return false;
+            return true;
         }
 
         

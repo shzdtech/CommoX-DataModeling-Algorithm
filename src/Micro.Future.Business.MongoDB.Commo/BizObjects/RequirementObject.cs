@@ -11,6 +11,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     /// <summary>
     /// 需求对象
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class RequirementObject
     {
         [BsonId]
@@ -153,35 +154,43 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public RequirementStatus RequirementStateId { get; set; }
         public bool Deleted { get; set; } = false;
 
-        public IList<RequirementSoftFilter> SoftFilterListForSeller { get; set; } = new List<RequirementSoftFilter>();
-        public IList<RequirementHardFilter> HardFilterListForSeller { get; set; } = new List<RequirementHardFilter>();
-        public IList<RequirementSoftFilter> SoftFilterListForBuyer { get; set; } = new List<RequirementSoftFilter>(); 
-        public IList<RequirementHardFilter> HardFilterListForBuyer { get; set; } = new List<RequirementHardFilter>();
+        // TODO: add filter EnterpriceType
+        
+        public IList<RequirementFilter> Filters { get; set; }
     }
 
-    public class IFilter
+    public class RequirementFilter
     {
+        public string FilterKey { get; set; }
+        public FilterOperationType OperationTypeId { get; set; }
+        public string FilterValue { get; set; }
+        public FilterValueType FilterValueTypeId { get; set; }
+        public bool IsSoftFilter { get; set; } = false;
+        public FilterDirectionType FilterDirectionTypeId { get; set; } = 0;
     }
 
-    /// <summary>
-    /// 需求撮合规则
-    /// </summary>
-    public class RequirementSoftFilter: IFilter
+    public enum FilterDirectionType
     {
-        public Func<RequirementObject, RequirementObject, double> softExpress;
-        public double violate(RequirementObject a, RequirementObject b)
-        {
-            return softExpress(a, b);
-        }
+        BIDIRECT = 0,
+        UP = 1,
+        DOWN = 2
     }
 
-    public class RequirementHardFilter: IFilter
+    public enum FilterOperationType
     {
-        public Func<RequirementObject, RequirementObject, bool> hardExpress;
-        public bool check(RequirementObject a, RequirementObject b)
-        {
-            return hardExpress(a, b);
-        }
+        EQUAL = 1,
+        LESS = 2,
+        GREATER = 3,
+        IN = 4,
+        NOTIN = 5
+    }
+
+    public enum FilterValueType
+    {
+        STRING = 1,
+        NUMBER = 2,
+        SEQUENCE_STRING = 3,
+        SEQUENCE_NUMBER = 4
     }
 
     public enum RequirementType

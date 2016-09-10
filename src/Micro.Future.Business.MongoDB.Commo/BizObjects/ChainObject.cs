@@ -10,6 +10,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
     /// <summary>
     /// 撮合连 对象
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class ChainObject
     {
         public ChainObject (IList<RequirementObject> reqs)
@@ -54,6 +55,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public string ProductType { get; set; }
         public decimal TradeAmount { get; set; }
         public int ChainLength { get; set; }
+        public string OperatorUserId { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateTime { get; set; }

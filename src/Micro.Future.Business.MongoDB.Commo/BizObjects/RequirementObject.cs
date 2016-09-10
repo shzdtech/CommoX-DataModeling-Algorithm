@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Micro.Future.Business.MongoDB.Commo.BizObjects
 {
     /// <summary>
     /// 需求对象
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class RequirementObject
     {
         [BsonId]
@@ -150,21 +152,47 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime ModifyTime { get; set; } = DateTime.Now;
         public RequirementStatus RequirementStateId { get; set; }
-        public bool Deleted { get; set; }
+        public bool Deleted { get; set; } = false;
+
+        // TODO: add filter EnterpriceType
+        
+        public IList<RequirementFilter> Filters { get; set; }
     }
 
-    /// <summary>
-    /// 需求撮合规则
-    /// </summary>
     public class RequirementFilter
     {
-        public int FilterId { get; set; }
-        public int RequirementId { get; set; }
         public string FilterKey { get; set; }
-        public int OperationId { get; set; }
+        public FilterOperationType OperationTypeId { get; set; }
         public string FilterValue { get; set; }
-        public int StateId { get; set; }
+        public FilterValueType FilterValueTypeId { get; set; }
+        public bool IsSoftFilter { get; set; } = false;
+        public FilterDirectionType FilterDirectionTypeId { get; set; } = 0;
     }
+
+    public enum FilterDirectionType
+    {
+        BIDIRECT = 0,
+        UP = 1,
+        DOWN = 2
+    }
+
+    public enum FilterOperationType
+    {
+        EQUAL = 1,
+        LESS = 2,
+        GREATER = 3,
+        IN = 4,
+        NOTIN = 5
+    }
+
+    public enum FilterValueType
+    {
+        STRING = 1,
+        NUMBER = 2,
+        SEQUENCE_STRING = 3,
+        SEQUENCE_NUMBER = 4
+    }
+
     public enum RequirementType
     {
         BUYER = 1,

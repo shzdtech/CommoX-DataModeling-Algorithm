@@ -14,10 +14,12 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             db = dbContext;
         }
+
         public Enterprise AddEnterprise(Enterprise enterprise)
         {
             //using (var db = new CommoXContext())
             {
+                enterprise.CreateTime = DateTime.Now;
                 db.Enterprises.Add(enterprise);
                 int count = db.SaveChanges();
                 if (count > 0)
@@ -80,6 +82,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 findEnterprise.RegisterNumber = enterprise.RegisterNumber;
                 findEnterprise.RegisterTime = enterprise.RegisterTime;
                 findEnterprise.ReputationGrade = enterprise.ReputationGrade;
+                findEnterprise.EmailAddress = enterprise.EmailAddress;
+                findEnterprise.MobilePhone = enterprise.MobilePhone;
+                findEnterprise.LicenseImagePath = enterprise.LicenseImagePath;
+                findEnterprise.Fax = enterprise.Fax;
                 findEnterprise.StateId = enterprise.StateId;
             }
             //db.Enterprises.Update(enterprise);
@@ -97,6 +103,17 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
             int result = db.SaveChanges();
             return result > 0;
+        }
+
+        public bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail)
+        {
+            var enterprise = db.Enterprises.Single(e => e.Name.Equals(enterpriseName) || e.EmailAddress.Equals(adminEmail));
+            if (enterprise != null)
+            {
+                return false;
+            }
+            else
+                return true;
         }
     }
 }

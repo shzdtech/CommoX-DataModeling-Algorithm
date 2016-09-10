@@ -44,6 +44,20 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         bool UpdateEnterprise(Enterprise enterprise);
 
+        /// <summary>
+        /// 企业 更新 认证状态
+        /// </summary>
+        /// <param name="enterpriseId"></param>
+        /// <param name="stateId"></param>
+        /// <returns></returns>
         bool UpdateEnterpriseState(int enterpriseId, int stateId);
+        /// <summary>
+        /// 企业注册 有效性认证：企业名，企业注册邮箱
+        /// </summary>
+        /// <param name="enterpriseName"></param>
+        /// <param name="adminEmail"></param>
+        /// <returns></returns>
+        bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail);
+
     }
 }

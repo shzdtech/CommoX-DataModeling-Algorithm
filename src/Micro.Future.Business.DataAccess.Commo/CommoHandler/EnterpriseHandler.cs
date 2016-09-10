@@ -100,5 +100,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             int result = db.SaveChanges();
             return result > 0;
         }
+
+        public bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail)
+        {
+            var enterprise = db.Enterprises.Single(e => e.Name.Equals(enterpriseName) || e.EmailAddress.Equals(adminEmail));
+            if (enterprise != null)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
     }
 }

@@ -82,6 +82,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 findEnterprise.RegisterNumber = enterprise.RegisterNumber;
                 findEnterprise.RegisterTime = enterprise.RegisterTime;
                 findEnterprise.ReputationGrade = enterprise.ReputationGrade;
+                findEnterprise.EmailAddress = enterprise.EmailAddress;
+                findEnterprise.MobilePhone = enterprise.MobilePhone;
+                findEnterprise.LicenseImagePath = enterprise.LicenseImagePath;
+                findEnterprise.Fax = enterprise.Fax;
                 findEnterprise.StateId = enterprise.StateId;
             }
             //db.Enterprises.Update(enterprise);

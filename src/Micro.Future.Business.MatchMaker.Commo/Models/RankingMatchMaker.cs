@@ -1,6 +1,7 @@
 ﻿using Micro.Future.Business.MatchMaker.Abstraction.Models;
 using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using Micro.Future.Business.MongoDB.Commo.Handler;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
     {
         private MatcherHandler matcherHandler;
         private double THRESHOLD = -0.01;
+        private char sep = ',';
         public RankingMatchMaker(MatcherHandler mHandler)
         {
             matcherHandler = mHandler;
@@ -81,6 +83,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     var mlist = new List<RequirementObject>();
                     var prevUtility = calUtility(buyer, seller, mlist);
 
+                    // TODO 当前未考虑中间商过滤条件的顺序
                     for (int i = 0; i < listMids.Count && prevUtility > 0; i++)
                     {
                         var mid = listMids.Values[i];
@@ -105,36 +108,13 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         {
                             midBuyer = mlist[mlist.Count - 1];
                         }
-
                         // filter the requirement soft and hard filters
-                        /*
-                        foreach (var filter in midBuyer.HardFilterListForSeller)
-                        {
-                            if (!filter.check(midBuyer, mid))
-                            {
-                                filterflag = true;
-                                break;
-                            }
-                        }
-                        if (filterflag) continue;
-                        foreach (var filter in mid.HardFilterListForBuyer)
-                        {
-                            if (!filter.check(mid, midBuyer))
-                            {
-                                filterflag = true;
-                                break;
-                            }
-                        }
-                        if (filterflag) continue;
-                        foreach (var filter in midBuyer.SoftFilterListForSeller)
-                        {
-                            filterUtility += filter.violate(midBuyer, mid);
-                        }
-                        foreach (var filter in mid.SoftFilterListForBuyer)
-                        {
-                            filterUtility += filter.violate(mid, midBuyer);
-                        }
-                        */
+                        // Direction: Buyer To Seller <==> Up to Down
+                        if (!checkHardFilters(mid, midBuyer.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(midBuyer, mid.Filters, FilterDirectionType.UP)) continue;
+                        if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.UP)) continue;
+                        
                         mlist.Add(mid);
                         var utility = calUtility(buyer, seller, mlist);
                         var delta = utility - prevUtility - filterUtility;
@@ -213,6 +193,106 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             return true;
         }
 
+        private bool checkFilterOperation(FilterOperationType opType, String filterVal, String reqVal, FilterValueType valueType)
+        {
+            switch (opType)
+            {
+                case FilterOperationType.IN:
+                    if (valueType != FilterValueType.SEQUENCE_STRING)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    foreach(var s in filterVal.Split(','))
+                    {
+                        if (s.Equals(reqVal)) return true;
+                    }
+                    break;
+                case FilterOperationType.NIN:
+                    if (valueType != FilterValueType.SEQUENCE_STRING)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    var flag = true;
+                    foreach (var s in filterVal.Split(','))
+                    {
+                        if (s.Equals(reqVal)) flag = false;
+                    }
+                    return flag;
+                case FilterOperationType.EQ:
+                    if(valueType != FilterValueType.NUMBER && valueType != FilterValueType.STRING)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (valueType == FilterValueType.NUMBER)
+                    {
+                        if (Convert.ToDouble(filterVal) == Convert.ToDouble(reqVal)) return true;
+                    }
+                    else
+                    {
+                        if (filterVal.Equals(reqVal)) return true;
+                    }
+                    break;
+                case FilterOperationType.NE:
+                    if (valueType != FilterValueType.NUMBER && valueType != FilterValueType.STRING)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (valueType == FilterValueType.NUMBER)
+                    {
+                        if (Convert.ToDouble(filterVal) != Convert.ToDouble(reqVal)) return true;
+                    }
+                    else
+                    {
+                        if (!filterVal.Equals(reqVal)) return true;
+                    }
+                    break;
+                case FilterOperationType.LT:
+                    if (valueType != FilterValueType.NUMBER)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (Convert.ToDouble(reqVal) < Convert.ToDouble(filterVal)) return true;
+                    break;
+                case FilterOperationType.LE:
+                    if (valueType != FilterValueType.NUMBER)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (Convert.ToDouble(reqVal) <= Convert.ToDouble(filterVal)) return true;
+                    break;
+                case FilterOperationType.GT:
+                    if (valueType != FilterValueType.NUMBER)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (Convert.ToDouble(reqVal) > Convert.ToDouble(filterVal)) return true;
+                    break;
+                case FilterOperationType.GE:
+                    if (valueType != FilterValueType.NUMBER)
+                        throw new Exception("invalid filter: " + opType.ToString() + " +  " + valueType.ToString());
+                    if (Convert.ToDouble(reqVal) >= Convert.ToDouble(filterVal)) return true;
+                    break;           
+            }
+            return false;
+        }
+
+        private bool checkHardFilters(RequirementObject req, IList<RequirementFilter> filters, FilterDirectionType direct)
+        {
+            // TODO
+            var bson = req.ToBsonDocument();
+            if(filters == null) return true;
+            foreach(var filter in filters)
+            {
+                //ignore soft filters
+                if (filter.IsSoftFilter) continue;
+                try
+                {
+                    if (filter.FilterDirectionTypeId == FilterDirectionType.BIDIRECT ||
+                        filter.FilterDirectionTypeId == direct)
+                    {
+                        if (!bson.Contains(filter.FilterKey) || bson[filter.FilterKey] == null)
+                            return false;
+                        var reqValue = bson[filter.FilterKey].AsString;
+                        var filterValue = filter.FilterValue;
+                        if(!checkFilterOperation(filter.OperationTypeId, filterValue, reqValue, filter.FilterValueTypeId))
+                            return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // invalid filter
+                    continue;
+                }
+                
+            }
+            return true;
+        }
 
     }
 }

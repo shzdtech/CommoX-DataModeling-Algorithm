@@ -22,6 +22,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestChainMatcher()
         {
+            var filter = new RequirementFilter();
+            filter.FilterValueTypeId = FilterValueType.STRING;
+            filter.FilterKey = "EnterpriseType";
+            filter.FilterValue = "NNN";
+            filter.OperationTypeId = FilterOperationType.EQ;
+
             var req1 = new RequirementObject();
             req1.Deleted = false;
             req1.EnterpriseId = 1;
@@ -35,6 +41,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.CreateTime = DateTime.Now;
             req1.ModifyTime = DateTime.Now;
             req1.ProductType = "T1";
+            req1.EnterpriseType = "NNN";
 
             var req2 = new RequirementObject();
             req2.Deleted = false;
@@ -49,28 +56,35 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req2.CreateTime = DateTime.Now;
             req2.ModifyTime = DateTime.Now;
             req2.ProductType = "T1";
+            req2.EnterpriseType = "NNN";
+            req2.Filters = new List<RequirementFilter>();
+            req2.Filters.Add(filter);
 
             var req3 = new RequirementObject();
             req3.Deleted = false;
             req3.EnterpriseId = 3;
             req3.UserId = "1103";
-            req3.TradeAmount = 200000;
+            req3.TradeAmount = 210000;
             req3.RequirementStateId = RequirementStatus.OPEN;
             req3.RequirementTypeId = RequirementType.MID;
             req3.CreateTime = DateTime.Now;
             req3.ModifyTime = DateTime.Now;
             req3.ProductType = "T1";
+            req3.EnterpriseType = "NNN";
 
             var req4 = new RequirementObject();
             req4.Deleted = false;
             req4.EnterpriseId = 3;
             req4.UserId = "1104";
-            req4.TradeAmount = 20000;
+            req4.TradeAmount = 200000;
             req4.RequirementStateId = RequirementStatus.OPEN;
             req4.RequirementTypeId = RequirementType.MID;
             req4.CreateTime = DateTime.Now;
             req4.ModifyTime = DateTime.Now;
             req4.ProductType = "T1";
+            req4.EnterpriseType = "AAA";
+            req4.Filters = new List<RequirementFilter>();
+            req4.Filters.Add(filter);
 
             var matcherHandler = new MatcherHandler();
             var chainDal = new ChainDAL();

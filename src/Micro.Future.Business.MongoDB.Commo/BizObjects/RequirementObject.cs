@@ -159,6 +159,13 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public IList<RequirementFilter> Filters { get; set; }
     }
 
+    /// <summary>
+    /// RequirementFilter
+    /// 方向从上至下为从买家向卖家
+    /// 方向设置：
+    /// FilterDirectionTypeId = DOWN 为买家对卖家的FILTER
+    /// FilterDirectionTypeId = UP 为卖家对买家的FILTER
+    /// </summary>
     public class RequirementFilter
     {
         public string FilterKey { get; set; }
@@ -178,20 +185,21 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
 
     public enum FilterOperationType
     {
-        EQUAL = 1,
-        LESS = 2,
-        GREATER = 3,
-        IN = 4,
-        NOTIN = 5
+        EQ = 1,
+        NE = 2,
+        LE = 3,
+        LT =4,
+        GT = 5,
+        GE = 6,
+        IN = 7,
+        NIN = 8
     }
 
     public enum FilterValueType
     {
         STRING = 1,
         NUMBER = 2,
-        SEQUENCE_STRING = 3,
-        SEQUENCE_NUMBER = 4
-    }
+        SEQUENCE_STRING = 3    }
 
     public enum RequirementType
     {

@@ -22,6 +22,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         Enterprise QueryEnterpriseInfo(String name);
 
+        bool EmailHasBeenRegistered(string email);
+
         /// <summary>
         /// 查询企业信息
         /// </summary>

@@ -48,6 +48,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public bool EmailHasBeenRegistered(string email)
+        {
+            return db.Enterprises.Any(e => e.EmailAddress == email);
+        }
+
 
         public IList<Enterprise> QueryEnterpriseList(String name)
         {

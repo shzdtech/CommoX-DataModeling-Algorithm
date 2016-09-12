@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Micro.Future.Business.DataAccess.Commo.CommoObject;
+using System.Linq.Expressions;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
@@ -64,6 +65,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public IQueryable<Enterprise> QueryEnterprises(Expression<Func<Enterprise, bool>> predicate)
+        {
+            return db.Enterprises.Where(predicate);
+        }
+
         public bool UpdateEnterprise(Enterprise enterprise)
         {
             var findEnterprise = QueryEnterpriseInfo(enterprise.EnterpriseId);
@@ -112,7 +118,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail)
         {
-            var enterprise = db.Enterprises.Single(e => e.Name.Equals(enterpriseName) || e.EmailAddress.Equals(adminEmail));
+            var enterprise = db.Enterprises.FirstOrDefault(e => e.Name.Equals(enterpriseName) || string.Equals( e.EmailAddress, adminEmail, StringComparison.CurrentCultureIgnoreCase));
             if (enterprise != null)
             {
                 return false;

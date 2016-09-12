@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
@@ -59,6 +60,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail);
 
-        IEnumerable<Enterprise> QueryEnterprises(Func<Enterprise, bool> predicate);
+        IQueryable<Enterprise> QueryEnterprises(Expression<Func<Enterprise, bool>> predicate);
     }
 }

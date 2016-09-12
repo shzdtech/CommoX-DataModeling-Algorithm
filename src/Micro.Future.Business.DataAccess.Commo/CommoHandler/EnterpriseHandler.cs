@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Micro.Future.Business.DataAccess.Commo.CommoObject;
+using System.Linq.Expressions;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
@@ -59,7 +60,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
-        public IEnumerable<Enterprise> QueryEnterprises(Func<Enterprise, bool> predicate)
+        public IQueryable<Enterprise> QueryEnterprises(Expression<Func<Enterprise, bool>> predicate)
         {
             return db.Enterprises.Where(predicate);
         }

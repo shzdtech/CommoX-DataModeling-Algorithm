@@ -59,5 +59,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail);
 
+        IEnumerable<Enterprise> QueryEnterprises(Func<Enterprise, bool> predicate);
     }
 }

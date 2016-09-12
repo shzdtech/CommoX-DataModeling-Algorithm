@@ -59,6 +59,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        public IEnumerable<Enterprise> QueryEnterprises(Func<Enterprise, bool> predicate)
+        {
+            return db.Enterprises.Where(predicate);
+        }
+
         public bool UpdateEnterprise(Enterprise enterprise)
         {
             var findEnterprise = QueryEnterpriseInfo(enterprise.EnterpriseId);

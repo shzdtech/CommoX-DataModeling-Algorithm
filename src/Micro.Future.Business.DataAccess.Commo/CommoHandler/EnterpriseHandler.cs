@@ -113,7 +113,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public bool ValidationEnterpriceRegister(string enterpriseName, string adminEmail)
         {
-            var enterprise = db.Enterprises.Single(e => e.Name.Equals(enterpriseName) || e.EmailAddress.Equals(adminEmail));
+            var enterprise = db.Enterprises.FirstOrDefault(e => e.Name.Equals(enterpriseName) || string.Equals( e.EmailAddress, adminEmail, StringComparison.CurrentCultureIgnoreCase));
             if (enterprise != null)
             {
                 return false;

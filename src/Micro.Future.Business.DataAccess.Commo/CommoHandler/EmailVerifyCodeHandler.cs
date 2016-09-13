@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 {
-    class EmailVerifyCodeHandler:IEmailVerifyCode
+    public class EmailVerifyCodeHandler:IEmailVerifyCode
     {
         private CommoXContext db = null;
         public EmailVerifyCodeHandler(CommoXContext dbContext)

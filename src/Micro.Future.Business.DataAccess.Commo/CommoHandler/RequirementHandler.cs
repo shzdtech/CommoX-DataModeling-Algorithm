@@ -46,7 +46,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.Requirements.SingleOrDefault(f => f.RequirementId == requirementId);
+                return db.Requirements.FirstOrDefault(f => f.RequirementId == requirementId);
             }
         }
 

@@ -9,7 +9,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
     public class EmailVerifyCode
     {
         [Key]
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string RequestId { get; set; }
         public string Email { get; set; }
         public string VerifyCode { get; set; }

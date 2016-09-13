@@ -27,7 +27,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.Products.SingleOrDefault(p => p.ProductId == productId);
+                return db.Products.FirstOrDefault(p => p.ProductId == productId);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.ProductTypes.SingleOrDefault(p => p.ProductTypeId == productTypeId);
+                return db.ProductTypes.FirstOrDefault(p => p.ProductTypeId == productTypeId);
             }
         }
         public IList<ProductType> queryAllProductType()

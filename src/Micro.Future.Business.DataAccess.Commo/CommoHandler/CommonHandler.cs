@@ -19,7 +19,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.AcceptanceBills.SingleOrDefault(p => p.AcceptanceBillId == AcceptanceBillId);
+                return db.AcceptanceBills.FirstOrDefault(p => p.AcceptanceBillId == AcceptanceBillId);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.Banks.SingleOrDefault(p => p.BankId == bankId);
+                return db.Banks.FirstOrDefault(p => p.BankId == bankId);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.BusinessTypes.SingleOrDefault(p => p.BusinessTypeId == BusinessTypeId);
+                return db.BusinessTypes.FirstOrDefault(p => p.BusinessTypeId == BusinessTypeId);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.OrderStates.SingleOrDefault(p => p.OrderStateId == stateId);
+                return db.OrderStates.FirstOrDefault(p => p.OrderStateId == stateId);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                return db.PaymentMethods.SingleOrDefault(p => p.PaymentMethodId == PaymentMethodId);
+                return db.PaymentMethods.FirstOrDefault(p => p.PaymentMethodId == PaymentMethodId);
             }
         }
 

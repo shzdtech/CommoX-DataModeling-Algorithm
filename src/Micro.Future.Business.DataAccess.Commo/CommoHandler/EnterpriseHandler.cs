@@ -34,7 +34,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var enterprise = db.Enterprises.Single(e => e.EnterpriseId.Equals(enterpriseId));
+                var enterprise = db.Enterprises.FirstOrDefault(e => e.EnterpriseId.Equals(enterpriseId));
                 return enterprise;
             }
         }

@@ -32,7 +32,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //ing (var db = new CommoXContext())
             {
-                var result = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
+                var result = db.Orders.FirstOrDefault(t => t.OrderId == orderId);
                 return result;
 
             }
@@ -42,7 +42,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var result = db.Orders.SingleOrDefault(t => t.UserId == userId);
+                var result = db.Orders.FirstOrDefault(t => t.UserId == userId);
                 return result;
 
             }
@@ -52,7 +52,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var result = db.Orders.SingleOrDefault(t => t.RequirementId == requirementId);
+                var result = db.Orders.FirstOrDefault(t => t.RequirementId == requirementId);
                 return result;
 
             }
@@ -62,7 +62,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var result = db.Orders.SingleOrDefault(t => t.EnterpriseId == enterpriseId);
+                var result = db.Orders.FirstOrDefault(t => t.EnterpriseId == enterpriseId);
                 return result;
 
             }
@@ -72,7 +72,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var order = db.Orders.SingleOrDefault(t => t.OrderId == orderId);
+                var order = db.Orders.FirstOrDefault(t => t.OrderId == orderId);
                 if (order != null)
                 {
                     order.ExecuteUserId = executUserId;

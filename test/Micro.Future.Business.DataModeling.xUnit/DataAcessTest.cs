@@ -27,7 +27,67 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
         }
 
+        [Fact]
+        public void TestAcceptanceBill()
+        {
+            var commonhandler = new CommonHandler(db);
+            AcceptanceBill bill = new AcceptanceBill();
+            bill.EnterpriseId = 10002;
+            bill.DrawerName = "billTest";
+            bill.DrawerBankId = 1;
+            bill.DrawerAccount = "337748823423";
+            bill.CreateTime = DateTime.Now;
+            bill.DueDate = DateTime.Today;
+
+            commonhandler.submictAcceptanceBill(bill);
+
+            var queryBill = commonhandler.queryAcceptanceBill(10000);
+
+            var billList = commonhandler.queryAcceptanceBillByEnterprise(10002);
+
+
+        }
+
        
+        [Fact]
+        public void TestBank()
+        {
+            var commonhandler = new CommonHandler(db);
+            Bank bank = new Bank();
+            bank.BankName = "中国银行Test";
+            bank.BankAddress = "上海浦东新区Test";
+            commonhandler.submitBank(bank);
+
+            var queryBank = commonhandler.queryBank(1001);
+            var bankList = commonhandler.queryAllBank();
+        }
+
+        [Fact]
+        public void TestBusinessType()
+        {
+            var commonhandler = new CommonHandler(db);
+            BusinessType buss = new BusinessType();
+            buss.BusinessTypeName = "国企Test";
+            commonhandler.submitBusinessType(buss);
+            var queryBussiness = commonhandler.queryBusinessType(10);
+            var queryBussinessList = commonhandler.queryAllBusinessType();
+
+        }
+
+        [Fact]
+        public void TestPaymentMethod()
+        {
+            var commonhandler = new CommonHandler(db);
+            PaymentMethod payment = new PaymentMethod();
+            payment.PaymentMethodName = "现金Test";
+            commonhandler.submitPaymentMethod(payment);
+            var queryPaymentMethod = commonhandler.queryPaymentMethod(10);
+            var queryPaymentMethodList = commonhandler.queryAllBusinessType();
+
+        }
+
+
+
         [Fact]
         public void TestTradeHandler()
         {
@@ -178,7 +238,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.CreateTime = DateTime.Now;
             enterprise.InvoicedQuantity = 10000000;
             enterprise.LegalRepresentative = "test";
-            enterprise.Name = "上海栈道";
+            enterprise.Name = "上海栈道1";
             enterprise.PaymentMethodId = 2;
             enterprise.PreviousProfit = 11100000;
             enterprise.PreviousSales = 5534354;
@@ -189,11 +249,13 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.RegisterNumber = "2334234" ;
             enterprise.RegisterTime = DateTime.Parse("2012-02-14");
             enterprise.ReputationGrade = 5;
-            enterprise.EmailAddress = "111222@email.com";
+            enterprise.EmailAddress = "1112223@email.com";
             enterprise.MobilePhone = "13122332222";
             enterprise.LicenseImagePath = "c:/pic/aa.img";
+
             var handler = new EnterpriseHandler(db);
-            handler.AddEnterprise(enterprise);
+            if(handler.ValidationEnterpriceRegister(enterprise.Name , enterprise.EmailAddress))
+                handler.AddEnterprise(enterprise);
 
         }
 
@@ -209,11 +271,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
             handler.UpdateEnterprise(enterprise);
 
         }
+
         [Fact]
         public void TestEnterpriseUpdateState()
         {
             int enterpriseId = 123;
-            int state = 2;
+            int state = 5;
             Enterprise enterprise = new Enterprise();
 
             var handler = new EnterpriseHandler(db);

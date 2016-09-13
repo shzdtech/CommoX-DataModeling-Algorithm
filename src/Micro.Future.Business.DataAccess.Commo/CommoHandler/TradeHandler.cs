@@ -44,7 +44,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var result = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
+                var result = db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
                 return result;
 
             }
@@ -63,7 +63,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
         {
             //using (var db = new CommoXContext())
             {
-                var trade = db.Trades.SingleOrDefault(t => t.TradeId == tradeId);
+                var trade = db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
                 trade.CurrentState = state;
                 int result = db.SaveChanges();
                 if (result > 0)

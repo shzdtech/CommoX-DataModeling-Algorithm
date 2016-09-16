@@ -32,7 +32,7 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<TradeChain> TradeChains { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<EmailVerifyCode> EmailVerifyCodes { get; set; }
-
+        public DbSet<OperationRecord> OperationRecords { get; set; }
         public CommoXContext(DbContextOptions<CommoXContext> options) : base(options)
         {
 

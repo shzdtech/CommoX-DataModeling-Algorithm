@@ -63,6 +63,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime ModifyTime { get; set; }
         public bool Deleted { get; set; }
+
+        public string OperatorId { get; set; }
     }
 
     public enum ChainStatus

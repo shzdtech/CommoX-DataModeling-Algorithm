@@ -26,11 +26,11 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<ChainObject> GetMatcherChainsByUserId(String userId, ChainStatus status, bool isLatestVersion);
 
-        bool LockMatcherChain(int chainId);
+        bool LockMatcherChain(int chainId, string operatorId);
 
-        bool UnLockMatcherChain(int chainId);
+        bool UnLockMatcherChain(int chainId, string operatorId);
 
-        bool ConfirmMatcherChain(int chainId);
+        bool ConfirmMatcherChain(int chainId, string operatorId);
 
         IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus? requirementState);
 

@@ -102,14 +102,14 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var chains2 = matcherHandler.GetMatcherChainsByRequirementId(req1Id, ChainStatus.OPEN);
 
             // LOCK the chain
-            var b = matcherHandler.LockMatcherChain(chains[0].ChainId);
+            var b = matcherHandler.LockMatcherChain(chains[0].ChainId, "aaa");
 
             // Set isLatestVersion to false to get all locked chains, because some locked chains are with old versions
             var lockedChains = matcherHandler.GetMatcherChainsByUserId("1101", ChainStatus.LOCKED, false);
 
             // Get the confirmed chains of the given requirementid with the latest match version
             // NOTE: some confirmed  chains are with old versions, Set isLatestVersion to false to get them
-            var c = matcherHandler.ConfirmMatcherChain(chains[0].ChainId);
+            var c = matcherHandler.ConfirmMatcherChain(chains[0].ChainId, "aaa");
             var confirmedChains = matcherHandler.GetMatcherChainsByRequirementId(chains[0].RequirementIdChain[0], ChainStatus.CONFIRMED);
 
             // Get ALl confirmed Chains

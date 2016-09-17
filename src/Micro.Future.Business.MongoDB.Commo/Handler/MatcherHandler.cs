@@ -111,28 +111,29 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return chains;
         }
 
-        public bool LockMatcherChain(int chainId)
+        public bool LockMatcherChain(int chainId, string operatorId)
         {
-            return updateChainStatus(chainId, ChainStatus.LOCKED, RequirementStatus.LOCKED);
+            return updateChainStatus(chainId, ChainStatus.LOCKED, RequirementStatus.LOCKED, operatorId);
         }
 
-        public bool UnLockMatcherChain(int chainId)
+        public bool UnLockMatcherChain(int chainId, string operatorId)
         {
-            return updateChainStatus(chainId, ChainStatus.OPEN, RequirementStatus.OPEN);
+            return updateChainStatus(chainId, ChainStatus.OPEN, RequirementStatus.OPEN, operatorId);
         }
 
-        public bool ConfirmMatcherChain(int chainId)
+        public bool ConfirmMatcherChain(int chainId, string operatorId)
         {
-            return updateChainStatus(chainId, ChainStatus.CONFIRMED, RequirementStatus.CONFIRMED);
+            return updateChainStatus(chainId, ChainStatus.CONFIRMED, RequirementStatus.CONFIRMED, operatorId);
         }
 
-        private bool updateChainStatus(int chainId, ChainStatus chainStatus, RequirementStatus reqStatus)
+        private bool updateChainStatus(int chainId, ChainStatus chainStatus, RequirementStatus reqStatus, string operatorId)
         {
             var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
                     Builders<ChainObject>.Filter.Eq("Deleted", false);
             var chain = COL_CHAIN.Find<ChainObject>(filter).First();
             var update = Builders<ChainObject>.Update
                 .Set("ChainStateId", (int)chainStatus)
+                .Set("OperatorUserId", operatorId)
                 .CurrentDate("ModifyTime");
             var res1 = COL_CHAIN.UpdateOne(filter, update);
             var reqfilter = Builders<RequirementObject>.Filter.In("RequirementId", chain.RequirementIdChain) &

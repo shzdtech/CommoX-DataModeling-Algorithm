@@ -38,7 +38,7 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN);
 
-        bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<RequirementObject> replacedRequirements);
+        bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacedRequirementIds);
 
     }
 

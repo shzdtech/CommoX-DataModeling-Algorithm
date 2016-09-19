@@ -155,7 +155,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public bool Deleted { get; set; } = false;
 
         // TODO: add filter EnterpriceType
-        
+
         public IList<RequirementFilter> Filters { get; set; }
     }
 

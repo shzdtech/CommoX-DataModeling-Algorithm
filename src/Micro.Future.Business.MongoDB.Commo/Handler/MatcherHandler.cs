@@ -146,6 +146,22 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             else return false;
         }
 
+        private bool updateRequirementStatus(int reqId, RequirementStatus reqUpdateStatus, RequirementStatus? reqFilterStatus = null)
+        {
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", reqId) &
+                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
+            if (reqFilterStatus.HasValue)
+            {
+                filter = filter & Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)reqFilterStatus); 
+            }
+            var update = Builders<RequirementObject>.Update
+                .Set("RequirementStateId", (int)reqUpdateStatus)
+                .CurrentDate("ModifyTime");
+            var res1 = COL_REQUIREMENT.UpdateOne(filter, update);
+            if (res1.IsAcknowledged && res1.ModifiedCount == 1) return true;
+            else return false;
+        }
+
         public void CallOnChainRemoved(List<ChainObject> chains)
         {
             OnChainChanged?.Invoke(chains, ChainUpdateStatus.DELETE);
@@ -317,13 +333,57 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
     
         }
 
+        private bool LockRequirementIds(IList<int> reqIds)
+        {
+            var rollbackReqIds = new List<int>();
+            var rollbackFlag = false;
+            foreach (var r in reqIds)
+            {
+                if (!updateRequirementStatus(r, RequirementStatus.LOCKED, RequirementStatus.OPEN))
+                {
+                    rollbackFlag = true;
+                    break;
+                }
+                else
+                {
+                    rollbackReqIds.Add(r);
+                }
+            }
+            if (rollbackFlag)
+            {
+                foreach (var r in rollbackReqIds)
+                {
+                    updateRequirementStatus(r, RequirementStatus.OPEN, RequirementStatus.LOCKED);
+                }
+                return false;
+            }
+            else return true;
+        }
+
         public IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN = 5)
         {
             throw new NotImplementedException();
         }
 
-        public bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<RequirementObject> replacedRequirements)
+        public bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacedRequirementIds)
         {
+            // the replaced chain status should be LOCKED
+            var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.LOCKED);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain);
+            if (chains.Count() == 0) return false;
+
+            if(!LockRequirementIds(replacedRequirementIds)) return false;
+
+            
+            foreach(var i in replacedNodeIndexArr)
+            {
+
+            }
+
+
+
             throw new NotImplementedException();
         }
     }

@@ -36,6 +36,9 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector);
 
+        IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN);
+
+        bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<RequirementObject> replacedRequirements);
 
     }
 

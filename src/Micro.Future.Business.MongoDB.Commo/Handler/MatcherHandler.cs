@@ -120,7 +120,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         {
             return updateChainStatus(chainId, ChainStatus.OPEN, RequirementStatus.OPEN, operatorId);
         }
-
+        
         public bool ConfirmMatcherChain(int chainId, string operatorId)
         {
             return updateChainStatus(chainId, ChainStatus.CONFIRMED, RequirementStatus.CONFIRMED, operatorId);
@@ -315,6 +315,16 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         {
             return COL_REQUIREMENT.AsQueryable().Where(selector);
     
+        }
+
+        public IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN = 5)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<RequirementObject> replacedRequirements)
+        {
+            throw new NotImplementedException();
         }
     }
 }

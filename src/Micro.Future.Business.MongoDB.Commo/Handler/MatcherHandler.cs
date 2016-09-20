@@ -368,6 +368,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             var index = 0;
             foreach(var i in replacedNodeIndexArr)
             {
+                if (i >= chain.ChainLength) return false;
                 replacedRequirementIds.Add(chain.RequirementIdChain[i]);
 
                 var r = QueryRequirementInfo(replacingRequirementIds[index]);
@@ -375,9 +376,12 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                 chain.RequirementIdChain[i] = r.RequirementId;
                 chain.UserIdChain[i] = r.UserId;
                 chain.EnterpriseIdChain[i] = r.EnterpriseId;
+                if (chain.TradeAmount > r.TradeAmount) chain.TradeAmount = r.TradeAmount;
                 
                 index += 1;
             }
+            chain.ModifyTime = DateTime.Now;
+            COL_CHAIN.ReplaceOne(filterChain, chain);
 
             UnlockRequirementIds(replacedRequirementIds);
 

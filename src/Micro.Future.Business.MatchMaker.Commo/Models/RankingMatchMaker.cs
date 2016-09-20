@@ -54,6 +54,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         )
                     {
                         res.Add(r);
+                        if (res.Count == topN) break;
                     }
                 }
             }
@@ -74,6 +75,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         )
                     {
                         res.Add(r);
+                        if (res.Count == topN) break;
                     }
                 }
             }
@@ -92,6 +94,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         )
                     {
                         res.Add(r);
+                        if (res.Count == topN) break;
                     }
                 }
             }        

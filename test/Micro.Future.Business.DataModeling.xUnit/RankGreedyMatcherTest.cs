@@ -76,13 +76,13 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req4.Deleted = false;
             req4.EnterpriseId = 3;
             req4.UserId = "1104";
-            req4.TradeAmount = 200000;
+            req4.TradeAmount = 2000;
             req4.RequirementStateId = RequirementStatus.OPEN;
             req4.RequirementTypeId = RequirementType.MID;
             req4.CreateTime = DateTime.Now;
             req4.ModifyTime = DateTime.Now;
             req4.ProductType = "T1";
-            req4.EnterpriseType = "AAA";
+            req4.EnterpriseType = "NNN";
             req4.Filters = new List<RequirementFilter>();
             req4.Filters.Add(filter);
 
@@ -91,7 +91,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var req1Id = matcherHandler.AddRequirement(req1);
             matcherHandler.AddRequirement(req2);
             matcherHandler.AddRequirement(req3);
-            matcherHandler.AddRequirement(req4);
+            var req4Id = matcherHandler.AddRequirement(req4);
             var matcherMaker = new RankingMatchMaker(matcherHandler);
             matcherMaker.make();
             
@@ -109,15 +109,21 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
             // Get the confirmed chains of the given requirementid with the latest match version
             // NOTE: some confirmed  chains are with old versions, Set isLatestVersion to false to get them
-            var c = matcherHandler.ConfirmMatcherChain(chains[0].ChainId, "aaa");
-            var confirmedChains = matcherHandler.GetMatcherChainsByRequirementId(chains[0].RequirementIdChain[0], ChainStatus.CONFIRMED);
+            //var c = matcherHandler.ConfirmMatcherChain(chains[0].ChainId, "aaa");
+            //var confirmedChains = matcherHandler.GetMatcherChainsByRequirementId(chains[0].RequirementIdChain[0], ChainStatus.CONFIRMED);
 
             // Get ALl confirmed Chains
             // Set isLatestVersion to false to get all confirmed chains, because some confirmed chains may be with the old version
-            var allConfirmedChains = matcherHandler.GetMatcherChains(ChainStatus.CONFIRMED, false);
+            //var allConfirmedChains = matcherHandler.GetMatcherChains(ChainStatus.CONFIRMED, false);
 
-            var enterpriseReqs = matcherHandler.QueryRequirementsByEnterpriseId(1, RequirementStatus.CONFIRMED);
-            var enterpriseChains = chainDal.QueryChainsByEnterpriseId(2);
+            //var enterpriseReqs = matcherHandler.QueryRequirementsByEnterpriseId(1, RequirementStatus.CONFIRMED);
+            //var enterpriseChains = chainDal.QueryChainsByEnterpriseId(2);
+            var replacedReqs = matcherMaker.FindReplacedRequirementsForChain(chains[0].ChainId, 1, 5);
+            var replacedArr = new List<int>();
+            replacedArr.Add(1);
+            var replacingIdArr = new List<int>();
+            replacingIdArr.Add(req4Id);
+            matcherHandler.ReplaceRequirementsForChain(chains[0].ChainId, replacedArr, replacingIdArr);
 
             return;
         }

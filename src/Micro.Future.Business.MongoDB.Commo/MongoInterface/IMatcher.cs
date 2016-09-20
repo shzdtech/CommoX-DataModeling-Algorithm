@@ -38,6 +38,10 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector);
 
+        void CallOnChainAdded(List<ChainObject> chains);
+
+        IList<RequirementObject> getReqSortedByAmountDesc(RequirementType requirementType);
+
         /// <summary>
         /// Replace Requirements for chain
         /// </summary>

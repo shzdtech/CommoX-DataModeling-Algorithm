@@ -1,6 +1,7 @@
 ﻿using Micro.Future.Business.MatchMaker.Abstraction.Models;
 using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using Micro.Future.Business.MongoDB.Commo.Handler;
+using Micro.Future.Business.MongoDB.Commo.MongoInterface;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -12,11 +13,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 {
     public class RankingMatchMaker : BaseMatchMaker
     {
-        private MatcherHandler matcherHandler;
+        private IMatcher matcherHandler;
         private double THRESHOLD = -0.01;
         private double PRICE_DEVIANCE = 0.05;
         private char sep = ',';
-        public RankingMatchMaker(MatcherHandler mHandler)
+        public RankingMatchMaker(IMatcher mHandler)
         {
             matcherHandler = mHandler;
         }

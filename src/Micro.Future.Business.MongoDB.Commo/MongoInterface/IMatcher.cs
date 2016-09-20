@@ -12,6 +12,8 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         bool CancelRequirement(int requirementId);
 
+        ChainObject GetChain(int chainId);
+
         IEnumerable<RequirementObject> QueryRequirements(string userId);
 
         IEnumerable<RequirementObject> QueryAllRequirements();
@@ -36,9 +38,15 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 
         IEnumerable<RequirementObject> QueryRequirementsByLinq(Func<RequirementObject, bool> selector);
 
-        IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN);
-
-        bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacedRequirementIds);
+        /// <summary>
+        /// Replace Requirements for chain
+        /// </summary>
+        /// 给定的Chain必须为锁定状态
+        /// <param name="chainId"></param>
+        /// <param name="replacedNodeIndexArr"></param>
+        /// <param name="replacingRequirementIds"></param>
+        /// <returns></returns>
+        bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacingRequirementIds);
 
     }
 

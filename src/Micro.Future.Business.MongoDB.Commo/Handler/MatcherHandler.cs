@@ -70,6 +70,15 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             COL_CHAIN.InsertMany(chains);
         }
 
+        public ChainObject GetChain(int chainId)
+        {
+            var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                    Builders<ChainObject>.Filter.Eq("Deleted", false);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain);
+            if (chains.Count() == 0) throw new Exception("Chain doesn't exist");
+            return chains.First();
+        }
+
         public IList<ChainObject> GetMatcherChains(ChainStatus stauts, bool isLatestVersion = true)
         {
             var version = 0;
@@ -113,12 +122,44 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public bool LockMatcherChain(int chainId, string operatorId)
         {
-            return updateChainStatus(chainId, ChainStatus.LOCKED, RequirementStatus.LOCKED, operatorId);
+            var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                   Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                   Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.OPEN);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain);
+            if (chains.Count() == 0) return false;
+            var chain = chains.First();
+
+            if(!LockRequirementIds(chain.RequirementIdChain)) return false;
+
+            var update = Builders<ChainObject>.Update
+                .Set("ChainStateId", (int)ChainStatus.LOCKED)
+                .Set("OperatorUserId", operatorId)
+                .CurrentDate("ModifyTime");
+            var res1 = COL_CHAIN.UpdateOne(filterChain, update);
+
+            if (res1.IsAcknowledged) return true;
+            else return false;
         }
 
         public bool UnLockMatcherChain(int chainId, string operatorId)
         {
-            return updateChainStatus(chainId, ChainStatus.OPEN, RequirementStatus.OPEN, operatorId);
+            var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
+                   Builders<ChainObject>.Filter.Eq("Deleted", false) &
+                   Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.LOCKED);
+            var chains = COL_CHAIN.Find<ChainObject>(filterChain);
+            if (chains.Count() == 0) return false;
+            var chain = chains.First();
+
+            if (!UnlockRequirementIds(chain.RequirementIdChain)) return false;
+
+            var update = Builders<ChainObject>.Update
+                .Set("ChainStateId", (int)ChainStatus.OPEN)
+                .Set("OperatorUserId", operatorId)
+                .CurrentDate("ModifyTime");
+            var res1 = COL_CHAIN.UpdateOne(filterChain, update);
+
+            if (res1.IsAcknowledged) return true;
+            else return false;
         }
         
         public bool ConfirmMatcherChain(int chainId, string operatorId)
@@ -242,68 +283,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
-        /**
-        public int AddRequirementChain(ChainObject chain)
-        {
-            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
-            COL_CHAIN.InsertOne(chain);
-            return chain.ChainId;
-        }
-
-        public IEnumerable<RequirementObject> GetUnprocessedRequirements()
-        {
-            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", 0) &
-                    Builders<RequirementObject>.Filter.Eq("Deleted", false);
-            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
-            return res;
-        }
-
-        public IEnumerable<RequirementObject> GetProcessedRequirements()
-        {
-            var filter = Builders<RequirementObject>.Filter.Ne("RequirementStateId", 0) &
-                Builders<RequirementObject>.Filter.Eq("Deleted", false);
-            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).ToList();
-            return res;
-        }
-
-        public IEnumerable<ChainObject> QueryRequirementChains(int requirementId)
-        {
-            var filterChain = Builders<ChainObject>.Filter.AnyEq("RequirementIdChain", requirementId) &
-                    Builders<ChainObject>.Filter.Eq("Deleted", false);
-
-            //var filterChain = Builders<ChainObject>.Filter.Gt("ChainId", 0);
-            var chains = COL_CHAIN.Find<ChainObject>(filterChain).ToList();
-            return chains;
-        }
-
-        public ChainObject QueryChain(int chainId)
-        {
-            var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
-                    Builders<ChainObject>.Filter.Eq("Deleted", false);
-            var res = COL_CHAIN.Find<ChainObject>(filter).First();
-            return res;
-        }
-
-        public bool ConfirmChainRequirement(int chainId)
-        {
-            try
-            {
-                var chain = QueryChain(chainId);
-                var list = chain.RequirementIdChain;
-                foreach (var i in list)
-                {
-                    var r = QueryRequirementInfo(i);
-                    if (r.Deleted) return false;
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-    **/
-
         public IList<RequirementObject> getReqSortedByAmountDesc(RequirementType requirementType)
         {
             var requirementTypeId = (int)requirementType;
@@ -359,32 +338,50 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             }
             else return true;
         }
-
-        public IList<IList<RequirementObject>> FindReplacedRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, int topN = 5)
+        private bool UnlockRequirementIds(IList<int> reqIds)
         {
-            throw new NotImplementedException();
+            var flag = true;
+            foreach(var r in reqIds)
+            {
+                if(!updateRequirementStatus(r, RequirementStatus.OPEN, RequirementStatus.LOCKED)) flag = false;
+            }
+            return flag;
         }
 
-        public bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacedRequirementIds)
+
+        public bool ReplaceRequirementsForChain(int chainId, IList<int> replacedNodeIndexArr, IList<int> replacingRequirementIds)
         {
+            
             // the replaced chain status should be LOCKED
             var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
                     Builders<ChainObject>.Filter.Eq("Deleted", false) &
                     Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.LOCKED);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain);
             if (chains.Count() == 0) return false;
+            var chain = chains.First();
 
-            if(!LockRequirementIds(replacedRequirementIds)) return false;
+            if (replacedNodeIndexArr.Count != replacingRequirementIds.Count || replacedNodeIndexArr.Count > chain.ChainLength) return false;
 
-            
+            if (!LockRequirementIds(replacingRequirementIds)) return false;
+
+            var replacedRequirementIds = new List<int>();
+            var index = 0;
             foreach(var i in replacedNodeIndexArr)
             {
+                replacedRequirementIds.Add(chain.RequirementIdChain[i]);
 
+                var r = QueryRequirementInfo(replacingRequirementIds[index]);
+
+                chain.RequirementIdChain[i] = r.RequirementId;
+                chain.UserIdChain[i] = r.UserId;
+                chain.EnterpriseIdChain[i] = r.EnterpriseId;
+                
+                index += 1;
             }
 
+            UnlockRequirementIds(replacedRequirementIds);
 
-
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

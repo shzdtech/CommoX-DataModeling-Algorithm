@@ -2,6 +2,7 @@
 using Micro.Future.Business.MongoDB.Commo.BizObjects;
 using Micro.Future.Business.MongoDB.Commo.Handler;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
     {
         private MatcherHandler matcherHandler;
         private double THRESHOLD = -0.01;
+        private double PRICE_DEVIANCE = 0.05;
         private char sep = ',';
         public RankingMatchMaker(MatcherHandler mHandler)
         {
@@ -24,6 +26,75 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             if (threshold > 0) return false;
             THRESHOLD = threshold;
             return true;
+        }
+
+        public IList<RequirementObject> FindReplacedRequirementsForChain(int chainId, int replacedNodeIndex, int topN = 5)
+        {
+            var res = new List<RequirementObject>();
+            // the replaced chain status should be LOCKED
+            var chain = matcherHandler.GetChain(chainId);
+            if (chain.ChainStateId != ChainStatus.LOCKED) return null;
+            // invalid chain
+            if (chain.ChainLength != chain.RequirementIdChain.Count) return null;
+            //Replace Buyer
+            if (replacedNodeIndex == 0)
+            {
+                var listBuyers = matcherHandler.getReqSortedByAmountDesc(RequirementType.BUYER);
+                if (chain.RequirementIdChain.Count < 3 && chain.RequirementIdChain.Count < chain.ChainLength) return null;
+                var seller = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[chain.ChainLength - 1]);
+                var midSeller = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[1]);
+                foreach (var r in listBuyers)
+                {
+                    if (checkValidForBuyerAndSeller(r) &&
+                        r.ProductName == seller.ProductName &&
+                        isPriceAcceptable(r.ProductPrice, seller.ProductPrice, PRICE_DEVIANCE) &&
+                        checkHardFilters(r, midSeller.Filters, FilterDirectionType.UP) &&
+                        checkHardFilters(midSeller, r.Filters, FilterDirectionType.DOWN)
+                        )
+                    {
+                        res.Add(r);
+                    }
+                }
+            }
+            //Replace Seller
+            else if (replacedNodeIndex == chain.ChainLength - 1)
+            {
+                var listSeller = matcherHandler.getReqSortedByAmountDesc(RequirementType.SELLER);
+                if (chain.RequirementIdChain.Count < 3 && chain.RequirementIdChain.Count < chain.ChainLength) return null;
+                var buyer = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[0]);
+                var midBuyer = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[chain.ChainLength - 2]);
+                foreach (var r in listSeller)
+                {
+                    if (checkValidForBuyerAndSeller(r) &&
+                        r.ProductName == buyer.ProductName &&
+                        isPriceAcceptable(buyer.ProductPrice, r.ProductPrice, PRICE_DEVIANCE) &&
+                        checkHardFilters(r, midBuyer.Filters, FilterDirectionType.DOWN) &&
+                        checkHardFilters(midBuyer, r.Filters, FilterDirectionType.UP)
+                        )
+                    {
+                        res.Add(r);
+                    }
+                }
+            }
+            else
+            {
+                var listMid = matcherHandler.getReqSortedByAmountDesc(RequirementType.MID);
+                if (chain.RequirementIdChain.Count < 3 && chain.RequirementIdChain.Count < chain.ChainLength) return null;
+                var midSeller = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[replacedNodeIndex + 1]);
+                var midBuyer = matcherHandler.QueryRequirementInfo(chain.RequirementIdChain[replacedNodeIndex - 1]);
+                foreach (var r in listMid)
+                {
+                    if (checkHardFilters(r, midBuyer.Filters, FilterDirectionType.DOWN) &&
+                        checkHardFilters(midBuyer, r.Filters, FilterDirectionType.UP) &&
+                        checkHardFilters(r, midSeller.Filters, FilterDirectionType.UP) &&
+                        checkHardFilters(midSeller, r.Filters, FilterDirectionType.DOWN)
+                        )
+                    {
+                        res.Add(r);
+                    }
+                }
+            }        
+            return res;
         }
 
         public void make()
@@ -67,7 +138,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     for (var i = 0; i < dict[buyer.ProductName].Count; i++)
                     {
                         var s = dict[buyer.ProductName].Values[i];
-                        if (isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, 0.05)
+                        if (isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, PRICE_DEVIANCE)
                             && s.EnterpriseId != buyer.EnterpriseId)
                         {
                             seller = s;

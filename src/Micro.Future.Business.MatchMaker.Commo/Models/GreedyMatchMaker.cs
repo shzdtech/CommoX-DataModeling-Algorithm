@@ -17,6 +17,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             matcherHandler = mHandler;
         }
 
+        public IList<RequirementObject> FindReplacedRequirementsForChain(int chainId, int replacedNodeIndex, int topN)
+        {
+            throw new NotImplementedException();
+        }
+
         public void make()
         {
             /**

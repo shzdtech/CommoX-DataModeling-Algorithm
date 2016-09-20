@@ -104,6 +104,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             return result > 0;
         }
 
+
         public bool UpdateEnterpriseState(int enterpriseId, int stateId)
         {
             var enterprise = QueryEnterpriseInfo(enterpriseId);
@@ -125,6 +126,19 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
             else
                 return true;
+        }
+
+        public bool DeleteEnterprise(int enterpriseId)
+        {
+            var enterprise = QueryEnterpriseInfo(enterpriseId);
+            db.Remove(enterprise);
+            var result = db.SaveChanges();
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

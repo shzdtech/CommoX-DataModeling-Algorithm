@@ -48,6 +48,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         bool UpdateEnterprise(Enterprise enterprise);
 
         /// <summary>
+        /// 删除一个企业信息
+        /// </summary>
+        /// <param name="enterpriseId"></param>
+        /// <returns></returns>
+        bool DeleteEnterprise(int enterpriseId);
+
+        /// <summary>
         /// 企业 更新 认证状态
         /// </summary>
         /// <param name="enterpriseId"></param>

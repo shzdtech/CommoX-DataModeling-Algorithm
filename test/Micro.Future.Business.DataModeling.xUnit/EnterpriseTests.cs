@@ -27,7 +27,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
 
         [Fact]
-        public void Test_AddEnterprise()
+        public Enterprise TestAddEnterprise()
         {
             IEnterprise service = new EnterpriseHandler(_context);
 
@@ -46,6 +46,19 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
             Assert.NotEqual<int>(0, newEnterprise.EnterpriseId);
             Assert.Equal<string>(enterprise.Name, newEnterprise.Name);
+
+            return newEnterprise;
+        }
+
+        [Fact]
+        public void TestDeleteEnterprise()
+        {
+            var newEnterprise = TestAddEnterprise();
+
+            IEnterprise service = new EnterpriseHandler(_context);
+            var result = service.DeleteEnterprise(newEnterprise.EnterpriseId);
+
+            
 
         }
     }

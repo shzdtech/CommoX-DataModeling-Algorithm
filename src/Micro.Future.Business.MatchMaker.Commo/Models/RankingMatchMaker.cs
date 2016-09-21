@@ -352,9 +352,10 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         filter.FilterDirectionTypeId == direct)
                     {
                         if (!bson.Contains(filter.FilterKey) || bson[filter.FilterKey] == null)
-                            return false;
+                            continue;
                         var reqValue = bson[filter.FilterKey].AsString;
                         var filterValue = filter.FilterValue;
+                        if (filterValue == null) continue;
                         if(!checkFilterOperation(filter.OperationTypeId, filterValue, reqValue, filter.FilterValueTypeId))
                             return false;
                     }

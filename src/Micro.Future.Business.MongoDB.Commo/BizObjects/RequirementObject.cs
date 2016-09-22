@@ -55,6 +55,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 货物数量
         /// </summary>
+        [BsonRepresentation(BsonType.Double)]
         public decimal ProductQuantity { get; set; }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// </summary>
         public string ProductUnit { get; set; }
 
-
+        [BsonRepresentation(BsonType.Double)]
         public decimal PaymentAmount { get; set; }
 
         /// <summary>
@@ -106,8 +107,10 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// 出资方：出资总金额，我要购买xxx货物xxx吨，出资1亿
         /// 补贴方：贸易量，我要多少贸易量（1个亿的贸易量）
         /// </summary>
+        [BsonRepresentation(BsonType.Double)]
         public decimal TradeAmount { get; set; }
 
+        [BsonRepresentation(BsonType.Double)]
         public decimal TradeProfit { get; set; }
 
         /// <summary>
@@ -124,6 +127,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 补贴额度，比如：我要1个亿的贸易量，我补贴贸易量的5%
         /// </summary>
+
+        [BsonRepresentation(BsonType.Double)]
         public decimal Subsidies { get; set; }
 
         /// <summary>

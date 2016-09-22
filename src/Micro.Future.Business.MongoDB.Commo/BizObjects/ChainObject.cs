@@ -53,6 +53,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         public ChainStatus ChainStateId { get; set; }
         public string ProductName { get; set; }
         public string ProductType { get; set; }
+
+        [BsonRepresentation(BsonType.Double)]
         public decimal TradeAmount { get; set; }
         public int ChainLength { get; set; }
         public string OperatorUserId { get; set; }

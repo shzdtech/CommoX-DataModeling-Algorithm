@@ -216,9 +216,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         reqlist.Add(seller);
                         var chain = new ChainObject(reqlist);
                         res.Add(chain);
+                        dict[buyer.ProductName].RemoveAt(0);
                     }
                     listBuyers.RemoveAt(0);
-                    dict[buyer.ProductName].RemoveAt(0);
                 }
                 matcherHandler.AddMatcherChains(res);
                 matcherHandler.CallOnChainAdded(res);
@@ -255,7 +255,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
         private bool isPriceAcceptable(double buyerPrice, double sellerPrice, double deviance)
         {
-            if (buyerPrice >= sellerPrice * (1 - deviance) || buyerPrice <= sellerPrice * (1 + deviance))
+            if (buyerPrice >= sellerPrice * (1 - deviance) && buyerPrice <= sellerPrice * (1 + deviance))
             {
                 return true;
             }

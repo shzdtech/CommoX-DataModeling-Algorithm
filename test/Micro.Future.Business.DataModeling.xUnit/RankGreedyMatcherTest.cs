@@ -22,11 +22,6 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestChainMatcher()
         {
-            var filter = new RequirementFilter();
-            filter.FilterValueTypeId = FilterValueType.STRING;
-            filter.FilterKey = "EnterpriseType";
-            filter.FilterValue = "NNN";
-            filter.OperationTypeId = FilterOperationType.EQ;
 
             var req1 = new RequirementObject();
             req1.Deleted = false;
@@ -41,7 +36,13 @@ namespace Micro.Future.Business.DataModeling.xUnit
             req1.CreateTime = DateTime.Now;
             req1.ModifyTime = DateTime.Now;
             req1.ProductType = "T1";
-            req1.EnterpriseType = "NNN";
+            req1.EnterpriseType = "AAA";
+
+            var filter = new RequirementFilter();
+            filter.FilterValueTypeId = FilterValueType.STRING;
+            filter.FilterKey = "EnterpriseType";
+            filter.FilterValue = "NNN";
+            filter.OperationTypeId = FilterOperationType.EQ;
 
             var req2 = new RequirementObject();
             req2.Deleted = false;
@@ -74,9 +75,9 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
             var req4 = new RequirementObject();
             req4.Deleted = false;
-            req4.EnterpriseId = 3;
+            req4.EnterpriseId = 4;
             req4.UserId = "1104";
-            req4.TradeAmount = 2000;
+            req4.TradeAmount = 220000;
             req4.RequirementStateId = RequirementStatus.OPEN;
             req4.RequirementTypeId = RequirementType.MID;
             req4.CreateTime = DateTime.Now;
@@ -118,13 +119,14 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
             //var enterpriseReqs = matcherHandler.QueryRequirementsByEnterpriseId(1, RequirementStatus.CONFIRMED);
             //var enterpriseChains = chainDal.QueryChainsByEnterpriseId(2);
+            /*
             var replacedReqs = matcherMaker.FindReplacedRequirementsForChain(chains[0].ChainId, 1, 5);
             var replacedArr = new List<int>();
             replacedArr.Add(1);
             var replacingIdArr = new List<int>();
             replacingIdArr.Add(req4Id);
             matcherHandler.ReplaceRequirementsForChain(chains[0].ChainId, replacedArr, replacingIdArr);
-
+            */
             return;
         }
 

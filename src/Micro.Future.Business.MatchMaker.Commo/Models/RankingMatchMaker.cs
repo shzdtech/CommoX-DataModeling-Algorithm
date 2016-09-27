@@ -158,52 +158,59 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     var mlist = new List<RequirementObject>();
                     var prevUtility = calUtility(buyer, seller, mlist);
 
-                    // TODO 当前未考虑中间商过滤条件的顺序
-                    for (int i = 0; i < listMids.Count && prevUtility > 0; i++)
+                    var midMatcherFlag = true;
+                    while (midMatcherFlag)
                     {
-                        var mid = listMids.Values[i];
-                        var midKey = listMids.Keys[i];
+                        var prevCount = mlist.Count;
+                        for (int i = 0; i < listMids.Count && prevUtility > 0; i++)
+                        {
+                            var mid = listMids.Values[i];
+                            var midKey = listMids.Keys[i];
 
-                        // TODO if mid doesn't satisfy the filter condition, continue
-                        bool filterflag = false;
-                        if (mid.EnterpriseId == buyer.EnterpriseId || mid.EnterpriseId == seller.EnterpriseId)
-                        {
-                            filterflag = true;
-                        }
-                        foreach (var m in mlist)
-                        {
-                            if (m.EnterpriseId == mid.EnterpriseId) filterflag = true;
-                        }
-                        if (filterflag) continue;
+                            // TODO if mid doesn't satisfy the filter condition, continue
+                            bool filterflag = false;
+                            if (mid.EnterpriseId == buyer.EnterpriseId || mid.EnterpriseId == seller.EnterpriseId)
+                            {
+                                filterflag = true;
+                            }
+                            foreach (var m in mlist)
+                            {
+                                if (m.EnterpriseId == mid.EnterpriseId) filterflag = true;
+                            }
+                            if (filterflag) continue;
 
-                        double filterUtility = 0;
+                            double filterUtility = 0;
 
-                        var midBuyer = buyer;
-                        if (mlist.Count > 0)
-                        {
-                            midBuyer = mlist[mlist.Count - 1];
+                            var midBuyer = buyer;
+                            if (mlist.Count > 0)
+                            {
+                                midBuyer = mlist[mlist.Count - 1];
+                            }
+                            // filter the requirement soft and hard filters
+                            // Direction: Buyer To Seller <==> Up to Down
+                            if (!checkHardFilters(mid, midBuyer.Filters, FilterDirectionType.DOWN)) continue;
+                            if (!checkHardFilters(midBuyer, mid.Filters, FilterDirectionType.UP)) continue;
+                            if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;
+                            if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.UP)) continue;
+
+                            mlist.Add(mid);
+                            var utility = calUtility(buyer, seller, mlist);
+                            var delta = utility - prevUtility - filterUtility;
+                            if (delta / prevUtility < THRESHOLD)
+                            {
+                                mlist.Remove(mid);
+                                break;
+                            }
+                            else
+                            {
+                                listMids.Remove(midKey);
+                            }
+                            prevUtility = utility;
                         }
-                        // filter the requirement soft and hard filters
-                        // Direction: Buyer To Seller <==> Up to Down
-                        if (!checkHardFilters(mid, midBuyer.Filters, FilterDirectionType.DOWN)) continue;
-                        if (!checkHardFilters(midBuyer, mid.Filters, FilterDirectionType.UP)) continue;
-                        if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;
-                        if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.UP)) continue;
-                        
-                        mlist.Add(mid);
-                        var utility = calUtility(buyer, seller, mlist);
-                        var delta = utility - prevUtility - filterUtility;
-                        if (delta / prevUtility < THRESHOLD)
-                        {
-                            mlist.Remove(mid);
-                            break;
-                        }
-                        else
-                        {
-                            listMids.Remove(midKey);
-                        }
-                        prevUtility = utility;
+                        // 当前遍历已经找不到新的购销节点则退出
+                        if (prevCount == mlist.Count) midMatcherFlag = false;
                     }
+                    
 
                     if (mlist.Count > 0)
                     {

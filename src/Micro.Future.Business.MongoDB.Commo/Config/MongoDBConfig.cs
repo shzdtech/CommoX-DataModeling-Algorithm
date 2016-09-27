@@ -10,7 +10,10 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
         public const String mongoAddr = "mongodb://root:shzl2701@114.55.54.144:3717";
         public const String COLLECTION_REQUIREMENT = "requirement";
         public const String COLLECTION_CHAIN = "chain";
-        public const String DATABASE = "testdb";
+        // 生产环境数据库
+        public const String DATABASE = "Production";
+        // 测试环境数据库
+        //public const String DATABASE = "testdb";
         //public const String DATABASE = "testdb2";
         public const String COLLECTION_COUNTERS = "counters";
         public const String ID_REQUIREMENT = "RequirementId";

@@ -13,7 +13,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
     public class DataAcessTest
     {
         User user = new User();
-        string connect = @"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo;";
+        string connect = @"Server=114.55.54.144; User Id=sa;; Password=shzdtech!123; Database=Commo-test;";
         CommoXContext db;
         public DataAcessTest()
         {

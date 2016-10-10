@@ -162,6 +162,52 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         // TODO: add filter EnterpriceType
 
         public IList<RequirementFilter> Filters { get; set; }
+
+        #region 1.1 新增属性
+
+
+        /// <summary>
+        /// 电子仓单 - new
+        /// </summary>
+        public string EWarehouseReceipt { get; set; }
+
+        /// <summary>
+        /// 支付银行开户行名称 - new
+        /// </summary>
+        public string PaymentBankName { get; set; }
+
+        /// <summary>
+        /// 支付银行帐号 - new
+        /// </summary>
+        public string PaymentBankAccount { get; set; }
+
+        /// <summary>
+        /// 支付银行行号 - new
+        /// </summary>
+        public int PaymentBankId { get; set; }
+
+        /// <summary>
+        /// 支付银行地址 - new
+        /// </summary>
+        public string PaymentBankAddress { get; set; }
+
+        /// <summary>
+        /// 支付银行是否开通银承电子票口  - new
+        /// </summary>
+        public bool IsAcceptanceBillETicket { get; set; }
+
+        /// <summary>
+        /// 支付风控 - new
+        /// </summary>
+        public string PaymentRiskControl { get; set; }
+
+
+        /// <summary>
+        /// 开票要求 - new
+        /// </summary>
+        public string InvoiceRequirement { get; set; }
+
+        #endregion
     }
 
     /// <summary>

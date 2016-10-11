@@ -56,7 +56,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             Bank bank = new Bank();
             bank.BankName = "中国银行Test";
             bank.BankAddress = "上海浦东新区Test";
-            commonhandler.submitBank(bank);
+            //commonhandler.submitBank(bank);
 
             var queryBank = commonhandler.queryBank(1001);
             var bankList = commonhandler.queryAllBank();
@@ -68,8 +68,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var commonhandler = new CommonHandler(db);
             BusinessType buss = new BusinessType();
             buss.BusinessTypeName = "国企Test";
-            commonhandler.submitBusinessType(buss);
-            var queryBussiness = commonhandler.queryBusinessType(10);
+            //commonhandler.submitBusinessType(buss);
+            var queryBussiness = commonhandler.queryBusinessType(100);
             var queryBussinessList = commonhandler.queryAllBusinessType();
 
         }
@@ -80,9 +80,9 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var commonhandler = new CommonHandler(db);
             PaymentMethod payment = new PaymentMethod();
             payment.PaymentMethodName = "现金Test";
-            commonhandler.submitPaymentMethod(payment);
+            //commonhandler.submitPaymentMethod(payment);
             var queryPaymentMethod = commonhandler.queryPaymentMethod(10);
-            var queryPaymentMethodList = commonhandler.queryAllBusinessType();
+            var queryPaymentMethodList = commonhandler.queryAllPaymentMethod();
 
         }
 
@@ -294,7 +294,34 @@ namespace Micro.Future.Business.DataModeling.xUnit
 
         }
 
+        [Fact]
+        public void TestProductQuery()
+        {
+            Product product = new Product();
+
+            var handler = new ProductHandler(db);
+            product = handler.queryProduct(2);
+            var productList = handler.queryAllProduct();
+
+        }
+
+        [Fact]
+        public void TestProductTypeQuery()
+        {
+            ProductType producttype = new ProductType();
+
+            var handler = new ProductHandler(db);
+            producttype = handler.queryProductType(2);
+            var producttypeList = handler.queryAllProductType();
+
+        }
+
+
+
     }
+
+
+
 
 
 }

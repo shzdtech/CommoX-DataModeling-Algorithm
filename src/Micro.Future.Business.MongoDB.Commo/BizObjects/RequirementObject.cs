@@ -194,7 +194,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 支付银行是否开通银承电子票口  - new
         /// </summary>
-        public bool IsAcceptanceBillETicket { get; set; }
+        public string ProductTransferMode { get; set; }
 
         /// <summary>
         /// 支付风控 - new
@@ -206,6 +206,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// 开票要求 - new
         /// </summary>
         public string InvoiceRequirement { get; set; }
+        public string InvoiceAmount { get; set; }
+        public bool IsAcceptanceBillETicket { get; set; }
 
         #endregion
     }

@@ -38,8 +38,9 @@ namespace Micro.Future.Business.DataModeling.xUnit
                 EmailAddress = "test@test.com",
                 Contacts = "test",
                 MobilePhone = "12345678901",
-                Fax = "021123456"
-            };
+                Fax = "021123456",
+                IsAcceptanceBillETicket = true
+        };
 
             var newEnterprise = service.AddEnterprise(enterprise);
             

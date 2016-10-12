@@ -130,7 +130,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// <summary>
         /// 是否开通银承电子票口
         /// </summary>
-        public bool IsAcceptanceBillETicket { get; set; }
+        public bool? IsAcceptanceBillETicket { get; set; }
 
         //企业营业执照
         //企业开户银行

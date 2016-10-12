@@ -44,5 +44,8 @@ GO
 ALTER TABLE [dbo].[ProductTypes] ADD DEFAULT 1 FOR [StateId]
 GO
 
+ALTER TABLE [dbo].[Enterprises] ALTER COLUMN [IsAcceptanceBillETicket] bit 
+GO
+
 
 

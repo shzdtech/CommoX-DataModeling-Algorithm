@@ -238,7 +238,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.CreateTime = DateTime.Now;
             enterprise.InvoicedQuantity = 10000000;
             enterprise.LegalRepresentative = "test";
-            enterprise.Name = "上海栈道1";
+            enterprise.Name = "上海栈道2";
             enterprise.PaymentMethodId = 2;
             enterprise.PreviousProfit = 11100000;
             enterprise.PreviousSales = 5534354;
@@ -252,6 +252,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             enterprise.EmailAddress = "1112223@email.com";
             enterprise.MobilePhone = "13122332222";
             enterprise.LicenseImagePath = "c:/pic/aa.img";
+            enterprise.IsAcceptanceBillETicket = true;
 
             var handler = new EnterpriseHandler(db);
             if(handler.ValidationEnterpriceRegister(enterprise.Name , enterprise.EmailAddress))
@@ -290,7 +291,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             Enterprise enterprise = new Enterprise();
            
             var handler = new EnterpriseHandler(db);
-            enterprise = handler.QueryEnterpriseInfo(123);
+            enterprise = handler.QueryEnterpriseInfo(200);
 
         }
 

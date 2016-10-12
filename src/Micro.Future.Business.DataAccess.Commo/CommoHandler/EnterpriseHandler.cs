@@ -98,6 +98,11 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 findEnterprise.LicenseImagePath = enterprise.LicenseImagePath;
                 findEnterprise.Fax = enterprise.Fax;
                 findEnterprise.StateId = enterprise.StateId;
+                findEnterprise.InvoiceMaterial = enterprise.InvoiceMaterial;
+                findEnterprise.RegisterWarehouse = enterprise.RegisterWarehouse;
+                findEnterprise.MaxTradeAmountPerMonth = enterprise.MaxTradeAmountPerMonth;
+                findEnterprise.IsAcceptanceBillETicket = enterprise.IsAcceptanceBillETicket;      
+
             }
             //db.Enterprises.Update(enterprise);
             int result = db.SaveChanges();

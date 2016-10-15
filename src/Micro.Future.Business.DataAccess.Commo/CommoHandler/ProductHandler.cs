@@ -23,6 +23,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             }
         }
 
+        /// <summary>
+        /// 根据产品类型获取产品
+        /// </summary>
+        /// <param name="productTypeId"></param>
+        /// <returns></returns>
+        public IList<Product> queryProductByType(int productTypeId)
+        {
+            return db.Products.Where(f => f.ProductTypeId == productTypeId).ToList();
+        }
+
         public Product queryProduct(int productId)
         {
             //using (var db = new CommoXContext())

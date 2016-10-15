@@ -22,11 +22,19 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         Product queryProduct(int productId);
 
+
         /// <summary>
         /// 查询所有的产品列表
         /// </summary>
         /// <returns></returns>
         IList<Product> queryAllProduct();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productTypeId"></param>
+        /// <returns></returns>
+        IList<Product> queryProductByType(int productTypeId);
 
         /// <summary>
         /// 更新产品的内容，根据productId查询到当前产品

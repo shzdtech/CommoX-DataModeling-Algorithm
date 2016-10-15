@@ -70,6 +70,13 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             COL_CHAIN.InsertMany(chains);
         }
 
+        public int AddChain(ChainObject chain)
+        {
+            chain.ChainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);
+            COL_CHAIN.InsertOne(chain);
+            return chain.ChainId;
+        }
+
         public ChainObject GetChain(int chainId)
         {
             var filterChain = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
@@ -385,6 +392,42 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
             UnlockRequirementIds(replacedRequirementIds);
 
+            return true;
+        }
+
+        public ChainObject AutoMatchRequirements(string opUserId, IList<int> requirementIds, int fixedLength, bool isPositionFixed = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ChainObject CreateChain(IList<int> requirementids, string opUserId)
+        {
+            var reqs = new List<RequirementObject>();
+            foreach(var id in requirementids)
+            {
+                var r = QueryRequirementInfo(id);
+                reqs.Add(r);
+            }
+            if(!checkManualChainReqsValid(reqs)) return null;
+            var chain = new ChainObject(reqs);
+            chain.OperatorId = opUserId;
+            int chainId = AddChain(chain);
+            var flag = ConfirmMatcherChain(chainId, opUserId);
+            if (!flag) return null;
+            chain.ChainId = chainId;
+            return chain;
+        }
+
+        private bool checkManualChainReqsValid(IList<RequirementObject> reqs)
+        {
+            if (reqs.Count < 3) return false;
+            if (reqs[0].ProductName != reqs[reqs.Count - 1].ProductName) return false;
+            // 判断同一个链中是否存在相同的企业id
+            var set = new HashSet<int>();
+            foreach(var r in reqs)
+            {
+                if (!set.Add(r.EnterpriseId)) return false;
+            }
             return true;
         }
     }

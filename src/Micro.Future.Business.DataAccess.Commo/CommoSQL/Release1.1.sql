@@ -47,5 +47,28 @@ GO
 ALTER TABLE [dbo].[Enterprises] ALTER COLUMN [IsAcceptanceBillETicket] bit 
 GO
 
+CREATE TABLE [dbo].[FinancialProduct] (
+[ProductId] int NOT NULL IDENTITY(1,1) ,
+[BankAddress] varchar(500) NULL ,
+[ProductTerm] int NULL ,
+[ProductYield] float(53) NULL ,
+[IsDeleted] bit NULL ,
+[CreatedTime] datetime2 NULL ,
+[UpdatedTime] datetime2 NULL ,
+PRIMARY KEY ([ProductId])
+)
+
+
+CREATE TABLE [dbo].[Acceptances] (
+[AcceptanceId] int NOT NULL IDENTITY(1,1) ,
+[Amount] float(53) NULL ,
+[DueDate] date NULL ,
+[BankName] varchar(255) NULL ,
+[AcceptanceType] varchar(50) NULL ,
+[DrawTime] datetime2 NULL ,
+[CreateTime] datetime2 NULL ,
+[UpdateTime] datetime2 NULL ,
+PRIMARY KEY ([AcceptanceId])
+)
 
 

@@ -1,5 +1,6 @@
 ﻿using Micro.Future.Business.MatchMaker.Commo.Models;
 using Micro.Future.Business.MongoDB.Commo.BizObjects;
+using Micro.Future.Business.MongoDB.Commo.Config;
 using Micro.Future.Business.MongoDB.Commo.Handler;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestChainMatcher()
         {
-
+            MongoDBConfig.load(TestMongoConfig.conf);
             var req1 = new RequirementObject();
             req1.Deleted = false;
             req1.EnterpriseId = 1;

@@ -27,8 +27,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
 
         public static void load(IConfigurationSection conf)
         {
-            if (String.IsNullOrEmpty(conf["mongoAddr"])) mongoAddr = conf["mongoAddr"];
-            if (String.IsNullOrEmpty(conf["mongodb"])) DATABASE = conf["mongodb"];
+            if (!String.IsNullOrEmpty(conf["mongoAddr"])) mongoAddr = conf["mongoAddr"];
+            if (!String.IsNullOrEmpty(conf["mongodb"])) DATABASE = conf["mongodb"];
         }
     }
 }

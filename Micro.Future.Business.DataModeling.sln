@@ -22,9 +22,6 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Micro.Future.Business.Reputation.Commo", "src\Micro.Future.Business.Reputation.Commo\Micro.Future.Business.Reputation.Commo.xproj", "{E591D9E3-0D17-43C6-B0DF-25767AF71377}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5CB8952F-4C74-4177-A171-449F1A7D7C77}"
-	ProjectSection(SolutionItems) = preProject
-		MongoConf.json = MongoConf.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C8EB785-5B0A-48EA-A9EA-9A0E0061C775}"
 	ProjectSection(SolutionItems) = preProject

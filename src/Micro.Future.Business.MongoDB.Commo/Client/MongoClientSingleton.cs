@@ -14,7 +14,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Client
         {
         }
         private static readonly Lazy<MongoClientSingleton> lazy = new Lazy<MongoClientSingleton>(() => new MongoClientSingleton());
-        private static MongoClient client = new MongoClient(MongoDBConfig.mongoAddr);
+        private static MongoClient client;
 
         public static MongoClientSingleton Instance
         {
@@ -26,6 +26,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Client
 
         public MongoClient GetMongoClient()
         {
+            if (client == null)
+                client = new MongoClient(MongoDBConfig.mongoAddr);
             return client;
         }
     }

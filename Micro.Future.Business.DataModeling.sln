@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C8EB785-5B0A-48EA-A9EA-9A0E0061C775}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		MongoConf.json = MongoConf.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nosql Accessor", "Nosql Accessor", "{EC7C7829-73F5-49FF-8CE9-D8E3F308D25C}"

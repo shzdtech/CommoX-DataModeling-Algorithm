@@ -8,6 +8,10 @@ using Micro.Future.Business.MatchMaker.Commo.Service;
 using System.Threading;
 using Xunit;
 using Micro.Future.Business.MongoDB.Commo.Handler;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using System.IO;
+using Micro.Future.Business.MongoDB.Commo.Config;
 
 namespace Micro.Future.Business.DataModeling.xUnit
 {
@@ -16,6 +20,8 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestChainMatcher()
         {
+            MongoDBConfig.load(TestMongoConfig.conf);
+
             var config = new MatcherConfig();
             var service = new MatchMakerService(config);
             //service.start();
@@ -26,6 +32,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestLock()
         {
+            MongoDBConfig.load(TestMongoConfig.conf);
             var matcherHandler = new MatcherHandler();
             var chainHander = new ChainDAL();
 //            var f = matcherHandler.LockMatcherChain(11303);

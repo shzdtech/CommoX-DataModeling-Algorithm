@@ -2,6 +2,6 @@
 
   "mongoconfig": {
     "mongoAddr": "mongodb://root:Xhmz372701@114.55.54.144:3717",
-    "mongodb": "testdb"
+    "mongodb": "Production"
   }
 }

@@ -32,7 +32,11 @@ namespace Micro.Future.Business.DataModeling.xUnit
         [Fact]
         public void TestLock()
         {
-            MongoDBConfig.load(TestMongoConfig.conf);
+            var section = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("MongoConf.json").Build().GetSection("mongoconfig");
+
+            MongoDBConfig.load(section);
             var matcherHandler = new MatcherHandler();
             var chainHander = new ChainDAL();
 //            var f = matcherHandler.LockMatcherChain(11303);

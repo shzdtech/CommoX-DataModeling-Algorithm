@@ -9,14 +9,14 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
     public static class MongoDBConfig
     {
         public static String mongoAddr { get; set; }
-            //=  "mongodb://root:shzl2701@114.55.54.144:3717";
+            //=  "mongodb://root:Xgmz372701@114.55.54.144:3717";
         public static String COLLECTION_REQUIREMENT { get; set; } = "requirement";
         public static String COLLECTION_CHAIN { get; set; } = "chain";
         // 生产环境数据库
         //public const String DATABASE = "Production";
         // 测试环境数据库
-        public static String DATABASE { get; set; } 
-            //= "testdb";
+        public static String DATABASE { get; set; }
+            //= "testdb2";
         //public const String DATABASE = "testdb2";
         public static String COLLECTION_COUNTERS { get; set; } = "counters";
         public static String ID_REQUIREMENT { get; set; } = "RequirementId";

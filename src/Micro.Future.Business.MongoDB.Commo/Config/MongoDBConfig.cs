@@ -9,12 +9,12 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
 {
     public static class MongoDBConfig
     {
-        public static String mongoAddr;
+        public static String mongoAddr = "mongodb://root:Xhmz372701@dds-bp1affea778ad1842.mongodb.rds.aliyuncs.com:3717,dds-bp1affea778ad1841.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-1401299";
             //"mongodb://root:shzl2701@114.55.54.144:3717";
         public static String COLLECTION_REQUIREMENT = "requirement";
         public static String COLLECTION_CHAIN = "chain";
         // 生产环境数据库
-        public static String DATABASE;
+        public static String DATABASE = "Production";
         // 测试环境数据库
         //public const String DATABASE = "testdb";
         //public const String DATABASE = "testdb2";

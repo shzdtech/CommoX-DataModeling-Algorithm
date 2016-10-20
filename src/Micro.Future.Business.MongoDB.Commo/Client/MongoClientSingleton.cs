@@ -26,6 +26,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Client
 
         public MongoClient GetMongoClient()
         {
+            if (client == null)
+                client = new MongoClient(MongoDBConfig.mongoAddr);
             return client;
         }
     }

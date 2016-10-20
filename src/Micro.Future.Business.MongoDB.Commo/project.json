@@ -2,6 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
     "mongocsharpdriver": "2.3.0-rc1",
     "NETStandard.Library": "1.6.0",
     "System.Linq.Expressions": "4.1.0"

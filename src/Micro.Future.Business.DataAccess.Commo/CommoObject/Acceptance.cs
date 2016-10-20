@@ -44,5 +44,6 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// </summary>
         public DateTime UpdateTime { get; set; }
 
+        public bool IsDelete { get; set; }
     }
 }

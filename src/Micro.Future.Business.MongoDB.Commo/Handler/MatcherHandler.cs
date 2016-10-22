@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using MongoDB.Driver.Linq;
 
+
 namespace Micro.Future.Business.MongoDB.Commo.Handler
 {
     public class MatcherHandler: IMatcher
@@ -303,6 +304,35 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             return res;
         }
 
+        public IList<RequirementObject> getBuyerSellerReqSortedByAmountAsc(RequirementType requirementType, string productName, decimal minAmount)
+        {
+            var requirementTypeId = (int)requirementType;
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)RequirementStatus.OPEN) &
+                Builders<RequirementObject>.Filter.Eq("ProductName", productName) &
+                Builders<RequirementObject>.Filter.Gt("TradeAmount", minAmount) &
+                Builders<RequirementObject>.Filter.Eq("Deleted", false) &
+                Builders<RequirementObject>.Filter.Eq("RequirementTypeId", requirementTypeId);
+            var builder = Builders<RequirementObject>.Sort;
+            var sort = builder.Ascending("TradeAmount");
+
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).Sort(sort).ToList();
+            return res;
+        }
+
+        public IList<RequirementObject> getMidReqSortedByAmountAsc(RequirementType requirementType, decimal minAmount)
+        {
+            var requirementTypeId = (int)requirementType;
+            var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)RequirementStatus.OPEN) &
+                Builders<RequirementObject>.Filter.Gt("TradeAmount", minAmount) &
+                Builders<RequirementObject>.Filter.Eq("Deleted", false) &
+                Builders<RequirementObject>.Filter.Eq("RequirementTypeId", requirementTypeId);
+            var builder = Builders<RequirementObject>.Sort;
+            var sort = builder.Ascending("TradeAmount");
+
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).Sort(sort).ToList();
+            return res;
+        }
+
         public IList<RequirementObject> QueryRequirementsByEnterpriseId(int enterpriseId, RequirementStatus? requirementState = null)
         {
             var filter = Builders<RequirementObject>.Filter.Eq("EnterpriseId", enterpriseId) &
@@ -393,11 +423,6 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             UnlockRequirementIds(replacedRequirementIds);
 
             return true;
-        }
-
-        public ChainObject AutoMatchRequirements(string opUserId, IList<int> requirementIds, int fixedLength, bool isPositionFixed = false)
-        {
-            throw new NotImplementedException();
         }
 
         public ChainObject CreateChain(IList<int> requirementids, string opUserId)

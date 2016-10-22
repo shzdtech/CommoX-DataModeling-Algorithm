@@ -240,6 +240,266 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             }
         }
 
+        /// <summary>
+        /// AutoMatchRequirements
+        /// </summary>
+        /// <param name="opUserId"></param>
+        /// <param name="requirementIds"></param> 0 denotes 0 or many nodes to match, -1 denotes exact one node, any number greater than 0 represents the actual requirementID 
+        /// <param name="fixedLength"></param>
+        /// <param name="isPositionFixed"></param>
+        /// <returns></returns>
+        public ChainObject AutoMatchRequirements(string opUserId, IList<int> requirementIds, int fixedLength = 0, bool isPositionFixed = false, int maxLength = 6)
+        {
+            var res = new List<RequirementObject>();
+            var mapReqs = new Dictionary<int, RequirementObject>();
+            var setCompanies = new HashSet<int>();
+            var numOnes = 0; // requirementId == -1
+            var numManys = 0; // requirementId == 0
+            var numMids = 0; // 非占位符的中间节点需求的数量
+            decimal minAmount = -1;
+            for (int i = 0; i < requirementIds.Count; i++)
+            {
+                if (requirementIds[i] == 0) numManys += 1;
+                else if (requirementIds[i] == -1) {
+                    if (i > 0 && i < requirementIds.Count - 1)
+                        numOnes += 1; // numOnes 指中间商待撮合的数量， 头和尾不计入numOnes
+                }
+                else
+                {
+                    if (i > 0 && i < requirementIds.Count - 1) numMids += 1;
+                    var req = matcherHandler.QueryRequirementInfo(requirementIds[i]);
+                    mapReqs.Add(requirementIds[i], req);
+                    setCompanies.Add(req.EnterpriseId);
+                    if (minAmount < 0 || minAmount > req.TradeAmount) minAmount = req.TradeAmount;
+
+                }
+            }
+            var currentLength = numOnes + 2 + numMids; // 加上头尾卖家买家节点
+
+            RequirementObject buyer = null;
+            RequirementObject seller = null;
+            var buyerId = requirementIds[0];
+            var sellerId = requirementIds[requirementIds.Count() - 1];
+            // Buyer is missing, Seller is given
+            if (buyerId <= 0 && sellerId > 0)
+            {
+                seller = mapReqs[sellerId];
+                var buyerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.BUYER, seller.ProductName, minAmount));
+                var buyerNextId = requirementIds[1];
+                if (buyerNextId > 0)
+                {
+                    var buyerNext = mapReqs[buyerNextId];
+                    foreach (var b in buyerList.Values)
+                    {
+                        if (!isPriceAcceptable(b.ProductPrice, seller.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(b.EnterpriseId)) continue;
+                        if (!checkHardFilters(buyerNext, b.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(b, buyerNext.Filters, FilterDirectionType.UP)) continue;
+                        buyer = b;
+                        break;
+                    }
+                }
+                else
+                {
+                    buyer = buyerList[0];
+                }
+                mapReqs.Add(buyer.RequirementId, buyer);
+                setCompanies.Add(buyer.EnterpriseId);
+            }
+            // Buyer is given, Seller is missing
+            else if (buyerId > 0 && sellerId <= 0)
+            {
+                buyer = mapReqs[buyerId];
+                var sellerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.SELLER, buyer.ProductName, minAmount));
+                var sellerPrevId = requirementIds[requirementIds.Count - 2];
+                if (sellerPrevId > 0)
+                {
+                    var sellerPrev = mapReqs[sellerPrevId];
+                    foreach (var s in sellerList.Values)
+                    {
+                        if (!isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(s.EnterpriseId)) continue;
+                        if (!checkHardFilters(sellerPrev, s.Filters, FilterDirectionType.UP)) continue;
+                        if (!checkHardFilters(s, sellerPrev.Filters, FilterDirectionType.DOWN)) continue;
+                        seller = s;
+                        break;
+                    }
+                }
+                else
+                {
+                    seller = sellerList[0];
+                }
+                mapReqs.Add(seller.RequirementId, seller);
+                setCompanies.Add(seller.EnterpriseId);
+            }
+            else if (buyerId > 0 && sellerId > 0)
+            {
+                buyer = mapReqs[buyerId];
+                seller = mapReqs[sellerId];
+            }
+            else
+            {
+                throw new ArgumentException("either buyerId or sellerId should be given.");
+            }
+            if (!checkValidForBuyerAndSeller(seller) || !checkValidForBuyerAndSeller(buyer))
+            {
+                throw new ArgumentException("The given seller or buyer is Invalid");
+            }
+            
+            else minAmount = buyer.TradeAmount;
+            var listMids = listToSortedList(matcherHandler.getMidReqSortedByAmountAsc(RequirementType.MID, minAmount));
+
+            //情况1： 位置固定
+            if (isPositionFixed)
+            {
+                res.Add(buyer);
+
+                var limitLength = maxLength;
+
+                if (fixedLength > 0)
+                {
+                    limitLength = fixedLength;
+                }
+
+                for (int i = 1; i < requirementIds.Count - 1; i++)
+                {
+                    if (requirementIds[i] > 0)
+                    {
+                        var mid = mapReqs[requirementIds[i]];
+                        res.Add(mid);
+                    }
+                    else
+                    {
+                        var matched = false;
+                        var prev = mapReqs[requirementIds[i - 1]];
+                        RequirementObject next = null;
+                        if (requirementIds[i + 1] > 0)
+                        {
+                            next = mapReqs[requirementIds[i + 1]];
+                        }
+                        do
+                        {
+                            matched = false;
+                            for (int index = 0; index < listMids.Count; index++)
+                            {
+                                var midKey = listMids.Keys[index];
+                                var mid = listMids.Values[index];
+                                if (setCompanies.Contains(mid.EnterpriseId)) continue;
+                                if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
+                                if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
+                                if (next != null)
+                                {
+                                    if (!checkHardFilters(next, mid.Filters, FilterDirectionType.DOWN)) continue;
+                                    if (!checkHardFilters(mid, next.Filters, FilterDirectionType.UP)) continue;
+                                }
+                                res.Add(mid);
+                                listMids.Remove(midKey);
+                                mapReqs.Add(mid.RequirementId, mid);
+                                setCompanies.Add(mid.EnterpriseId);
+                                prev = mid;
+                                matched = true;
+                                break;
+                            }
+                            if (requirementIds[i] == 0) currentLength += 1;
+                        } while (requirementIds[i] == 0 && limitLength - currentLength > 0 && matched);
+                        // if requirementIds[i] == -1 stop after one time
+                        if (requirementIds[i] == 0)
+                        {
+                            numManys -= 1;
+                            //当maxLength > 0， 且numManys == 0 && maxLength - currentLength > 0， 表示已经匹配不出这么长的链了
+                            if (numManys == 0 && maxLength - currentLength > 0) return null; 
+                        }
+                        else if (!matched) // 当requirementIds[i] == -1， 找不到该位置的链则失败退出
+                        {
+                            return null;
+                        }
+                    }
+                }
+                res.Add(seller);
+            }
+            // 情况2： 位置不固定， 不包含任何占位符
+            else
+            {
+                var givenMidReqsList = new List<RequirementObject>();
+                var limitLength = maxLength;
+                if (fixedLength > 0) limitLength = fixedLength;
+                foreach(var id in requirementIds)
+                {
+                    var req = mapReqs[id];
+                    if (req.RequirementTypeId == RequirementType.MID) givenMidReqsList.Add(req);
+                }
+                res.Add(buyer);
+                var prev = buyer;
+                var flag = true;
+                while(givenMidReqsList.Count > 0 && flag)
+                {
+                    flag = false;
+                    //优先匹配 givenMidReqsList
+                    foreach (var mid in givenMidReqsList)
+                    {
+                        if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
+                        prev = mid;
+                        flag = true;
+                        givenMidReqsList.Remove(mid);
+                        res.Add(mid);
+                    }
+                    if (!flag)
+                    {
+                        for (int index = 0; index < listMids.Count; index++)
+                        {
+                            var midKey = listMids.Keys[index];
+                            var mid = listMids.Values[index];
+                            if (setCompanies.Contains(mid.EnterpriseId)) continue;
+                            if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
+                            if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
+                            res.Add(mid);
+                            listMids.Remove(midKey);
+                            mapReqs.Add(mid.RequirementId, mid);
+                            setCompanies.Add(mid.EnterpriseId);
+                            prev = mid;
+                            flag = true;
+                            res.Add(mid);
+                            break;
+                        }
+                    }
+                }
+                if (!flag || limitLength <= res.Count) return null; //当前匹配不到或者超出长度
+                flag = false;
+                while(limitLength > res.Count - 1)
+                {
+                    for (int index = 0; index < listMids.Count; index++)
+                    {
+                        var midKey = listMids.Keys[index];
+                        var mid = listMids.Values[index];
+                        if (setCompanies.Contains(mid.EnterpriseId)) continue;
+                        if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
+                        if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.UP)) continue;
+                        res.Add(mid);
+                        listMids.Remove(midKey);
+                        mapReqs.Add(mid.RequirementId, mid);
+                        setCompanies.Add(mid.EnterpriseId);
+                        prev = mid;
+                        flag = true;
+                        res.Add(mid);
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    if (!checkHardFilters(seller, res[res.Count-1].Filters, FilterDirectionType.DOWN)) return null;
+                    if (!checkHardFilters(res[res.Count - 1], seller.Filters, FilterDirectionType.UP)) return null;
+                }
+                res.Add(seller);
+                if (fixedLength > 0 && res.Count != fixedLength) return null;
+            }
+            var chain = new ChainObject(res);
+            var chainId = matcherHandler.AddChain(chain);
+            var lockFlag = matcherHandler.LockMatcherChain(chainId, opUserId);
+            if (!lockFlag) return null;
+            return chain;
+        }
+
         private double calUtility(RequirementObject buyer, RequirementObject seller, IList<RequirementObject> mids)
         {
             var min = buyer.TradeAmount;
@@ -271,7 +531,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
         private bool checkValidForBuyerAndSeller(RequirementObject req)
         {
-            if (req.ProductName == null || req.ProductPrice < 0) return false;
+            if (req == null || req.ProductName == null || req.ProductPrice < 0) return false;
             return true;
         }
 

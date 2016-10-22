@@ -74,7 +74,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 支付方式
         /// </summary>
-        public string PaymentType { get; set; }
+        // public string PaymentType { get; set; }
 
         #region 仓储信息
 
@@ -139,7 +139,7 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 发票面额
         /// </summary>
-        public string InvoiceValue { get; set; }
+        //public string InvoiceValue { get; set; }
 
         /// <summary>
         /// 发票开具时间
@@ -165,6 +165,22 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
 
         #region 1.1 新增属性
 
+        /// <summary>
+        /// 销售 - 交易要求
+        /// </summary>
+        public int TradeRequirement { get; set; }
+
+
+        /// <summary>
+        /// 支付方式 改枚举
+        /// </summary>
+        public int PaymentType { get; set; }
+
+
+        /// <summary>
+        /// 发票面额 改枚举
+        /// </summary>
+        public int InvoiceValue { get; set; }
 
         /// <summary>
         /// 电子仓单 - new
@@ -194,20 +210,33 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// <summary>
         /// 支付银行是否开通银承电子票口  - new
         /// </summary>
-        public string ProductTransferMode { get; set; }
+        public bool IsAcceptanceBillETicket { get; set; }
 
         /// <summary>
         /// 支付风控 - new
         /// </summary>
-        public string PaymentRiskControl { get; set; }
+        public int PaymentRiskControl { get; set; }
 
 
         /// <summary>
         /// 开票要求 - new
         /// </summary>
-        public string InvoiceRequirement { get; set; }
+        public int InvoiceRequirement { get; set; }
+
+        /// <summary>
+        /// 开票量（交易当月） - new
+        /// </summary>
         public string InvoiceAmount { get; set; }
-        public bool IsAcceptanceBillETicket { get; set; }
+
+        /// <summary>
+        /// 货物交接方式 - new
+        /// </summary>
+        public int ProductTransferMode { get; set; }
+
+        /// <summary>
+        /// 创建人UID
+        /// </summary>
+        public string OpUserId { get; set; }
 
         #endregion
     }

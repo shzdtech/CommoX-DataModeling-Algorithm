@@ -84,7 +84,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                     Builders<ChainObject>.Filter.Eq("Deleted", false);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain);
             if (chains.Count() == 0) throw new Exception("Chain doesn't exist");
-            return chains.First();
+            return chains.FirstOrDefault();
         }
 
         public IList<ChainObject> GetMatcherChains(ChainStatus stauts, bool isLatestVersion = true)
@@ -135,8 +135,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.OPEN);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain);
             if (chains.Count() == 0) return false;
-            var chain = chains.First();
-
+            var chain = chains.FirstOrDefault();
+            if (chain == null) return false;
             if(!LockRequirementIds(chain.RequirementIdChain)) return false;
 
             var update = Builders<ChainObject>.Update
@@ -156,8 +156,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                    Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.LOCKED);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain);
             if (chains.Count() == 0) return false;
-            var chain = chains.First();
-
+            var chain = chains.FirstOrDefault();
+            if (chain == null) return false;
             if (!UnlockRequirementIds(chain.RequirementIdChain)) return false;
 
             var update = Builders<ChainObject>.Update
@@ -179,7 +179,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         {
             var filter = Builders<ChainObject>.Filter.Eq("ChainId", chainId) &
                     Builders<ChainObject>.Filter.Eq("Deleted", false);
-            var chain = COL_CHAIN.Find<ChainObject>(filter).First();
+            var chain = COL_CHAIN.Find<ChainObject>(filter).FirstOrDefault();
+            if (chain == null) return false;
             var update = Builders<ChainObject>.Update
                 .Set("ChainStateId", (int)chainStatus)
                 .Set("OperatorUserId", operatorId)
@@ -287,7 +288,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         {
             var filter = Builders<RequirementObject>.Filter.Eq("RequirementId", requirementId) &
                     Builders<RequirementObject>.Filter.Eq("Deleted", false);
-            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).First();
+            var res = COL_REQUIREMENT.Find<RequirementObject>(filter).FirstOrDefault();
             return res;
         }
 
@@ -395,8 +396,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                     Builders<ChainObject>.Filter.Eq("ChainStateId", (int)ChainStatus.LOCKED);
             var chains = COL_CHAIN.Find<ChainObject>(filterChain);
             if (chains.Count() == 0) return false;
-            var chain = chains.First();
-
+            var chain = chains.FirstOrDefault();
+            if (chain == null) return false;
             if (replacedNodeIndexArr.Count != replacingRequirementIds.Count || replacedNodeIndexArr.Count > chain.ChainLength) return false;
 
             if (!LockRequirementIds(replacingRequirementIds)) return false;

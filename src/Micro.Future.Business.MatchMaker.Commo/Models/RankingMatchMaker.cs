@@ -255,18 +255,17 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             var setCompanies = new HashSet<int>();
             var numOnes = 0; // requirementId == -1
             var numManys = 0; // requirementId == 0
-            var numMids = 0; // 非占位符的中间节点需求的数量
+            var numReqs = 0; // 非占位符的需求的数量
             decimal minAmount = -1;
             for (int i = 0; i < requirementIds.Count; i++)
             {
                 if (requirementIds[i] == 0) numManys += 1;
                 else if (requirementIds[i] == -1) {
-                    if (i > 0 && i < requirementIds.Count - 1)
-                        numOnes += 1; // numOnes 指中间商待撮合的数量， 头和尾不计入numOnes
+                    numOnes += 1; 
                 }
                 else
                 {
-                    if (i > 0 && i < requirementIds.Count - 1) numMids += 1;
+                    numReqs += 1;
                     var req = matcherHandler.QueryRequirementInfo(requirementIds[i]);
                     mapReqs.Add(requirementIds[i], req);
                     setCompanies.Add(req.EnterpriseId);
@@ -274,7 +273,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
                 }
             }
-            var currentLength = numOnes + 2 + numMids; // 加上头尾卖家买家节点
+            var currentLength = numOnes + numReqs; // 
 
             RequirementObject buyer = null;
             RequirementObject seller = null;
@@ -285,6 +284,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             {
                 seller = mapReqs[sellerId];
                 var buyerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.BUYER, seller.ProductName, minAmount));
+                if (buyerList.Count == 0) return null;
                 var buyerNextId = requirementIds[1];
                 if (buyerNextId > 0)
                 {
@@ -302,6 +302,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 {
                     buyer = buyerList[0];
                 }
+                if (buyer == null) return null;
+                requirementIds[0] = buyer.RequirementId;
                 mapReqs.Add(buyer.RequirementId, buyer);
                 setCompanies.Add(buyer.EnterpriseId);
             }
@@ -310,6 +312,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             {
                 buyer = mapReqs[buyerId];
                 var sellerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.SELLER, buyer.ProductName, minAmount));
+                if (sellerList.Count == 0) return null;
                 var sellerPrevId = requirementIds[requirementIds.Count - 2];
                 if (sellerPrevId > 0)
                 {
@@ -327,6 +330,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 {
                     seller = sellerList[0];
                 }
+                if (seller == null) return null;
+                requirementIds[requirementIds.Count - 1] = seller.RequirementId;
                 mapReqs.Add(seller.RequirementId, seller);
                 setCompanies.Add(seller.EnterpriseId);
             }
@@ -344,7 +349,6 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 throw new ArgumentException("The given seller or buyer is Invalid");
             }
             
-            else minAmount = buyer.TradeAmount;
             var listMids = listToSortedList(matcherHandler.getMidReqSortedByAmountAsc(RequirementType.MID, minAmount));
 
             //情况1： 位置固定
@@ -368,14 +372,14 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     }
                     else
                     {
-                        var matched = false;
+                        var matched = true;
                         var prev = mapReqs[requirementIds[i - 1]];
                         RequirementObject next = null;
                         if (requirementIds[i + 1] > 0)
                         {
                             next = mapReqs[requirementIds[i + 1]];
                         }
-                        do
+                        while (requirementIds[i] == 0 && limitLength - currentLength > 0 && matched)
                         {
                             matched = false;
                             for (int index = 0; index < listMids.Count; index++)
@@ -396,16 +400,17 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 setCompanies.Add(mid.EnterpriseId);
                                 prev = mid;
                                 matched = true;
+                                if (requirementIds[i] == 0) currentLength += 1;
+                                if (requirementIds[i] == -1) requirementIds[i] = mid.RequirementId;
                                 break;
                             }
-                            if (requirementIds[i] == 0) currentLength += 1;
-                        } while (requirementIds[i] == 0 && limitLength - currentLength > 0 && matched);
+                        }
                         // if requirementIds[i] == -1 stop after one time
                         if (requirementIds[i] == 0)
                         {
                             numManys -= 1;
                             //当maxLength > 0， 且numManys == 0 && maxLength - currentLength > 0， 表示已经匹配不出这么长的链了
-                            if (numManys == 0 && maxLength - currentLength > 0) return null; 
+                            if (numManys == 0 && fixedLength - currentLength > 0) return null; 
                         }
                         else if (!matched) // 当requirementIds[i] == -1， 找不到该位置的链则失败退出
                         {
@@ -423,23 +428,27 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 if (fixedLength > 0) limitLength = fixedLength;
                 foreach(var id in requirementIds)
                 {
+                    if (id <= 0) continue;
                     var req = mapReqs[id];
                     if (req.RequirementTypeId == RequirementType.MID) givenMidReqsList.Add(req);
                 }
                 res.Add(buyer);
                 var prev = buyer;
                 var flag = true;
-                while(givenMidReqsList.Count > 0 && flag)
+                var givenMidReqsSortedList = listToSortedList(givenMidReqsList);
+                while(givenMidReqsSortedList.Count > 0 && flag)
                 {
                     flag = false;
                     //优先匹配 givenMidReqsList
-                    foreach (var mid in givenMidReqsList)
+                    for (int index = 0; index < givenMidReqsSortedList.Count; index++)
                     {
+                        var mid = givenMidReqsSortedList.Values[index];
+                        var midKey = givenMidReqsSortedList.Keys[index];
                         if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                         if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                         prev = mid;
                         flag = true;
-                        givenMidReqsList.Remove(mid);
+                        givenMidReqsSortedList.Remove(midKey);
                         res.Add(mid);
                     }
                     if (!flag)
@@ -457,15 +466,16 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                             setCompanies.Add(mid.EnterpriseId);
                             prev = mid;
                             flag = true;
-                            res.Add(mid);
                             break;
                         }
                     }
+                    if (limitLength <= res.Count) break;
                 }
                 if (!flag || limitLength <= res.Count) return null; //当前匹配不到或者超出长度
-                flag = false;
-                while(limitLength > res.Count - 1)
+                
+                while(limitLength > res.Count + 1 && flag)
                 {
+                    flag = false;
                     for (int index = 0; index < listMids.Count; index++)
                     {
                         var midKey = listMids.Keys[index];
@@ -481,15 +491,15 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         setCompanies.Add(mid.EnterpriseId);
                         prev = mid;
                         flag = true;
-                        res.Add(mid);
                         break;
                     }
                 }
                 if (!flag)
                 {
-                    if (!checkHardFilters(seller, res[res.Count-1].Filters, FilterDirectionType.DOWN)) return null;
+                    if (!checkHardFilters(seller, res[res.Count - 1].Filters, FilterDirectionType.DOWN)) return null;
                     if (!checkHardFilters(res[res.Count - 1], seller.Filters, FilterDirectionType.UP)) return null;
                 }
+
                 res.Add(seller);
                 if (fixedLength > 0 && res.Count != fixedLength) return null;
             }

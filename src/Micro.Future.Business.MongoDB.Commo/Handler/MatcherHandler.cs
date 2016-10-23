@@ -309,7 +309,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             var requirementTypeId = (int)requirementType;
             var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)RequirementStatus.OPEN) &
                 Builders<RequirementObject>.Filter.Eq("ProductName", productName) &
-                Builders<RequirementObject>.Filter.Gt("TradeAmount", minAmount) &
+                Builders<RequirementObject>.Filter.Gte("TradeAmount", minAmount) &
                 Builders<RequirementObject>.Filter.Eq("Deleted", false) &
                 Builders<RequirementObject>.Filter.Eq("RequirementTypeId", requirementTypeId);
             var builder = Builders<RequirementObject>.Sort;
@@ -323,7 +323,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
         {
             var requirementTypeId = (int)requirementType;
             var filter = Builders<RequirementObject>.Filter.Eq("RequirementStateId", (int)RequirementStatus.OPEN) &
-                Builders<RequirementObject>.Filter.Gt("TradeAmount", minAmount) &
+                Builders<RequirementObject>.Filter.Gte("TradeAmount", minAmount) &
                 Builders<RequirementObject>.Filter.Eq("Deleted", false) &
                 Builders<RequirementObject>.Filter.Eq("RequirementTypeId", requirementTypeId);
             var builder = Builders<RequirementObject>.Sort;

@@ -68,8 +68,8 @@ CREATE TABLE [dbo].[Acceptances] (
 [DrawTime] datetime2 NULL ,
 [CreateTime] datetime2 NULL ,
 [UpdateTime] datetime2 NULL ,
-[Subsidies]	 FLOAT (53)    NULL,
-	[YearSubsidies]	 FLOAT (53)    NULL,
+[Subsidies]	 FLOAT (53)    NULL  DEFAULT 0,
+	[YearSubsidies]	 FLOAT (53)    NULL  DEFAULT 0,
 PRIMARY KEY ([AcceptanceId])
 )
 

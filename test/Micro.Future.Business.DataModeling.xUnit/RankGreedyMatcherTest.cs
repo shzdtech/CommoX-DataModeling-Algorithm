@@ -106,7 +106,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
             
             var autoReqsNoFix = new List<int>();
             var autoReqsFix = new List<int>();
-            autoReqsFix.Add(-1);
+            autoReqsFix.Add(req1Id);
             autoReqsFix.Add(-1);
             autoReqsFix.Add(req4Id);
             autoReqsFix.Add(req2Id);

@@ -274,6 +274,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 }
             }
             var currentLength = numOnes + numReqs; // 
+            var limitLength = maxLength;
+            if (fixedLength > 0)
+            {
+                limitLength = fixedLength;
+            }
+            if (limitLength < currentLength) return null;
 
             RequirementObject buyer = null;
             RequirementObject seller = null;
@@ -356,13 +362,6 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             {
                 res.Add(buyer);
 
-                var limitLength = maxLength;
-
-                if (fixedLength > 0)
-                {
-                    limitLength = fixedLength;
-                }
-
                 for (int i = 1; i < requirementIds.Count - 1; i++)
                 {
                     if (requirementIds[i] > 0)
@@ -381,7 +380,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         }
                         do
                         {
-                            if (limitLength - currentLength <= 0) break;
+                            if (requirementIds[i] == 0 && limitLength - currentLength <= 0) break;
                             matched = false;
                             for (int index = 0; index < listMids.Count; index++)
                             {
@@ -425,8 +424,6 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             else
             {
                 var givenMidReqsList = new List<RequirementObject>();
-                var limitLength = maxLength;
-                if (fixedLength > 0) limitLength = fixedLength;
                 foreach(var id in requirementIds)
                 {
                     if (id <= 0) continue;

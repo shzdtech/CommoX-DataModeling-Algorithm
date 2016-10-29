@@ -542,7 +542,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
         private bool checkValidForBuyerAndSeller(RequirementObject req)
         {
-            if (req == null || req.ProductName == null || req.ProductPrice < 0) return false;
+            if (req == null || req.ProductName == null || req.ProductPrice < 0 || req.RequirementStateId != RequirementStatus.OPEN) return false;
             return true;
         }
 

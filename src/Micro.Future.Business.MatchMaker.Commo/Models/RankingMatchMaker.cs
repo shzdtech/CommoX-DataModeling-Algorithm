@@ -379,8 +379,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         {
                             next = mapReqs[requirementIds[i + 1]];
                         }
-                        while (requirementIds[i] == 0 && limitLength - currentLength > 0 && matched)
+                        do
                         {
+                            if (limitLength - currentLength <= 0) break;
                             matched = false;
                             for (int index = 0; index < listMids.Count; index++)
                             {
@@ -404,7 +405,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 if (requirementIds[i] == -1) requirementIds[i] = mid.RequirementId;
                                 break;
                             }
-                        }
+                        } while (requirementIds[i] == 0 && matched) ;
                         // if requirementIds[i] == -1 stop after one time
                         if (requirementIds[i] == 0)
                         {

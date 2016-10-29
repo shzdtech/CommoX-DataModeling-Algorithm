@@ -58,6 +58,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 findAcceptance.DrawTime = acceptance.DrawTime;
                 findAcceptance.CreateTime = acceptance.CreateTime;
                 findAcceptance.UpdateTime = DateTime.Now;
+                findAcceptance.Subsidies = acceptance.Subsidies;
+                findAcceptance.YearSubsidies = acceptance.YearSubsidies;
                 
 
             }

@@ -17,7 +17,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             matcherHandler = mHandler;
         }
 
-        public ChainObject AutoMatchRequirements(string opUserId, IList<int> requirementIds, int fixedLength, bool isPositionFixed, int maxLength)
+        public ChainObject AutoMatchRequirements(string opUserId, IList<int> requirementIds, int fixedLength = 0, bool isPositionFixed = false, int maxLength = 6)
         {
             throw new NotImplementedException();
         }

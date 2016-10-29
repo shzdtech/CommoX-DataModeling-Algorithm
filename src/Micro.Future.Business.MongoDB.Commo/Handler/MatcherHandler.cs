@@ -60,8 +60,8 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public void AddMatcherChains(IList<ChainObject> chains)
         {
-            if (chains.Count == 0) return;
             var version = getNextSequenceValue(MongoDBConfig.ID_MATCHER);
+            if (chains.Count == 0) return;
             foreach (var chain in chains)
             {
                 var chainId = getNextSequenceValue(MongoDBConfig.ID_CHAIN);

@@ -500,6 +500,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
                 res.Add(seller);
                 if (fixedLength > 0 && res.Count != fixedLength) return null;
+                if (res.Count < 3) return null;
             }
             var chain = new ChainObject(res);
             var chainId = matcherHandler.AddChain(chain);

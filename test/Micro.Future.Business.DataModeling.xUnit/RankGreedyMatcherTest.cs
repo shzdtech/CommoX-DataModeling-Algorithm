@@ -22,6 +22,23 @@ namespace Micro.Future.Business.DataModeling.xUnit
             matcherMaker.make();
         }
         [Fact]
+        public void TestReleaseTest1()
+        {
+            MongoDBConfig.load(TestMongoConfig.conf);
+            var matcherHandler = new MatcherHandler();
+            var chainDal = new ChainDAL();
+            var matcherMaker = new RankingMatchMaker(matcherHandler);
+            var autoReqsNoFix = new List<int>();
+            var autoReqsFix = new List<int>();
+            autoReqsFix.Add(10073);
+            autoReqsFix.Add(-1);
+            autoReqsFix.Add(10074);
+            var opUserId = "admin";
+
+            var c1 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsFix, 3, false);
+            if (c1 != null) matcherHandler.UnLockMatcherChain(c1.ChainId, opUserId);
+        }
+        [Fact]
         public void TestChainMatcher()
         {
             MongoDBConfig.load(TestMongoConfig.conf);
@@ -118,10 +135,10 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var c2 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsFix, 0, true, 3);
             if(c2 != null) matcherHandler.UnLockMatcherChain(c2.ChainId, opUserId);
             
-            autoReqsNoFix.Add(-1);
-            autoReqsNoFix.Add(req3Id);
+            autoReqsNoFix.Add(req1Id);
+            autoReqsNoFix.Add(0);
             autoReqsNoFix.Add(req2Id);
-            var c13 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsNoFix, 4, false);
+            var c13 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsNoFix, 3, false);
             if (c13 != null) matcherHandler.UnLockMatcherChain(c13.ChainId, opUserId);
             var c14 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsNoFix, 0, false, 3);
             if (c14 != null) matcherHandler.UnLockMatcherChain(c14.ChainId, opUserId);

@@ -35,7 +35,7 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<OperationRecord> OperationRecords { get; set; }
         public DbSet<FinancialProduct> FinancialProducts { get; set; }
         public DbSet<Acceptance> Acceptances { get; set; }
-        
+
 
         public CommoXContext(DbContextOptions<CommoXContext> options) : base(options)
         {

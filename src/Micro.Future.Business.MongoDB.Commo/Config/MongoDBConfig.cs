@@ -16,6 +16,10 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
         //public const String DATABASE = "Production";
         // 测试环境数据库
         public static String DATABASE { get; set; }
+
+        // 数据可视化DB
+        public static String DATAVISUAL_DB { get; set; }
+
             //= "testdb2";
         //public const String DATABASE = "testdb2";
         public static String COLLECTION_COUNTERS { get; set; } = "counters";
@@ -29,6 +33,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
         {
             if (!String.IsNullOrEmpty(conf["mongoAddr"])) mongoAddr = conf["mongoAddr"];
             if (!String.IsNullOrEmpty(conf["mongodb"])) DATABASE = conf["mongodb"];
+            if (!String.IsNullOrEmpty(conf["DataVisualDB"])) DATAVISUAL_DB = conf["DataVisualDB"];
         }
     }
 }

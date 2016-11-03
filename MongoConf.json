@@ -1,6 +1,7 @@
 {
   "mongoconfig": {
     "mongoAddr": "mongodb://root:Xhmz372701@dds-bp1affea778ad1842.mongodb.rds.aliyuncs.com:3717,dds-bp1affea778ad1841.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-1401299",
-    "mongodb": "Production"
+    "mongodb": "Production",
+    "DataVisualDB": "WindDataCnFutures"
   }
 }

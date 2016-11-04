@@ -7,6 +7,6 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
 {
     public interface IDataVisual
     {
-        string getJsonData(string tablename, string startDateTime, string endDateTime);
+        string getJsonData(string exchange, string productCode, string startDateTime, string endDateTime = null);
     }
 }

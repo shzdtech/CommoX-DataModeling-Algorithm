@@ -18,10 +18,10 @@ namespace Micro.Future.Business.MongoDB.Commo.Config
         public static String DATABASE { get; set; }
 
         // 数据可视化DB
-        public static String DATAVISUAL_DB { get; set; }
+        public static String DATAVISUAL_DB { get; set; } = "WindDataCnFutures2";
 
             //= "testdb2";
-        //public const String DATABASE = "testdb2";
+            //public const String DATABASE = "testdb2";
         public static String COLLECTION_COUNTERS { get; set; } = "counters";
         public static String ID_REQUIREMENT { get; set; } = "RequirementId";
         public static String ID_CHAIN { get; set; } = "ChainId";

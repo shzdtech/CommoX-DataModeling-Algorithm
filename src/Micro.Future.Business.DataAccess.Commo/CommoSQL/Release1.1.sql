@@ -16,6 +16,10 @@ GO
 ALTER TABLE [dbo].[BusinessTypes] ADD DEFAULT 0 FOR [StateId]
 GO
 
+ALTER TABLE [dbo].Orders ADD EnterpriseName varchar(150) NULL 
+GO
+
+
 TRUNCATE TABLE BusinessTypes;
 INSERT INTO BusinessTypes(BusinessTypeName) VALUES('地方国企');
 INSERT INTO BusinessTypes(BusinessTypeName) VALUES('央企');

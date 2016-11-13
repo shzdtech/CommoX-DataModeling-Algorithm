@@ -29,6 +29,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <param name="tradeId"></param>
         /// <returns></returns>
         Trade queryTrade(int tradeId);
+
         /// <summary>
         /// 查询用户下所有的交易情况
         /// </summary>
@@ -36,21 +37,16 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         IList<Trade> queryAllTrade(string userId);
 
+
+        IList<Trade> queryTradesByEnterprise(int enterpriseId, string tradeState);
+
         /// <summary>
-        /// 查询交易链
-        /// </summary>
-        /// <param name="tradeId"></param>
-        /// <returns></returns>
-        IList<TradeChain> queryTradeChain(int tradeId);
-        /// <summary>
-        /// 更新交易当前的状态：如到什么阶段：出资、出货等
-        /// 数据来自requirementType
+        /// 更新交易当前的状态
         /// </summary>
         /// <param name="tradeId"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        bool updateTradeState(int tradeId, String state);
-
+        bool updateTradeState(int tradeId, string state);
     }
 
 

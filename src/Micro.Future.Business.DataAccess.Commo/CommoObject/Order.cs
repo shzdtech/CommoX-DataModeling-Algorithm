@@ -68,8 +68,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 订单完成时间
         /// </summary>
         public DateTime CompleteTime { get; set; }
+
         /// <summary>
-        /// 订单状态
+        /// 订单状态: 1=初始；2=已成交；3=已完成
         /// </summary>
         public int OrderStateId { get; set; }
 
@@ -183,6 +184,8 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         /// 企业类型
         /// </summary>
         public string EnterpriseType { get; set; }
+
+        public string EnterpriseName { get; set; }
 
         /// <summary>
         /// 经营范围

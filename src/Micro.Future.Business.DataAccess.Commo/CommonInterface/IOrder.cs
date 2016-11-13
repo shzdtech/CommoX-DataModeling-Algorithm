@@ -20,6 +20,10 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
 
         Order queryOrderByEnterprise(int enterpriseId);
 
+
+        IList<Order> queryOrdersByEnterprise(int enterpriseId, int? state);
+
+
         bool updateOrderState(int orderId, string executUserId, int state);
 
     }

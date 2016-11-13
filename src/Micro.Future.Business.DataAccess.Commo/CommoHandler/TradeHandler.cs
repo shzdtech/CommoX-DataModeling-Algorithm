@@ -10,6 +10,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
     public class TradeHandler : ITrade
     {
         private CommoXContext db = null;
+
         public TradeHandler(CommoXContext dbContext)
         {
             db = dbContext;
@@ -17,72 +18,56 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public Trade submitTrade(Trade trade)
         {
-            //using (var db = new CommoXContext())
-            {
                 db.Trades.Add(trade);
                 int result = db.SaveChanges();
                 if (result > 0)
                     return trade;
                 else
                     return null;
-            }
         }
 
-        public TradeChain submitTradeChain(TradeChain tradechain)
-        {
-            //using (var db = new CommoXContext())
-            {
-                db.TradeChains.Add(tradechain);
-                int result = db.SaveChanges();
-                if (result > 0)
-                    return tradechain;
-                else
-                    return null;
-            }
-        }
         public Trade queryTrade(int tradeId)
         {
-            //using (var db = new CommoXContext())
-            {
-                var result = db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
-                return result;
-
-            }
-        }
-
-        public IList<TradeChain> queryTradeChain(int tradeId)
-        {
-            //using (var db = new CommoXContext())
-            {
-                var result = db.TradeChains.Where(tc => tc.TradeId == tradeId).ToList();
-                return result;
-            }
+            return db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
         }
 
         public bool updateTradeState(int tradeId, string state)
         {
-            //using (var db = new CommoXContext())
+            var trade = db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
+            trade.CurrentState = state;
+
+            var orders = db.Orders.Where(f => f.TradeId == tradeId);
+            foreach(var o in orders)
             {
-                var trade = db.Trades.FirstOrDefault(t => t.TradeId == tradeId);
-                trade.CurrentState = state;
-                int result = db.SaveChanges();
-                if (result > 0)
-                    return true;
-                else
-                    return false;
+                o.OrderStateId = int.Parse(state);
             }
-               
+
+            int result = db.SaveChanges();
+            if (result > 0)
+                return true;
+            else
+                return false;
         }
 
         public IList<Trade> queryAllTrade(string userId)
         {
-            //using (var db = new CommoXContext())
-            {
-                return (from o in db.Orders
-                            join t in db.Trades on o.TradeId equals t.TradeId
-                            where o.UserId == userId
-                            select t).ToList();
-            }
+            return (from o in db.Orders
+                        join t in db.Trades on o.TradeId equals t.TradeId
+                        where o.UserId == userId
+                        select t).ToList();
+        }
+
+        public IList<Trade> queryTradesByEnterprise(int enterpriseId, string tradeState)
+        {
+            var query = from o in db.Orders
+                        join t in db.Trades on o.TradeId equals t.TradeId
+                        where o.EnterpriseId == enterpriseId
+                        select t;
+
+            if (!string.IsNullOrWhiteSpace(tradeState))
+                query = query.Where(f => f.CurrentState == tradeState);
+
+            return query.ToList();
         }
     }
 }

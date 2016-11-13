@@ -118,6 +118,8 @@ namespace Micro.Future.Business.MongoDB.Commo.BizObjects
         /// </summary>
         public string EnterpriseType { get; set; }
 
+        public string EnterpriseName { get; set; }
+
         /// <summary>
         /// 经营范围
         /// </summary>

@@ -78,3 +78,14 @@ PRIMARY KEY ([AcceptanceId])
 )
 
 
+go
+
+ALTER TABLE [dbo].[Enterprises]
+    ADD [PaymentBankName]    NVARCHAR (150) NULL,
+        [PaymentBankAccount] VARCHAR (150)  NULL,
+        [PaymentBankId]      INT            NULL,
+        [PaymentBankAddress] NVARCHAR (500) NULL,
+        [InvoiceValue]       VARCHAR (100)  NULL;
+
+
+GO

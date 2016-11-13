@@ -138,6 +138,31 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         //企业类型：国企（地方国企）/央企/上市公司/混合制/民营企业
         //主营范围
 
+        /// <summary>
+        /// 开户行名称
+        /// </summary>
+        public string PaymentBankName { get; set; }
+
+        /// <summary>
+        /// 帐号
+        /// </summary>
+        public string PaymentBankAccount { get; set; }
+
+        /// <summary>
+        /// 行号
+        /// </summary>
+        public int PaymentBankId { get; set; }
+        /// <summary>
+        /// 地址
+        /// </summary>
+        public string PaymentBankAddress { get; set; }
+
+
+        /// <summary>
+        /// 发票面额
+        /// </summary>
+        public string InvoiceValue { get; set; }
+
         #endregion
 
 

@@ -30,12 +30,12 @@ namespace Micro.Future.Business.DataModeling.xUnit
             var matcherMaker = new RankingMatchMaker(matcherHandler);
             var autoReqsNoFix = new List<int>();
             var autoReqsFix = new List<int>();
-            autoReqsFix.Add(10073);
-            autoReqsFix.Add(-1);
-            autoReqsFix.Add(10074);
+            autoReqsFix.Add(10243);
+            //autoReqsFix.Add(-1);
+            autoReqsFix.Add(10245);
             var opUserId = "admin";
 
-            var c1 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsFix, 3, false);
+            var c1 = matcherMaker.AutoMatchRequirements(opUserId, autoReqsFix, 0, false);
             if (c1 != null) matcherHandler.UnLockMatcherChain(c1.ChainId, opUserId);
         }
         [Fact]

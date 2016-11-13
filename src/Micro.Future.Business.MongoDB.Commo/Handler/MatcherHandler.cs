@@ -434,7 +434,7 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                 var r = QueryRequirementInfo(id);
                 reqs.Add(r);
             }
-            if(!checkManualChainReqsValid(reqs)) return null;
+            // if(!checkManualChainReqsValid(reqs)) return null;
             var chain = new ChainObject(reqs);
             chain.OperatorId = opUserId;
             int chainId = AddChain(chain);

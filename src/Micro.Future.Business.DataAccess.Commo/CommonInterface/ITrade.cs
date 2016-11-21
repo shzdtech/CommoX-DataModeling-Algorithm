@@ -30,12 +30,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommonInterface
         /// <returns></returns>
         Trade queryTrade(int tradeId);
 
-        /// <summary>
-        /// 查询用户下所有的交易情况
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        IList<Trade> queryAllTrade(string userId);
+        IList<Trade> queryAllTrade(string tradeState);
 
 
         IList<Trade> queryTradesByEnterprise(int enterpriseId, string tradeState);

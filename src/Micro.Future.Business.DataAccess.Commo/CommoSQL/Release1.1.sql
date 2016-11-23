@@ -89,3 +89,16 @@ ALTER TABLE [dbo].[Enterprises]
 
 
 GO
+
+CREATE TABLE [dbo].[AcceptanceBanks] (
+    [BankName]       VARCHAR (255) NULL,
+    [AcceptanceType] INT           NULL,
+    [BankType]       INT           NULL,
+    [BankPrice]      FLOAT (53)    NULL,
+    [CreateTime]     DATETIME2 (7) NULL,
+    [UpdateTime]     DATETIME2 (7) NULL,
+    [BankId]         INT           IDENTITY (100, 1) NOT NULL,
+    PRIMARY KEY CLUSTERED ([BankId] ASC)
+);
+
+go

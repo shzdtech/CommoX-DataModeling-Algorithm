@@ -49,12 +49,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 return false;
         }
 
-        public IList<Trade> queryAllTrade(string userId)
+        public IList<Trade> queryAllTrade(string tradeState)
         {
-            return (from o in db.Orders
-                        join t in db.Trades on o.TradeId equals t.TradeId
-                        where o.UserId == userId
-                        select t).ToList();
+            return db.Trades.Where(f => f.CurrentState == tradeState).ToList();
         }
 
         public IList<Trade> queryTradesByEnterprise(int enterpriseId, string tradeState)

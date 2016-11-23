@@ -10,6 +10,7 @@ namespace Micro.Future.Business.DataAccess.Commo
 {
     public class CommoXContext : DbContext
     {
+        public DbSet<AcceptanceBank> AcceptanceBanks { get; set; }
         public DbSet<AcceptanceBill> AcceptanceBills { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<BusinessType> BusinessTypes { get; set; }

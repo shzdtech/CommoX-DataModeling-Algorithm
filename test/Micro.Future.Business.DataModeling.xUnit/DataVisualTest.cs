@@ -17,7 +17,7 @@ namespace Micro.Future.Business.DataModeling.xUnit
         {
             MongoDBConfig.load(TestMongoConfig.conf);
             var handler = new DataVisualHandler();
-            var data = handler.getJsonData("DCE", "JM", "2015-11-16 00:00:00", "2015-11-20 00:00:00");
+            var data = handler.getJsonData("DCE", "JM", "2015-12-16 00:00:00", "2015-12-20 00:00:00");
             var n = data.Count();
         }
     }

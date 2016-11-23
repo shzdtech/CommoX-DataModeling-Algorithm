@@ -22,35 +22,36 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
             db = MongoClientSingleton.Instance.GetMongoClient().GetDatabase(MongoDBConfig.DATAVISUAL_DB);
         }
 
-        public string getJsonData(string exchange, string productCode, string startDateTime, string endDateTime = null)
+        public string getJsonData(string exchange, string productCode, DateTime startDateTime, DateTime? endDateTime = null)
         {
             var collection = db.GetCollection<WindData>(TABLE_EOD);
             var date = System.DateTime.Now;
             var contracts = new List<String>();
-            for(int i = 0; i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 var s = date.ToString("yyMM");
                 contracts.Add(productCode + s);
                 date = date.AddMonths(1);
             }
-            var filter = Builders<WindData>.Filter.Eq("exchange", exchange);
-            if(endDateTime == null)
+            var filter = Builders<WindData>.Filter.Eq("EXCHANGE", exchange);
+            if (endDateTime == null)
             {
                 filter = filter & Builders<WindData>.Filter.Eq("DATETIME", startDateTime);
             }
             else
             {
+                var endDT = endDateTime.GetValueOrDefault();
                 filter = filter & Builders<WindData>.Filter.Gte("DATETIME", startDateTime) &
-                    Builders<WindData>.Filter.Lt("DATETIME", endDateTime);
+                    Builders<WindData>.Filter.Lt("DATETIME", endDateTime.GetValueOrDefault());
             }
             var res = new List<WindData>();
-            foreach(var contract in contracts)
+            foreach (var contract in contracts)
             {
-                var f = filter & Builders<WindData>.Filter.Eq("contract", contract);
+                var f = filter & Builders<WindData>.Filter.Eq("CONTRACT", contract);
                 res.AddRange(collection.Find(f).ToList());
             }
 
-            foreach(var r in res)
+            foreach (var r in res)
             {
                 r.HIGH = convertNanToNull(r.HIGH);
                 r.LOW = convertNanToNull(r.LOW);
@@ -60,9 +61,21 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
                 r.CLOSE = convertNanToNull(r.CLOSE);
             }
 
-            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict};
-            
+            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+
             return res.ToJson(jsonWriterSettings);
+        }
+
+        public string getJsonData(string exchange, string productCode, string startDateTime, string endDateTime = null)
+        {
+            if(endDateTime == null)
+            {
+                return getJsonData(exchange, productCode, DateTime.Parse(startDateTime));
+            }
+            else
+            {
+                return getJsonData(exchange, productCode, DateTime.Parse(startDateTime), DateTime.Parse(endDateTime));
+            }
 
         }
 
@@ -88,14 +101,14 @@ namespace Micro.Future.Business.MongoDB.Commo.Handler
 
         public double? OPEN { get; set; }
 
-        public string DATETIME { get; set; }
+        public DateTime DATETIME { get; set; }
 
-        public string contract { get; set; }
+        public string CONTRACT { get; set; }
 
         public double? VOLUME { get; set; }
 
         public double? LOW { get; set; }
 
-        public string exchange { get; set; }
+        public string EXCHANGE { get; set; }
     }
 }

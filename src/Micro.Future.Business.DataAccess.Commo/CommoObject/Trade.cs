@@ -43,7 +43,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoObject
         public int ParticipatorCount { get; set; }
 
         /// <summary>
-        /// 当前交易的状态：订单状态: 1=合同/2=资金/3=货物/4=发票/5=尾款
+        /// 当前交易的状态：订单状态: 1=合同/2=资金/3=货物/4=发票/5=尾款/6完成
         /// </summary>
         public string CurrentState { get; set; }
     }

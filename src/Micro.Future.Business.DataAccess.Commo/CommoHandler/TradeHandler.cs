@@ -39,9 +39,17 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
             var orders = db.Orders.Where(f => f.TradeId == tradeId);
             foreach(var o in orders)
             {
-                o.OrderStateId = int.Parse(state);
-            }
+                int newState = int.Parse(state);
 
+                o.OrderStateId = newState;
+                o.ModifyTime = DateTime.Now;
+                if (newState == 10)
+                {
+                    //完成
+                    o.CompleteTime = DateTime.Now;
+                }
+            }
+            
             int result = db.SaveChanges();
             if (result > 0)
                 return true;

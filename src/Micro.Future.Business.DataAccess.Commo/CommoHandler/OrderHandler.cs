@@ -57,6 +57,13 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
                 order.ExecuteUserId = executUserId;
                 order.OrderStateId = state;
                 order.ModifyTime = DateTime.Now;
+
+                if(state == 10)
+                {
+                    //完成
+                    order.CompleteTime = DateTime.Now;
+                }
+
                 int result = db.SaveChanges();
                 if (result > 0)
                     return true;

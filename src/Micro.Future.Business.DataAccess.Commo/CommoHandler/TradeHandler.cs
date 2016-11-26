@@ -51,7 +51,7 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
         public IList<Trade> queryAllTrade(string tradeState)
         {
-            return db.Trades.Where(f => f.CurrentState == tradeState).ToList();
+            return db.Trades.Where(f => f.CurrentState == tradeState).OrderByDescending(f=>f.TradeId).ToList();
         }
 
         public IList<Trade> queryTradesByEnterprise(int enterpriseId, string tradeState)
@@ -63,6 +63,9 @@ namespace Micro.Future.Business.DataAccess.Commo.CommoHandler
 
             if (!string.IsNullOrWhiteSpace(tradeState))
                 query = query.Where(f => f.CurrentState == tradeState);
+
+            //排序
+            query = query.OrderByDescending(t => t.TradeId);
 
             return query.ToList();
         }

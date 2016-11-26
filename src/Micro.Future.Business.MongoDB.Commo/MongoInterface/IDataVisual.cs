@@ -9,6 +9,6 @@ namespace Micro.Future.Business.MongoDB.Commo.MongoInterface
     {
         string getJsonData(string exchange, string productCode, string startDateTime, string endDateTime = null);
 
-        string getJsonData(string exchange, string productCode, DateTime startDateTime, DateTime? endDateTime = null)
+        string getJsonData(string exchange, string productCode, DateTime startDateTime, DateTime? endDateTime = null);
     }
 }

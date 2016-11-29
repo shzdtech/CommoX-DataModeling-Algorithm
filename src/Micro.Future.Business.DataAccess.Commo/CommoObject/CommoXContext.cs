@@ -18,6 +18,7 @@ namespace Micro.Future.Business.DataAccess.Commo
         public DbSet<EnterpriseProduct> EnterpriseProducts { get; set; }
         public DbSet<EnterpriseState> EnterpriseStates { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderImage> OrderImages { get; set; }
         public DbSet<OrderState> OrderStates { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Product> Products { get; set; }

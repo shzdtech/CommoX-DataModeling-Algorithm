@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Micro.Future.Business.DataAccess.Commo.CommoObject
+{
+    public class OrderImage
+    {
+        [Key]
+        public int ImageId { get; set; }
+
+        public int OrderId { get; set; }
+
+        public int TradeId { get; set; }
+
+        /// <summary>
+        /// 图片类型
+        /// </summary>
+        public int ImageTypeId { get; set; }
+
+        /// <summary>
+        /// 图片路径
+        /// </summary>
+        public string ImagePath { get; set; }
+
+        /// <summary>
+        /// 第几张
+        /// </summary>
+        public int Position { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
+    }
+}

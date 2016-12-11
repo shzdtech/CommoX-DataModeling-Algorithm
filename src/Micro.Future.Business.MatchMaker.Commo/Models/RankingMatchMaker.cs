@@ -88,9 +88,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 foreach (var r in listMid)
                 {
                     // Filter for BusinessRange (Since v1.2)
-                    if (r.BusinessRange !=  "" && (r.BusinessRange != midBuyer.BusinessRange || r.BusinessRange != midSeller.BusinessRange)) continue;
+                    if (!r.BusinessRange.Equals("") && (!r.BusinessRange.Equals(midBuyer.BusinessRange) || !r.BusinessRange.Equals(midSeller.BusinessRange))) continue;
                     // Filter for WarehouseAccount (Since v1.2)
-                    if (r.WarehouseAccount != "" && (r.WarehouseAccount != midBuyer.WarehouseAccount || r.WarehouseAccount != midSeller.BusinessRange)) continue;
+                    if (!r.WarehouseAccount.Equals("") && (!r.WarehouseAccount.Equals(midBuyer.WarehouseAccount) || !r.WarehouseAccount.Equals(midSeller.BusinessRange))) continue;
                     if (checkHardFilters(r, midBuyer.Filters, FilterDirectionType.DOWN) &&
                         checkHardFilters(midBuyer, r.Filters, FilterDirectionType.UP) &&
                         checkHardFilters(r, midSeller.Filters, FilterDirectionType.UP) &&
@@ -184,9 +184,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                             if (filterflag) continue;
 
                             // Filter for BusinessRange (Since v1.2)
-                            if (mid.BusinessRange != "" && (mid.BusinessRange != buyer.BusinessRange || mid.BusinessRange != seller.BusinessRange)) continue;
+                            if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
                             // Filter for WarehouseAccount (Since v1.2)
-                            if (mid.WarehouseAccount != "" && (mid.WarehouseAccount != buyer.WarehouseAccount || mid.WarehouseAccount != seller.BusinessRange)) continue;
+                            if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
 
                             double filterUtility = 0;
 
@@ -397,9 +397,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 var mid = listMids.Values[index];
                                 if (setCompanies.Contains(mid.EnterpriseId)) continue;
                                 // Filter for BusinessRange (Since v1.2)
-                                if (mid.BusinessRange != "" && (mid.BusinessRange != buyer.BusinessRange || mid.BusinessRange != seller.BusinessRange)) continue;
+                                if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
                                 // Filter for WarehouseAccount (Since v1.2)
-                                if (mid.WarehouseAccount != "" && (mid.WarehouseAccount != buyer.WarehouseAccount || mid.WarehouseAccount != seller.BusinessRange)) continue;
+                                if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
                                 if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                                 if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                                 if (next != null)
@@ -470,9 +470,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                             var mid = listMids.Values[index];
                             if (setCompanies.Contains(mid.EnterpriseId)) continue;
                             // Filter for BusinessRange (Since v1.2)
-                            if (mid.BusinessRange != "" && (mid.BusinessRange != buyer.BusinessRange || mid.BusinessRange != seller.BusinessRange)) continue;
+                            if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
                             // Filter for WarehouseAccount (Since v1.2)
-                            if (mid.WarehouseAccount != "" && (mid.WarehouseAccount != buyer.WarehouseAccount || mid.WarehouseAccount != seller.BusinessRange)) continue;
+                            if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
                             if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                             if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                             res.Add(mid);
@@ -497,9 +497,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         var mid = listMids.Values[index];
                         if (setCompanies.Contains(mid.EnterpriseId)) continue;
                         // Filter for BusinessRange (Since v1.2)
-                        if (mid.BusinessRange != "" && (mid.BusinessRange != buyer.BusinessRange || mid.BusinessRange != seller.BusinessRange)) continue;
+                        if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
                         // Filter for WarehouseAccount (Since v1.2)
-                        if (mid.WarehouseAccount != "" && (mid.WarehouseAccount != buyer.WarehouseAccount || mid.WarehouseAccount != seller.BusinessRange)) continue;
+                        if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
                         if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                         if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                         if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;

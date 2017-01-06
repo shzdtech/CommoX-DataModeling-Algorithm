@@ -38,7 +38,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             // invalid chain
             if (chain.ChainLength != chain.RequirementIdChain.Count) return null;
             //Replace Buyer
-            if (replacedNodeIndex == 0)
+            if (replacedNodeIndex == chain.ChainLength - 1)
             {
                 var listBuyers = matcherHandler.getReqSortedByAmountDesc(RequirementType.BUYER);
                 if (chain.RequirementIdChain.Count < 3 && chain.RequirementIdChain.Count < chain.ChainLength) return null;
@@ -59,7 +59,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 }
             }
             //Replace Seller
-            else if (replacedNodeIndex == chain.ChainLength - 1)
+            else if (replacedNodeIndex == 0)
             {
                 var listSeller = matcherHandler.getReqSortedByAmountDesc(RequirementType.SELLER);
                 if (chain.RequirementIdChain.Count < 3 && chain.RequirementIdChain.Count < chain.ChainLength) return null;
@@ -88,9 +88,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 foreach (var r in listMid)
                 {
                     // Filter for BusinessRange (Since v1.2)
-                    if (!r.BusinessRange.Equals("") && (!r.BusinessRange.Equals(midBuyer.BusinessRange) || !r.BusinessRange.Equals(midSeller.BusinessRange))) continue;
+                    if (r.BusinessRange != null && !r.BusinessRange.Equals("") && (!r.BusinessRange.Equals(midBuyer.BusinessRange) || !r.BusinessRange.Equals(midSeller.BusinessRange))) continue;
                     // Filter for WarehouseAccount (Since v1.2)
-                    if (!r.WarehouseAccount.Equals("") && (!r.WarehouseAccount.Equals(midBuyer.WarehouseAccount) || !r.WarehouseAccount.Equals(midSeller.BusinessRange))) continue;
+                    if (r.WarehouseAccount != null && !r.WarehouseAccount.Equals("") && (!r.WarehouseAccount.Equals(midBuyer.WarehouseAccount) || !r.WarehouseAccount.Equals(midSeller.WarehouseAccount))) continue;
                     if (checkHardFilters(r, midBuyer.Filters, FilterDirectionType.DOWN) &&
                         checkHardFilters(midBuyer, r.Filters, FilterDirectionType.UP) &&
                         checkHardFilters(r, midSeller.Filters, FilterDirectionType.UP) &&
@@ -182,11 +182,10 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 if (m.EnterpriseId == mid.EnterpriseId) filterflag = true;
                             }
                             if (filterflag) continue;
-
                             // Filter for BusinessRange (Since v1.2)
-                            if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
+                            if (mid.BusinessRange == null || (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange)))) continue;
                             // Filter for WarehouseAccount (Since v1.2)
-                            if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
+                            if (mid.WarehouseAccount == null || (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.WarehouseAccount)))) continue;
 
                             double filterUtility = 0;
 
@@ -196,11 +195,11 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 midBuyer = mlist[mlist.Count - 1];
                             }
                             // filter the requirement soft and hard filters
-                            // Direction: Buyer To Seller <==> Up to Down
-                            if (!checkHardFilters(mid, midBuyer.Filters, FilterDirectionType.DOWN)) continue;
-                            if (!checkHardFilters(midBuyer, mid.Filters, FilterDirectionType.UP)) continue;
-                            if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;
-                            if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.UP)) continue;
+                            // Direction: Seller To Buyer <==> Up to Down
+                            if (!checkHardFilters(mid, midBuyer.Filters, FilterDirectionType.UP)) continue;
+                            if (!checkHardFilters(midBuyer, mid.Filters, FilterDirectionType.DOWN)) continue;
+                            if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.UP)) continue;
+                            if (!checkHardFilters(mid, seller.Filters, FilterDirectionType.DOWN)) continue;
 
                             mlist.Add(mid);
                             var utility = calUtility(buyer, seller, mlist);
@@ -224,12 +223,12 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     if (mlist.Count > 0)
                     {
                         var reqlist = new List<RequirementObject>();
-                        reqlist.Add(buyer);
+                        reqlist.Add(seller);
                         foreach (var m in mlist)
                         {
                             reqlist.Add(m);
                         }
-                        reqlist.Add(seller);
+                        reqlist.Add(buyer);
                         var chain = new ChainObject(reqlist);
                         res.Add(chain);
                         dict[buyer.ProductName].RemoveAt(0);
@@ -239,7 +238,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                 matcherHandler.AddMatcherChains(res);
                 matcherHandler.CallOnChainAdded(res);
             }
-            catch
+            catch(Exception e)
             {
                 //TODO LOGGING
             }
@@ -292,52 +291,24 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
 
             RequirementObject buyer = null;
             RequirementObject seller = null;
-            var buyerId = requirementIds[0];
-            var sellerId = requirementIds[requirementIds.Count() - 1];
+            var sellerId = requirementIds[0];
+            var buyerId = requirementIds[requirementIds.Count() - 1];
             // Buyer is missing, Seller is given
-            if (buyerId <= 0 && sellerId > 0)
-            {
-                seller = mapReqs[sellerId];
-                var buyerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.BUYER, seller.ProductName, minAmount));
-                if (buyerList.Count == 0) return null;
-                var buyerNextId = requirementIds[1];
-                if (buyerNextId > 0)
-                {
-                    var buyerNext = mapReqs[buyerNextId];
-                    foreach (var b in buyerList.Values)
-                    {
-                        if (!isPriceAcceptable(b.ProductPrice, seller.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(b.EnterpriseId)) continue;
-                        if (!checkHardFilters(buyerNext, b.Filters, FilterDirectionType.DOWN)) continue;
-                        if (!checkHardFilters(b, buyerNext.Filters, FilterDirectionType.UP)) continue;
-                        buyer = b;
-                        break;
-                    }
-                }
-                else
-                {
-                    buyer = buyerList[0];
-                }
-                if (buyer == null) return null;
-                requirementIds[0] = buyer.RequirementId;
-                mapReqs.Add(buyer.RequirementId, buyer);
-                setCompanies.Add(buyer.EnterpriseId);
-            }
-            // Buyer is given, Seller is missing
-            else if (buyerId > 0 && sellerId <= 0)
+            if (sellerId <= 0 && buyerId > 0)
             {
                 buyer = mapReqs[buyerId];
                 var sellerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.SELLER, buyer.ProductName, minAmount));
                 if (sellerList.Count == 0) return null;
-                var sellerPrevId = requirementIds[requirementIds.Count - 2];
-                if (sellerPrevId > 0)
+                var sellerNextId = requirementIds[1];
+                if (sellerNextId > 0)
                 {
-                    var sellerPrev = mapReqs[sellerPrevId];
-                    foreach (var s in sellerList.Values)
+                    var sellerNext = mapReqs[sellerNextId];
+                    foreach (var b in sellerList.Values)
                     {
-                        if (!isPriceAcceptable(buyer.ProductPrice, s.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(s.EnterpriseId)) continue;
-                        if (!checkHardFilters(sellerPrev, s.Filters, FilterDirectionType.UP)) continue;
-                        if (!checkHardFilters(s, sellerPrev.Filters, FilterDirectionType.DOWN)) continue;
-                        seller = s;
+                        if (!isPriceAcceptable(b.ProductPrice, buyer.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(b.EnterpriseId)) continue;
+                        if (!checkHardFilters(sellerNext, b.Filters, FilterDirectionType.DOWN)) continue;
+                        if (!checkHardFilters(b, sellerNext.Filters, FilterDirectionType.UP)) continue;
+                        seller = b;
                         break;
                     }
                 }
@@ -346,9 +317,37 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     seller = sellerList[0];
                 }
                 if (seller == null) return null;
-                requirementIds[requirementIds.Count - 1] = seller.RequirementId;
+                requirementIds[0] = seller.RequirementId;
                 mapReqs.Add(seller.RequirementId, seller);
                 setCompanies.Add(seller.EnterpriseId);
+            }
+            // Buyer is given, Seller is missing
+            else if (sellerId > 0 && buyerId <= 0)
+            {
+                seller = mapReqs[sellerId];
+                var buyerList = listToSortedList(matcherHandler.getBuyerSellerReqSortedByAmountAsc(RequirementType.BUYER, buyer.ProductName, minAmount));
+                if (buyerList.Count == 0) return null;
+                var buyerPrevId = requirementIds[requirementIds.Count - 2];
+                if (buyerPrevId > 0)
+                {
+                    var buyerPrev = mapReqs[buyerPrevId];
+                    foreach (var s in buyerList.Values)
+                    {
+                        if (!isPriceAcceptable(seller.ProductPrice, s.ProductPrice, PRICE_DEVIANCE) || setCompanies.Contains(s.EnterpriseId)) continue;
+                        if (!checkHardFilters(buyerPrev, s.Filters, FilterDirectionType.UP)) continue;
+                        if (!checkHardFilters(s, buyerPrev.Filters, FilterDirectionType.DOWN)) continue;
+                        buyer = s;
+                        break;
+                    }
+                }
+                else
+                {
+                    buyer = buyerList[0];
+                }
+                if (buyer == null) return null;
+                requirementIds[requirementIds.Count - 1] = buyer.RequirementId;
+                mapReqs.Add(buyer.RequirementId, buyer);
+                setCompanies.Add(buyer.EnterpriseId);
             }
             else if (buyerId > 0 && sellerId > 0)
             {
@@ -397,9 +396,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                                 var mid = listMids.Values[index];
                                 if (setCompanies.Contains(mid.EnterpriseId)) continue;
                                 // Filter for BusinessRange (Since v1.2)
-                                if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
+                                if (mid.BusinessRange == null || (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange)))) continue;
                                 // Filter for WarehouseAccount (Since v1.2)
-                                if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
+                                if (mid.WarehouseAccount == null || (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.WarehouseAccount)))) continue;
                                 if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                                 if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                                 if (next != null)
@@ -470,9 +469,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                             var mid = listMids.Values[index];
                             if (setCompanies.Contains(mid.EnterpriseId)) continue;
                             // Filter for BusinessRange (Since v1.2)
-                            if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
+                            if (mid.BusinessRange ==null || (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange)))) continue;
                             // Filter for WarehouseAccount (Since v1.2)
-                            if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
+                            if (mid.WarehouseAccount == null || (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.WarehouseAccount)))) continue;
                             if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                             if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                             res.Add(mid);
@@ -497,9 +496,9 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         var mid = listMids.Values[index];
                         if (setCompanies.Contains(mid.EnterpriseId)) continue;
                         // Filter for BusinessRange (Since v1.2)
-                        if (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange))) continue;
+                        if (mid.BusinessRange == null || (!mid.BusinessRange.Equals("") && (!mid.BusinessRange.Equals(buyer.BusinessRange) || !mid.BusinessRange.Equals(seller.BusinessRange)))) continue;
                         // Filter for WarehouseAccount (Since v1.2)
-                        if (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.BusinessRange))) continue;
+                        if (mid.WarehouseAccount == null || (!mid.WarehouseAccount.Equals("") && (!mid.WarehouseAccount.Equals(buyer.WarehouseAccount) || !mid.WarehouseAccount.Equals(seller.WarehouseAccount)))) continue;
                         if (!checkHardFilters(mid, prev.Filters, FilterDirectionType.DOWN)) continue;
                         if (!checkHardFilters(prev, mid.Filters, FilterDirectionType.UP)) continue;
                         if (!checkHardFilters(seller, mid.Filters, FilterDirectionType.DOWN)) continue;

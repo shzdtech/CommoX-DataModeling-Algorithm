@@ -368,7 +368,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
             //情况1： 位置固定
             if (isPositionFixed)
             {
-                res.Add(buyer);
+                res.Add(seller);
 
                 for (int i = 1; i < requirementIds.Count - 1; i++)
                 {
@@ -430,7 +430,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                         }
                     }
                 }
-                res.Add(seller);
+                res.Add(buyer);
             }
             // 情况2： 位置不固定， 不包含任何占位符
             else
@@ -442,8 +442,8 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     var req = mapReqs[id];
                     if (req.RequirementTypeId == RequirementType.MID) givenMidReqsList.Add(req);
                 }
-                res.Add(buyer);
-                var prev = buyer;
+                res.Add(seller);
+                var prev = seller;
                 var flag = true;
                 var givenMidReqsSortedList = listToSortedList(givenMidReqsList);
                 while(givenMidReqsSortedList.Count > 0 && flag)
@@ -518,7 +518,7 @@ namespace Micro.Future.Business.MatchMaker.Commo.Models
                     if (!checkHardFilters(res[res.Count - 1], seller.Filters, FilterDirectionType.UP)) return null;
                 }
 
-                res.Add(seller);
+                res.Add(buyer);
                 if (fixedLength > 0 && res.Count != fixedLength) return null;
                 if (res.Count < 3) return null;
             }
